@@ -302,7 +302,7 @@ const fr = {
     close: "Fermer",
     matches: "matchs",
   },
-} as const;
+};
 
 export default fr;
 export type Translations = typeof fr;

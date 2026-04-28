@@ -515,7 +515,7 @@ export default function CandidateOnboardingPage() {
                     <span className="text-2xl">📄</span>
                     <div>
                       <p className="text-sm font-medium text-gray-900">{cvFile?.name || o.noCv}</p>
-                      <p className="text-xs text-gray-400">{o.cvLabel ?? "CV"}</p>
+                      <p className="text-xs text-gray-400">CV</p>
                     </div>
                   </div>
                   <button type="button" onClick={() => setStep(2)} className="text-xs text-violet-600 hover:underline">{o.edit}</button>

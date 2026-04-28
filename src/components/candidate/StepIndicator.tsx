@@ -16,7 +16,7 @@ const DEFAULT_STEPS: Step[] = [
 
 const ICONS = ["👤", "📄", "🧠", "⚡", "✅"];
 
-export function StepIndicator({ currentStep, labels }: { currentStep: number; labels?: string[] }) {
+export function StepIndicator({ currentStep, labels }: { currentStep: number; labels?: readonly string[] }) {
   const steps: Step[] = labels
     ? labels.map((label, i) => ({ id: i + 1, label, icon: ICONS[i] ?? "•" }))
     : DEFAULT_STEPS;
