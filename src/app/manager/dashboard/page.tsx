@@ -650,17 +650,18 @@ export default function ManagerDashboard() {
                           {pick(candidate.softSkills, lang).slice(0, 2).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
                         </div>
 
-                        {/* Strengths + work style — linked to skills above */}
-                        <div className="mt-3 grid grid-cols-2 gap-2">
-                          <div className="p-3 bg-gray-50 rounded-xl">
-                            <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
-                            <p className="text-sm font-semibold text-gray-800">{pick(candidate.strengths, lang)}</p>
-                          </div>
-                          <div className="p-3 bg-gray-50 rounded-xl">
-                            <p className="text-xs text-gray-500 mb-1">{d.workStyle}</p>
-                            <p className="text-sm font-semibold text-gray-800">{pick(candidate.workStyle, lang)}</p>
-                          </div>
-                        </div>
+                      </div>
+                    </div>
+
+                    {/* Strengths + work style — full width, aligned with content, separated by rule */}
+                    <div className="mt-3 pt-3 border-t border-gray-100 pl-[52px] grid grid-cols-2 gap-2">
+                      <div className="p-3 bg-gray-50 rounded-xl">
+                        <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
+                        <p className="text-sm font-semibold text-gray-800">{pick(candidate.strengths, lang)}</p>
+                      </div>
+                      <div className="p-3 bg-gray-50 rounded-xl">
+                        <p className="text-xs text-gray-500 mb-1">{d.workStyle}</p>
+                        <p className="text-sm font-semibold text-gray-800">{pick(candidate.workStyle, lang)}</p>
                       </div>
                     </div>
 
