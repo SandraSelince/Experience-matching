@@ -288,6 +288,13 @@ const fr = {
     scanning: "Le matching est en cours...",
     createJob: "+ Créer un nouveau poste",
     recruiterBadge: "Recruteur",
+    matchBreakdown: "Détail du matching",
+    aiPowered: "Matching par IA",
+    roleFit: "Adéquation au poste",
+    cultureFit: "Culture Fit",
+    practicalFit: "Compatibilité pratique",
+    whyMatch: "Pourquoi ça matche",
+    potentialRisks: "Points de vigilance",
   },
   candidateProfile: {
     editProfile: "Modifier le profil",

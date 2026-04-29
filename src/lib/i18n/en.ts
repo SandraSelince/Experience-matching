@@ -290,6 +290,13 @@ const en: Translations = {
     scanning: "Matching in progress...",
     createJob: "+ Create a new position",
     recruiterBadge: "Recruiter",
+    matchBreakdown: "Match Breakdown",
+    aiPowered: "AI-powered matching",
+    roleFit: "Role Fit",
+    cultureFit: "Culture Fit",
+    practicalFit: "Practical Fit",
+    whyMatch: "Why this works",
+    potentialRisks: "Potential tensions",
   },
   candidateProfile: {
     editProfile: "Edit profile",

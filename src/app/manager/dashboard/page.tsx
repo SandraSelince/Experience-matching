@@ -47,6 +47,9 @@ const MOCK_CANDIDATES = [
     score: 94,
     hardScore: 96,
     softScore: 91,
+    roleFit: 96,
+    cultureFit: 92,
+    practicalFit: 94,
     status: "pending_review",
     name: "Marie D.",
     title: "Senior Product Designer",
@@ -57,6 +60,16 @@ const MOCK_CANDIDATES = [
     softSkills: ["Leadership", "Communication", "Créativité", "Empathie"],
     strengths: "Créativité, Résolution de problèmes",
     workStyle: "Autonome & orienté impact",
+    whyMatch: [
+      "Son expérience en design system correspond exactement aux exigences du poste",
+      "Son style de travail autonome s'aligne avec la culture de l'équipe produit",
+      "Localisation Paris — aucune contrainte logistique pour le mode hybride",
+      "Ses ambitions de croissance correspondent aux opportunités offertes",
+    ],
+    risks: [
+      "Attentes salariales potentiellement au-delà de la fourchette haute",
+      "Profil très senior, pourrait s'ennuyer sur des tâches d'exécution",
+    ],
   },
   {
     id: "c2",
@@ -64,6 +77,9 @@ const MOCK_CANDIDATES = [
     score: 87,
     hardScore: 89,
     softScore: 84,
+    roleFit: 88,
+    cultureFit: 83,
+    practicalFit: 90,
     status: "pending_review",
     name: "Lucas M.",
     title: "Lead UX Designer",
@@ -74,6 +90,16 @@ const MOCK_CANDIDATES = [
     softSkills: ["Leadership", "Autonomie", "Esprit critique"],
     strengths: "Leadership, Analyse",
     workStyle: "Structuré & orienté data",
+    whyMatch: [
+      "Expertise UX Research rare et très recherchée pour ce poste",
+      "Expérience leadership — capable de monter en responsabilité rapidement",
+      "Disponible full remote, flexibilité géographique appréciée",
+    ],
+    risks: [
+      "Basé à Lyon — présentiel occasionnel pourrait poser problème",
+      "Profil plus senior que requis, risque de surqualification",
+      "Style très structuré peut entrer en tension avec un environnement agile rapide",
+    ],
   },
   {
     id: "c3",
@@ -81,6 +107,9 @@ const MOCK_CANDIDATES = [
     score: 78,
     hardScore: 75,
     softScore: 82,
+    roleFit: 74,
+    cultureFit: 85,
+    practicalFit: 78,
     status: "hired",
     name: "Sophie K.",
     title: "Product Designer",
@@ -91,6 +120,15 @@ const MOCK_CANDIDATES = [
     softSkills: ["Travail en équipe", "Communication", "Adaptabilité"],
     strengths: "Collaboration, Créativité",
     workStyle: "Collaboratif & bienveillant",
+    whyMatch: [
+      "Excellent culture fit avec les valeurs de bienveillance de l'équipe",
+      "Profil Paris hybride — aucune contrainte logistique",
+      "Forte capacité d'adaptation dans des contextes changeants",
+    ],
+    risks: [
+      "Compétences design system à renforcer (manque Prototypage avancé)",
+      "Moins d'expérience en B2B SaaS que les autres candidats",
+    ],
   },
   {
     id: "c4",
@@ -98,6 +136,9 @@ const MOCK_CANDIDATES = [
     score: 91,
     hardScore: 93,
     softScore: 88,
+    roleFit: 93,
+    cultureFit: 89,
+    practicalFit: 91,
     status: "pending_review",
     name: "Thomas B.",
     title: "Senior Product Manager",
@@ -108,6 +149,15 @@ const MOCK_CANDIDATES = [
     softSkills: ["Communication", "Leadership", "Orientation résultats"],
     strengths: "Data-driven, Leadership",
     workStyle: "Orienté résultats & structuré",
+    whyMatch: [
+      "Maîtrise SQL et Analytics — répond parfaitement aux besoins de la squad Growth",
+      "Style orienté résultats aligné avec la culture de performance de l'équipe",
+      "Expérience Agile/Scrum solide pour piloter les sprints en autonomie",
+      "Paris hybride — disponibilité immédiate",
+    ],
+    risks: [
+      "Expérience mid level, pourrait manquer de recul sur des décisions stratégiques",
+    ],
   },
   {
     id: "c5",
@@ -115,6 +165,9 @@ const MOCK_CANDIDATES = [
     score: 83,
     hardScore: 80,
     softScore: 87,
+    roleFit: 79,
+    cultureFit: 90,
+    practicalFit: 82,
     status: "pending_review",
     name: "Amina R.",
     title: "Product Manager",
@@ -125,6 +178,15 @@ const MOCK_CANDIDATES = [
     softSkills: ["Communication", "Empathie", "Adaptabilité"],
     strengths: "Empathie, Communication",
     workStyle: "Centré utilisateur & collaboratif",
+    whyMatch: [
+      "Excellent culture fit — profil centré utilisateur correspond aux valeurs produit",
+      "Très forte capacité de communication, essentielle pour aligner les parties prenantes",
+      "Grande adaptabilité dans des environnements en forte croissance",
+    ],
+    risks: [
+      "Pas de compétences SQL déclarées — gap sur la partie data analytics",
+      "Préférence remote peut limiter la collaboration spontanée avec l'équipe",
+    ],
   },
 ];
 
@@ -331,8 +393,76 @@ export default function ManagerDashboard() {
                     </div>
 
                     {selectedCandidate === candidate.id && (
-                      <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in-up">
-                        <div className="grid grid-cols-2 gap-3 mb-4">
+                      <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in-up space-y-4">
+
+                        {/* ── MATCH BREAKDOWN ── */}
+                        <div className="rounded-2xl bg-gradient-to-br from-slate-50 to-indigo-50/40 border border-indigo-100 p-4">
+                          <div className="flex items-start justify-between mb-1">
+                            <div>
+                              <p className="font-bold text-gray-900 text-sm">{d.matchBreakdown}</p>
+                              <p className="flex items-center gap-1 text-xs text-indigo-500 mt-0.5">
+                                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                {d.aiPowered}
+                              </p>
+                            </div>
+                            <span className={cn("text-3xl font-extrabold", getScoreColor(candidate.score))}>{candidate.score}%</span>
+                          </div>
+
+                          <div className="space-y-3 mt-4">
+                            {[
+                              { label: d.roleFit, value: candidate.roleFit, color: "bg-blue-500" },
+                              { label: d.cultureFit, value: candidate.cultureFit, color: "bg-violet-500" },
+                              { label: d.practicalFit, value: candidate.practicalFit, color: "bg-emerald-500" },
+                            ].map((row) => (
+                              <div key={row.label}>
+                                <div className="flex justify-between text-sm mb-1.5">
+                                  <span className="text-gray-600 font-medium">{row.label}</span>
+                                  <span className="font-bold text-gray-900">{row.value}%</span>
+                                </div>
+                                <div className="h-2 bg-white rounded-full overflow-hidden shadow-inner">
+                                  <div className={cn("h-full rounded-full transition-all duration-700", row.color)} style={{ width: `${row.value}%` }} />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* ── WHY IT WORKS ── */}
+                        <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
+                          <p className="flex items-center gap-2 font-bold text-emerald-800 text-sm mb-3">
+                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                            {d.whyMatch}
+                          </p>
+                          <ul className="space-y-1.5">
+                            {candidate.whyMatch.map((point, i) => (
+                              <li key={i} className="flex gap-2 text-sm text-emerald-900">
+                                <span className="text-emerald-400 mt-0.5 shrink-0">•</span>
+                                {point}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* ── RISKS ── */}
+                        {candidate.risks.length > 0 && (
+                          <div className="rounded-2xl bg-amber-50 border border-amber-100 p-4">
+                            <p className="flex items-center gap-2 font-bold text-amber-800 text-sm mb-3">
+                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                              {d.potentialRisks}
+                            </p>
+                            <ul className="space-y-1.5">
+                              {candidate.risks.map((risk, i) => (
+                                <li key={i} className="flex gap-2 text-sm text-amber-900">
+                                  <span className="text-amber-400 mt-0.5 shrink-0">•</span>
+                                  {risk}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* ── COMPÉTENCES & PROFIL PSY ── */}
+                        <div className="grid grid-cols-2 gap-3">
                           <div className="p-3 bg-violet-50 rounded-xl">
                             <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
                             <p className="text-sm font-semibold text-violet-800">{candidate.strengths}</p>
@@ -343,7 +473,7 @@ export default function ManagerDashboard() {
                           </div>
                         </div>
 
-                        <div className="mb-4">
+                        <div>
                           <p className="text-xs text-gray-500 mb-2">{d.allSkills}</p>
                           <div className="flex flex-wrap gap-1.5">
                             {candidate.hardSkills.map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
@@ -351,34 +481,24 @@ export default function ManagerDashboard() {
                           </div>
                         </div>
 
-                        <div className="p-3 bg-amber-50 border border-amber-100 rounded-xl mb-4">
-                          <p className="text-xs text-amber-800">{d.psychNote}</p>
-                        </div>
-
                         <Link
                           href={`/candidate/profile/${candidate.id}`}
                           onClick={(e) => e.stopPropagation()}
-                          className="block w-full text-center text-sm text-violet-600 font-medium hover:underline mb-4"
+                          className="block w-full text-center text-sm text-violet-600 font-medium hover:underline"
                         >
                           {d.viewFullProfile}
                         </Link>
 
                         {candidate.status === "pending_review" && (
                           <div className="flex gap-3">
-                            <Button
-                              variant="outline"
-                              size="sm"
+                            <Button variant="outline" size="sm"
                               onClick={(e) => { e.stopPropagation(); updateCandidateStatus(candidate.id, "rejected"); }}
-                              className="flex-1 text-gray-500"
-                            >
+                              className="flex-1 text-gray-500">
                               {d.notRetained}
                             </Button>
-                            <Button
-                              variant="success"
-                              size="sm"
+                            <Button variant="success" size="sm"
                               onClick={(e) => { e.stopPropagation(); updateCandidateStatus(candidate.id, "hired"); }}
-                              className="flex-2 flex-grow-2"
-                            >
+                              className="flex-2 flex-grow-2">
                               {d.retain}
                             </Button>
                           </div>
