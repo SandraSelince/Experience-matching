@@ -629,32 +629,32 @@ export default function ManagerDashboard() {
                             )}
                           </div>
                         )}
-
-                        <div className="mt-5 pt-3 border-t border-gray-100 grid grid-cols-2 gap-2">
-                          <div>
-                            <div className="flex justify-between text-xs text-gray-400 mb-1">
-                              <span className="text-gray-700 font-medium">{d.hardSkills}</span><span>{candidate.hardScore}%</span>
-                            </div>
-                            <Progress value={candidate.hardScore} className="h-1" />
-                          </div>
-                          <div>
-                            <div className="flex justify-between text-xs text-gray-400 mb-1">
-                              <span className="text-gray-700 font-medium">{d.softSkills}</span><span>{candidate.softScore}%</span>
-                            </div>
-                            <Progress value={candidate.softScore} className="h-1" />
-                          </div>
-                        </div>
-
-                        <div className="mt-2 flex flex-wrap gap-1">
-                          {candidate.hardSkills.slice(0, 3).map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
-                          {pick(candidate.softSkills, lang).slice(0, 2).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
-                        </div>
-
                       </div>
                     </div>
 
-                    {/* Strengths + work style — full width, aligned with content */}
-                    <div className="mt-3 pl-[52px] grid grid-cols-2 gap-2">
+                    {/* Skills + strengths — full width, aligned with Match Breakdown */}
+                    <div className="mt-5 pt-3 border-t border-gray-100 grid grid-cols-2 gap-2">
+                      <div>
+                        <div className="flex justify-between text-xs text-gray-400 mb-1">
+                          <span className="text-gray-700 font-medium">{d.hardSkills}</span><span>{candidate.hardScore}%</span>
+                        </div>
+                        <Progress value={candidate.hardScore} className="h-1" />
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs text-gray-400 mb-1">
+                          <span className="text-gray-700 font-medium">{d.softSkills}</span><span>{candidate.softScore}%</span>
+                        </div>
+                        <Progress value={candidate.softScore} className="h-1" />
+                      </div>
+                    </div>
+
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {candidate.hardSkills.slice(0, 3).map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
+                      {pick(candidate.softSkills, lang).slice(0, 2).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
+                    </div>
+
+                    {/* Strengths + work style */}
+                    <div className="mt-3 grid grid-cols-2 gap-2">
                       <div className="p-3 bg-gray-50 rounded-xl">
                         <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
                         <p className="text-sm font-semibold text-gray-800">{pick(candidate.strengths, lang)}</p>
