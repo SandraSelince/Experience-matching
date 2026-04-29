@@ -641,6 +641,18 @@ export default function ManagerDashboard() {
                     {selectedCandidate === candidate.id && (
                       <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in-up space-y-4">
 
+                        {/* Strengths + work style */}
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="p-3 bg-emerald-50 rounded-xl">
+                            <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
+                            <p className="text-sm font-semibold text-emerald-800">{pick(candidate.strengths, lang)}</p>
+                          </div>
+                          <div className="p-3 bg-violet-50 rounded-xl">
+                            <p className="text-xs text-gray-500 mb-1">{d.workStyle}</p>
+                            <p className="text-sm font-semibold text-violet-800">{pick(candidate.workStyle, lang)}</p>
+                          </div>
+                        </div>
+
                         {/* Match Breakdown */}
                         <div className="rounded-2xl bg-gradient-to-br from-slate-50 to-violet-50/40 border border-violet-100 p-4">
                           <div className="flex items-start justify-between mb-1">
@@ -783,27 +795,6 @@ export default function ManagerDashboard() {
                               })}
                             </div>
                           )}
-                        </div>
-
-                        {/* Strengths + work style */}
-                        <div className="grid grid-cols-2 gap-3">
-                          <div className="p-3 bg-emerald-50 rounded-xl">
-                            <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
-                            <p className="text-sm font-semibold text-emerald-800">{pick(candidate.strengths, lang)}</p>
-                          </div>
-                          <div className="p-3 bg-violet-50 rounded-xl">
-                            <p className="text-xs text-gray-500 mb-1">{d.workStyle}</p>
-                            <p className="text-sm font-semibold text-violet-800">{pick(candidate.workStyle, lang)}</p>
-                          </div>
-                        </div>
-
-                        {/* All skills */}
-                        <div>
-                          <p className="text-xs text-gray-500 mb-2">{d.allSkills}</p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {candidate.hardSkills.map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
-                            {pick(candidate.softSkills, lang).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
-                          </div>
                         </div>
 
                         <Link
