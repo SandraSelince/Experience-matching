@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { useLang } from "@/lib/i18n/context";
 import { LangToggle } from "@/components/shared/LangToggle";
@@ -554,313 +553,318 @@ export default function ManagerDashboard() {
               </div>
             </div>
 
-            {/* Candidates */}
-            <div className="space-y-3">
+            {/* ── Candidate cards grid ── */}
+            <div className="grid grid-cols-2 gap-4">
               {jobCandidates.map((candidate) => (
-                <Card
+                <div
                   key={candidate.id}
                   className={cn(
-                    "shadow-none border cursor-pointer transition-all hover:shadow-md",
-                    candidate.status === "rejected" ? "opacity-50" : "",
-                    selectedCandidate === candidate.id ? "ring-2 ring-emerald-400" : ""
+                    "overflow-hidden rounded-3xl cursor-pointer transition-all",
+                    candidate.status === "rejected" ? "opacity-40" : "",
+                    selectedCandidate === candidate.id
+                      ? "ring-2 ring-emerald-400 shadow-xl"
+                      : "shadow-sm hover:shadow-xl hover:-translate-y-0.5"
                   )}
                   onClick={() => setSelectedCandidate(selectedCandidate === candidate.id ? null : candidate.id)}
                 >
-                  <CardContent className="pt-4 pb-3">
-                    <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-violet-500 flex items-center justify-center text-white font-bold text-sm">
-                        {candidate.name[0]}
+                  {/* Top — soft colored area */}
+                  <div className="bg-emerald-50 px-5 pt-5 pb-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className={cn("text-sm font-black px-2.5 py-1 rounded-xl border", getScoreBg(candidate.score))}>
+                        <span className={getScoreColor(candidate.score)}>{candidate.score}%</span>
                       </div>
+                      <button
+                        type="button"
+                        onClick={(e) => toggleBookmark(candidate.id, e)}
+                        className={cn(
+                          "w-7 h-7 rounded-full flex items-center justify-center transition-all",
+                          candidate.bookmarked ? "text-amber-500 bg-amber-100" : "text-gray-300 hover:text-amber-400 hover:bg-amber-50"
+                        )}
+                      >
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill={candidate.bookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                      </button>
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 leading-tight">{candidate.name}</h3>
+                    <p className="text-sm text-gray-500 mt-0.5">{candidate.title}</p>
+                    <div className="flex items-center gap-1.5 mt-2 text-xs text-gray-400">
+                      <span>{pick(candidate.seniority, lang)}</span>
+                      <span>·</span>
+                      <span>{candidate.location}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1 mt-3">
+                      {candidate.hardSkills.slice(0, 2).map((s) => (
+                        <Badge key={s} variant="hard" className="text-xs">{s}</Badge>
+                      ))}
+                      {candidate.status === "hired" && <Badge variant="success" className="text-xs">{d.hired}</Badge>}
+                      {candidate.interviewRequested && (
+                        <Badge className="text-xs bg-violet-100 text-violet-700 border border-violet-200">{d.interviewRequested}</Badge>
+                      )}
+                    </div>
+                  </div>
+                  {/* Bottom — photo */}
+                  <div className="relative h-44 overflow-hidden bg-gray-100">
+                    <img
+                      src={`https://i.pravatar.cc/300?u=${candidate.id}`}
+                      alt={candidate.name}
+                      className="w-full h-full object-cover object-top"
+                    />
+                    {candidate.feedbackRequested.length > 0 && (
+                      <span className="absolute bottom-2 right-2 flex items-center gap-1 text-xs font-medium text-white bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        {candidate.feedbackRequested.length}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
 
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-2">
-                          <div>
-                            <button
-                              type="button"
-                              onClick={(e) => { e.stopPropagation(); router.push(`/candidate/profile/${candidate.id}`); }}
-                              className="font-bold text-gray-900 hover:text-emerald-600 hover:underline transition-colors"
-                            >
-                              {candidate.name}
-                            </button>
-                            <span className="text-sm text-gray-500 ml-1.5">• {candidate.title}</span>
-                          </div>
+            {jobCandidates.length === 0 && (
+              <div className="text-center py-16 text-gray-400">
+                <div className="text-4xl mb-3">{filterBookmarked ? "🔖" : "🔍"}</div>
+                <p className="font-medium">{filterBookmarked ? `0 ${d.filterBookmarked}` : d.noProfiles}</p>
+                {!filterBookmarked && <p className="text-xs mt-1">{d.scanning}</p>}
+              </div>
+            )}
 
-                          {/* Score + bookmark */}
-                          <div className="flex items-center gap-2 flex-shrink-0">
-                            <div className={cn("px-2.5 py-1 rounded-lg border text-sm font-extrabold", getScoreBg(candidate.score))}>
-                              <span className={getScoreColor(candidate.score)}>{candidate.score}%</span>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={(e) => toggleBookmark(candidate.id, e)}
-                              className={cn("w-7 h-7 rounded-lg flex items-center justify-center transition-all", candidate.bookmarked ? "text-amber-500 bg-amber-50" : "text-gray-300 hover:text-amber-400 hover:bg-amber-50")}
-                              title={candidate.bookmarked ? d.bookmarked : d.bookmark}
-                            >
-                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill={candidate.bookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                            </button>
-                          </div>
-                        </div>
+            {/* ── Expanded detail panel (below grid) ── */}
+            {selectedCandidate && (() => {
+              const candidate = candidates.find((c) => c.id === selectedCandidate);
+              if (!candidate) return null;
+              return (
+                <div className="mt-4 animate-fade-in-up space-y-4 bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
 
-                        <div className="flex items-center gap-3 mt-1 flex-wrap">
-                          <span className="text-xs text-gray-400">{pick(candidate.seniority, lang)}</span>
-                          <span className="text-xs text-gray-400">{candidate.location}</span>
-                          {candidate.status === "hired" && <Badge variant="success" className="text-xs">{d.hired}</Badge>}
-                          {candidate.status === "rejected" && <Badge variant="destructive" className="text-xs">{d.rejected}</Badge>}
-                          {candidate.interviewRequested && <Badge variant="default" className="text-xs bg-violet-100 text-violet-700 border-violet-200">{d.interviewRequested}</Badge>}
-                          {candidate.feedbackRequested.length > 0 && (
-                            <span className="flex items-center gap-1 text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                              {candidate.feedbackRequested.length} {d.feedbackRequested}
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="mt-2 grid grid-cols-2 gap-2">
-                          <div>
-                            <div className="flex justify-between text-xs text-gray-400 mb-1">
-                              <span>{d.hardSkills}</span><span>{candidate.hardScore}%</span>
-                            </div>
-                            <Progress value={candidate.hardScore} className="h-1" />
-                          </div>
-                          <div>
-                            <div className="flex justify-between text-xs text-gray-400 mb-1">
-                              <span>{d.softSkills}</span><span>{candidate.softScore}%</span>
-                            </div>
-                            <Progress value={candidate.softScore} className="h-1" />
-                          </div>
-                        </div>
-
-                        <div className="mt-2 flex flex-wrap gap-1">
-                          {candidate.hardSkills.slice(0, 3).map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
-                          {pick(candidate.softSkills, lang).slice(0, 2).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
-                        </div>
+                  {/* Header */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={`https://i.pravatar.cc/80?u=${candidate.id}`}
+                        alt={candidate.name}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => router.push(`/candidate/profile/${candidate.id}`)}
+                          className="font-bold text-gray-900 hover:text-emerald-600 hover:underline"
+                        >
+                          {candidate.name}
+                        </button>
+                        <p className="text-xs text-gray-400">{candidate.title}</p>
                       </div>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCandidate(null)}
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-all"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                  </div>
 
-                    {/* ── Expanded panel ── */}
-                    {selectedCandidate === candidate.id && (
-                      <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in-up space-y-4">
-
-                        {/* Match Breakdown */}
-                        <div className="rounded-2xl bg-gradient-to-br from-slate-50 to-violet-50/40 border border-violet-100 p-4">
-                          <div className="flex items-start justify-between mb-1">
-                            <div>
-                              <p className="font-bold text-gray-900 text-sm">{d.matchBreakdown}</p>
-                              <p className="flex items-center gap-1 text-xs text-violet-500 mt-0.5">
-                                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                                {d.aiPowered}
-                              </p>
-                            </div>
-                            <span className={cn("text-3xl font-extrabold", getScoreColor(candidate.score))}>{candidate.score}%</span>
+                  {/* Match Breakdown */}
+                  <div className="rounded-2xl bg-gradient-to-br from-slate-50 to-violet-50/40 border border-violet-100 p-4">
+                    <div className="flex items-start justify-between mb-1">
+                      <div>
+                        <p className="font-bold text-gray-900 text-sm">{d.matchBreakdown}</p>
+                        <p className="flex items-center gap-1 text-xs text-violet-500 mt-0.5">
+                          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                          {d.aiPowered}
+                        </p>
+                      </div>
+                      <span className={cn("text-3xl font-extrabold", getScoreColor(candidate.score))}>{candidate.score}%</span>
+                    </div>
+                    <div className="space-y-3 mt-4">
+                      {[
+                        { label: d.roleFit, value: candidate.roleFit, color: "bg-blue-500" },
+                        { label: d.cultureFit, value: candidate.cultureFit, color: "bg-emerald-500" },
+                        { label: d.practicalFit, value: candidate.practicalFit, color: "bg-emerald-500" },
+                      ].map((row) => (
+                        <div key={row.label}>
+                          <div className="flex justify-between text-sm mb-1.5">
+                            <span className="text-gray-600 font-medium">{row.label}</span>
+                            <span className="font-bold text-gray-900">{row.value}%</span>
                           </div>
-                          <div className="space-y-3 mt-4">
-                            {[
-                              { label: d.roleFit, value: candidate.roleFit, color: "bg-blue-500" },
-                              { label: d.cultureFit, value: candidate.cultureFit, color: "bg-emerald-500" },
-                              { label: d.practicalFit, value: candidate.practicalFit, color: "bg-emerald-500" },
-                            ].map((row) => (
-                              <div key={row.label}>
-                                <div className="flex justify-between text-sm mb-1.5">
-                                  <span className="text-gray-600 font-medium">{row.label}</span>
-                                  <span className="font-bold text-gray-900">{row.value}%</span>
-                                </div>
-                                <div className="h-2 bg-white rounded-full overflow-hidden shadow-inner">
-                                  <div className={cn("h-full rounded-full transition-all duration-700", row.color)} style={{ width: `${row.value}%` }} />
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Why it works */}
-                        <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
-                          <p className="flex items-center gap-2 font-bold text-emerald-800 text-sm mb-3">
-                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                            {d.whyMatch}
-                          </p>
-                          <ul className="space-y-1.5">
-                            {pick(candidate.whyMatch, lang).map((point, i) => (
-                              <li key={i} className="flex gap-2 text-sm text-emerald-900">
-                                <span className="text-emerald-400 mt-0.5 shrink-0">•</span>{point}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Risks */}
-                        {pick(candidate.risks, lang).length > 0 && (
-                          <div className="rounded-2xl bg-amber-50 border border-amber-100 p-4">
-                            <p className="flex items-center gap-2 font-bold text-amber-800 text-sm mb-3">
-                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                              {d.potentialRisks}
-                            </p>
-                            <ul className="space-y-1.5">
-                              {pick(candidate.risks, lang).map((risk, i) => (
-                                <li key={i} className="flex gap-2 text-sm text-amber-900">
-                                  <span className="text-amber-400 mt-0.5 shrink-0">•</span>{risk}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* ── Interview request ── */}
-                        <div className={cn("rounded-2xl border p-4", candidate.interviewRequested ? "bg-violet-50 border-violet-100" : "bg-white border-gray-100")}>
-                          <div className="flex items-center justify-between gap-3">
-                            <div>
-                              <p className="text-sm font-bold text-gray-900">{d.requestInterview}</p>
-                              <p className="text-xs text-gray-400 mt-0.5">
-                                {d.firstStep} : {pick(selectedJob_?.firstStep ?? { fr: "—", en: "—" }, lang)}
-                              </p>
-                            </div>
-                            {candidate.interviewRequested ? (
-                              <span className="flex items-center gap-1.5 text-sm font-semibold text-violet-600 bg-violet-100 px-3 py-1.5 rounded-xl whitespace-nowrap flex-shrink-0">
-                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                {d.interviewRequested}
-                              </span>
-                            ) : (
-                              <Button
-                                variant="gradient"
-                                size="sm"
-                                className="whitespace-nowrap flex-shrink-0"
-                                onClick={(e) => requestInterview(candidate.id, e)}
-                              >
-                                {d.requestInterview} →
-                              </Button>
-                            )}
+                          <div className="h-2 bg-white rounded-full overflow-hidden shadow-inner">
+                            <div className={cn("h-full rounded-full transition-all duration-700", row.color)} style={{ width: `${row.value}%` }} />
                           </div>
                         </div>
+                      ))}
+                    </div>
+                  </div>
 
-                        {/* ── Collaborator feedback ── */}
-                        <div className="rounded-2xl bg-white border border-gray-100 p-4">
-                          <p className="text-sm font-bold text-gray-900 mb-3">{d.collaboratorFeedback}</p>
+                  {/* Why it works */}
+                  <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
+                    <p className="flex items-center gap-2 font-bold text-emerald-800 text-sm mb-3">
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                      {d.whyMatch}
+                    </p>
+                    <ul className="space-y-1.5">
+                      {pick(candidate.whyMatch, lang).map((point, i) => (
+                        <li key={i} className="flex gap-2 text-sm text-emerald-900">
+                          <span className="text-emerald-400 mt-0.5 shrink-0">•</span>{point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                          {/* Existing feedback */}
-                          {candidate.feedbackEntries.length > 0 ? (
-                            <div className="space-y-3 mb-3">
-                              {candidate.feedbackEntries.map((entry, i) => (
-                                <div key={i} className="flex gap-3 p-3 bg-gray-50 rounded-xl">
-                                  <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0", entry.collaborator.color)}>
-                                    {entry.collaborator.initials}
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2 mb-1">
-                                      <span className="text-xs font-semibold text-gray-700">{entry.collaborator.name}</span>
-                                      <StarRating rating={entry.rating} />
-                                    </div>
-                                    <p className="text-xs text-gray-500 leading-relaxed">{pick(entry.comment, lang)}</p>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="text-xs text-gray-400 mb-3">{d.noFeedback}</p>
-                          )}
+                  {/* Risks */}
+                  {pick(candidate.risks, lang).length > 0 && (
+                    <div className="rounded-2xl bg-amber-50 border border-amber-100 p-4">
+                      <p className="flex items-center gap-2 font-bold text-amber-800 text-sm mb-3">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        {d.potentialRisks}
+                      </p>
+                      <ul className="space-y-1.5">
+                        {pick(candidate.risks, lang).map((risk, i) => (
+                          <li key={i} className="flex gap-2 text-sm text-amber-900">
+                            <span className="text-amber-400 mt-0.5 shrink-0">•</span>{risk}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-                          {/* Ask for feedback from collaborators */}
-                          {currentCollaborators.length > 0 && (
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-xs text-gray-500">{d.askFeedback} :</span>
-                              {currentCollaborators.map((collab) => {
-                                const alreadyRequested = candidate.feedbackRequested.includes(collab.id);
-                                const alreadyFeedback = candidate.feedbackEntries.some((e) => e.collaborator.id === collab.id);
-                                return (
-                                  <button
-                                    key={collab.id}
-                                    type="button"
-                                    disabled={alreadyRequested || alreadyFeedback}
-                                    onClick={(e) => requestFeedback(candidate.id, collab.id, e)}
-                                    title={collab.name}
-                                    className={cn(
-                                      "w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 transition-all",
-                                      alreadyFeedback ? "border-emerald-300 opacity-60 cursor-default" : alreadyRequested ? "border-emerald-300 opacity-60 cursor-default" : "border-transparent hover:scale-110 hover:border-white hover:shadow-md cursor-pointer",
-                                      collab.color
-                                    )}
-                                  >
-                                    {alreadyFeedback ? "✓" : alreadyRequested ? "…" : collab.initials}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Strengths + work style */}
-                        <div className="grid grid-cols-2 gap-3">
-                          <div className="p-3 bg-emerald-50 rounded-xl">
-                            <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
-                            <p className="text-sm font-semibold text-emerald-800">{pick(candidate.strengths, lang)}</p>
-                          </div>
-                          <div className="p-3 bg-violet-50 rounded-xl">
-                            <p className="text-xs text-gray-500 mb-1">{d.workStyle}</p>
-                            <p className="text-sm font-semibold text-violet-800">{pick(candidate.workStyle, lang)}</p>
-                          </div>
-                        </div>
-
-                        {/* All skills */}
-                        <div>
-                          <p className="text-xs text-gray-500 mb-2">{d.allSkills}</p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {candidate.hardSkills.map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
-                            {pick(candidate.softSkills, lang).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
-                          </div>
-                        </div>
-
-                        <Link
-                          href={`/candidate/profile/${candidate.id}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="block w-full text-center text-sm text-emerald-600 font-medium hover:underline"
+                  {/* Interview request */}
+                  <div className={cn("rounded-2xl border p-4", candidate.interviewRequested ? "bg-violet-50 border-violet-100" : "bg-white border-gray-100")}>
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-bold text-gray-900">{d.requestInterview}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {d.firstStep} : {pick(selectedJob_?.firstStep ?? { fr: "—", en: "—" }, lang)}
+                        </p>
+                      </div>
+                      {candidate.interviewRequested ? (
+                        <span className="flex items-center gap-1.5 text-sm font-semibold text-violet-600 bg-violet-100 px-3 py-1.5 rounded-xl whitespace-nowrap flex-shrink-0">
+                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                          {d.interviewRequested}
+                        </span>
+                      ) : (
+                        <Button
+                          variant="gradient"
+                          size="sm"
+                          className="whitespace-nowrap flex-shrink-0"
+                          onClick={(e) => requestInterview(candidate.id, e)}
                         >
-                          {d.viewFullProfile}
-                        </Link>
+                          {d.requestInterview} →
+                        </Button>
+                      )}
+                    </div>
+                  </div>
 
-                        {/* Actions */}
-                        {candidate.status === "pending_review" && (
-                          <div className="flex gap-2">
-                            {/* Bookmark toggle */}
+                  {/* Collaborator feedback */}
+                  <div className="rounded-2xl bg-white border border-gray-100 p-4">
+                    <p className="text-sm font-bold text-gray-900 mb-3">{d.collaboratorFeedback}</p>
+                    {candidate.feedbackEntries.length > 0 ? (
+                      <div className="space-y-3 mb-3">
+                        {candidate.feedbackEntries.map((entry, i) => (
+                          <div key={i} className="flex gap-3 p-3 bg-gray-50 rounded-xl">
+                            <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0", entry.collaborator.color)}>
+                              {entry.collaborator.initials}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-xs font-semibold text-gray-700">{entry.collaborator.name}</span>
+                                <StarRating rating={entry.rating} />
+                              </div>
+                              <p className="text-xs text-gray-500 leading-relaxed">{pick(entry.comment, lang)}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-gray-400 mb-3">{d.noFeedback}</p>
+                    )}
+                    {currentCollaborators.length > 0 && (
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs text-gray-500">{d.askFeedback} :</span>
+                        {currentCollaborators.map((collab) => {
+                          const alreadyRequested = candidate.feedbackRequested.includes(collab.id);
+                          const alreadyFeedback = candidate.feedbackEntries.some((e) => e.collaborator.id === collab.id);
+                          return (
                             <button
+                              key={collab.id}
                               type="button"
-                              onClick={(e) => toggleBookmark(candidate.id, e)}
+                              disabled={alreadyRequested || alreadyFeedback}
+                              onClick={(e) => requestFeedback(candidate.id, collab.id, e)}
+                              title={collab.name}
                               className={cn(
-                                "flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-medium transition-all",
-                                candidate.bookmarked ? "bg-amber-50 border-amber-300 text-amber-700" : "bg-white border-gray-200 text-gray-500 hover:border-amber-300"
+                                "w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 transition-all",
+                                alreadyFeedback ? "border-emerald-300 opacity-60 cursor-default" : alreadyRequested ? "border-emerald-300 opacity-60 cursor-default" : "border-transparent hover:scale-110 hover:border-white hover:shadow-md cursor-pointer",
+                                collab.color
                               )}
                             >
-                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill={candidate.bookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                              {candidate.bookmarked ? d.bookmarked : d.bookmark}
+                              {alreadyFeedback ? "✓" : alreadyRequested ? "…" : collab.initials}
                             </button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={(e) => { e.stopPropagation(); updateCandidate(candidate.id, { status: "rejected" }); setSelectedCandidate(null); }}
-                              className="flex-1 text-gray-500"
-                            >
-                              {d.notRetained}
-                            </Button>
-                            <Button
-                              variant="success"
-                              size="sm"
-                              onClick={(e) => { e.stopPropagation(); updateCandidate(candidate.id, { status: "hired" }); setSelectedCandidate(null); }}
-                              className="flex-2 flex-grow-2"
-                            >
-                              {d.retain}
-                            </Button>
-                          </div>
-                        )}
+                          );
+                        })}
                       </div>
                     )}
-                  </CardContent>
-                </Card>
-              ))}
+                  </div>
 
-              {jobCandidates.length === 0 && (
-                <div className="text-center py-16 text-gray-400">
-                  <div className="text-4xl mb-3">{filterBookmarked ? "🔖" : "🔍"}</div>
-                  <p className="font-medium">{filterBookmarked ? `0 ${d.filterBookmarked}` : d.noProfiles}</p>
-                  {!filterBookmarked && <p className="text-xs mt-1">{d.scanning}</p>}
+                  {/* Strengths + work style */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-3 bg-emerald-50 rounded-xl">
+                      <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
+                      <p className="text-sm font-semibold text-emerald-800">{pick(candidate.strengths, lang)}</p>
+                    </div>
+                    <div className="p-3 bg-violet-50 rounded-xl">
+                      <p className="text-xs text-gray-500 mb-1">{d.workStyle}</p>
+                      <p className="text-sm font-semibold text-violet-800">{pick(candidate.workStyle, lang)}</p>
+                    </div>
+                  </div>
+
+                  {/* All skills */}
+                  <div>
+                    <p className="text-xs text-gray-500 mb-2">{d.allSkills}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {candidate.hardSkills.map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
+                      {pick(candidate.softSkills, lang).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
+                    </div>
+                  </div>
+
+                  <Link
+                    href={`/candidate/profile/${candidate.id}`}
+                    className="block w-full text-center text-sm text-emerald-600 font-medium hover:underline"
+                  >
+                    {d.viewFullProfile}
+                  </Link>
+
+                  {/* Actions */}
+                  {candidate.status === "pending_review" && (
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={(e) => toggleBookmark(candidate.id, e)}
+                        className={cn(
+                          "flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-medium transition-all",
+                          candidate.bookmarked ? "bg-amber-50 border-amber-300 text-amber-700" : "bg-white border-gray-200 text-gray-500 hover:border-amber-300"
+                        )}
+                      >
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill={candidate.bookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                        {candidate.bookmarked ? d.bookmarked : d.bookmark}
+                      </button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => { updateCandidate(candidate.id, { status: "rejected" }); setSelectedCandidate(null); }}
+                        className="flex-1 text-gray-500"
+                      >
+                        {d.notRetained}
+                      </Button>
+                      <Button
+                        variant="success"
+                        size="sm"
+                        onClick={() => { updateCandidate(candidate.id, { status: "hired" }); setSelectedCandidate(null); }}
+                        className="flex-1"
+                      >
+                        {d.retain}
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              );
+            })()}
           </div>
         </div>
       </div>
