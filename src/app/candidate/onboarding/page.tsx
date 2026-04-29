@@ -98,11 +98,11 @@ export default function CandidateOnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-violet-50">
       <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
+            <div className="w-7 h-7 rounded bg-gradient-to-br from-emerald-600 to-violet-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
             <span className="font-semibold text-gray-800 text-sm">Experience Matching</span>
           </div>
           <div className="flex items-center gap-4">
@@ -159,7 +159,7 @@ export default function CandidateOnboardingPage() {
                         onClick={() => setProfile({ ...profile, seniority: s })}
                         className={cn(
                           "p-2 rounded-lg border text-xs text-center transition-all",
-                          profile.seniority === s ? "border-violet-500 bg-violet-50 text-violet-700 font-semibold" : "border-gray-200 text-gray-600 hover:border-violet-200"
+                          profile.seniority === s ? "border-emerald-500 bg-emerald-50 text-emerald-700 font-semibold" : "border-gray-200 text-gray-600 hover:border-emerald-200"
                         )}
                       >
                         {s}
@@ -177,7 +177,7 @@ export default function CandidateOnboardingPage() {
                         onClick={() => setProfile({ ...profile, workMode: w.v })}
                         className={cn(
                           "p-2.5 rounded-lg border text-sm text-center transition-all",
-                          profile.workMode === w.v ? "border-violet-500 bg-violet-50 text-violet-700 font-semibold" : "border-gray-200 text-gray-600 hover:border-violet-200"
+                          profile.workMode === w.v ? "border-emerald-500 bg-emerald-50 text-emerald-700 font-semibold" : "border-gray-200 text-gray-600 hover:border-emerald-200"
                         )}
                       >
                         {w.l}
@@ -224,7 +224,7 @@ export default function CandidateOnboardingPage() {
                   }}
                   className={cn(
                     "border-2 border-dashed rounded-2xl p-12 text-center transition-all cursor-pointer",
-                    cvDragOver ? "border-violet-500 bg-violet-50" : cvFile ? "border-emerald-400 bg-emerald-50" : "border-gray-200 hover:border-violet-300 hover:bg-violet-50/30"
+                    cvDragOver ? "border-emerald-500 bg-emerald-50" : cvFile ? "border-emerald-400 bg-emerald-50" : "border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/30"
                   )}
                   onClick={() => document.getElementById("cv-input")?.click()}
                 >
@@ -355,8 +355,8 @@ export default function CandidateOnboardingPage() {
                       ))}
                     </div>
 
-                    <div className="mt-6 p-4 bg-violet-50 rounded-xl">
-                      <p className="text-xs text-violet-700 text-center">{o.psychConfidential}</p>
+                    <div className="mt-6 p-4 bg-emerald-50 rounded-xl">
+                      <p className="text-xs text-emerald-700 text-center">{o.psychConfidential}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -399,8 +399,8 @@ export default function CandidateOnboardingPage() {
                         className={cn(
                           "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
                           hardSkills.includes(skill)
-                            ? "bg-indigo-600 border-indigo-600 text-white"
-                            : "border-gray-200 text-gray-600 hover:border-indigo-300 hover:text-indigo-600"
+                            ? "bg-violet-600 border-violet-600 text-white"
+                            : "border-gray-200 text-gray-600 hover:border-violet-300 hover:text-violet-600"
                         )}
                       >
                         {skill}
@@ -499,7 +499,7 @@ export default function CandidateOnboardingPage() {
             <Card className="shadow-sm mb-4">
               <CardContent className="pt-6 space-y-5">
                 <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-white text-xl font-bold">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-violet-500 flex items-center justify-center text-white text-xl font-bold">
                     {profile.firstName[0] || "?"}{profile.lastName[0] || ""}
                   </div>
                   <div>
@@ -507,7 +507,7 @@ export default function CandidateOnboardingPage() {
                     <p className="text-sm text-gray-500">{profile.title}</p>
                     <p className="text-xs text-gray-400">{profile.location} • {profile.seniority}</p>
                   </div>
-                  <button type="button" onClick={() => setStep(1)} className="ml-auto text-xs text-violet-600 hover:underline">{o.edit}</button>
+                  <button type="button" onClick={() => setStep(1)} className="ml-auto text-xs text-emerald-600 hover:underline">{o.edit}</button>
                 </div>
 
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
@@ -518,7 +518,7 @@ export default function CandidateOnboardingPage() {
                       <p className="text-xs text-gray-400">CV</p>
                     </div>
                   </div>
-                  <button type="button" onClick={() => setStep(2)} className="text-xs text-violet-600 hover:underline">{o.edit}</button>
+                  <button type="button" onClick={() => setStep(2)} className="text-xs text-emerald-600 hover:underline">{o.edit}</button>
                 </div>
 
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
@@ -529,13 +529,13 @@ export default function CandidateOnboardingPage() {
                       <p className="text-xs text-gray-400">{answers.length} {o.answers} {psychQuestions.length}</p>
                     </div>
                   </div>
-                  <button type="button" onClick={() => setStep(3)} className="text-xs text-violet-600 hover:underline">{o.redo}</button>
+                  <button type="button" onClick={() => setStep(3)} className="text-xs text-emerald-600 hover:underline">{o.redo}</button>
                 </div>
 
                 <div className="p-4 bg-gray-50 rounded-xl">
                   <div className="flex items-center justify-between mb-3">
                     <p className="text-sm font-medium text-gray-900">{o.skills}</p>
-                    <button type="button" onClick={() => setStep(4)} className="text-xs text-violet-600 hover:underline">{o.edit}</button>
+                    <button type="button" onClick={() => setStep(4)} className="text-xs text-emerald-600 hover:underline">{o.edit}</button>
                   </div>
                   <div className="flex flex-wrap gap-1.5 mb-2">
                     {hardSkills.map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
@@ -545,10 +545,10 @@ export default function CandidateOnboardingPage() {
                   </div>
                 </div>
 
-                <div className="p-4 bg-violet-50 rounded-xl">
+                <div className="p-4 bg-emerald-50 rounded-xl">
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm font-semibold text-violet-900">{o.profileCompletion}</p>
-                    <span className="text-sm font-bold text-violet-600">
+                    <p className="text-sm font-semibold text-emerald-900">{o.profileCompletion}</p>
+                    <span className="text-sm font-bold text-emerald-600">
                       {Math.round(
                         ((profile.firstName ? 20 : 0) +
                           (cvFile ? 20 : 0) +

@@ -48,12 +48,12 @@ function RegisterForm() {
               className={cn(
                 "p-4 rounded-xl border-2 text-center transition-all",
                 role === r
-                  ? "border-violet-500 bg-violet-50"
+                  ? "border-emerald-500 bg-emerald-50"
                   : "border-gray-100 bg-white hover:border-gray-200"
               )}
             >
               <div className="text-2xl mb-1">{r === "candidate" ? "👤" : "🏢"}</div>
-              <div className={cn("text-sm font-semibold", role === r ? "text-violet-700" : "text-gray-700")}>
+              <div className={cn("text-sm font-semibold", role === r ? "text-emerald-700" : "text-gray-700")}>
                 {r === "candidate" ? a.roleCandidate : a.roleManager}
               </div>
             </button>
@@ -101,13 +101,13 @@ function RegisterForm() {
 
         <p className="text-center text-xs text-gray-400 mt-4">
           {a.terms}{" "}
-          <a href="#" className="text-violet-600 hover:underline">{a.cgu}</a> {a.and}{" "}
-          <a href="#" className="text-violet-600 hover:underline">{a.privacy}</a>.
+          <a href="#" className="text-emerald-600 hover:underline">{a.cgu}</a> {a.and}{" "}
+          <a href="#" className="text-emerald-600 hover:underline">{a.privacy}</a>.
         </p>
 
         <p className="text-center text-sm text-gray-500 mt-4">
           {a.alreadyAccount}{" "}
-          <Link href="/login" className="text-violet-600 font-medium hover:underline">
+          <Link href="/login" className="text-emerald-600 font-medium hover:underline">
             {a.connect}
           </Link>
         </p>

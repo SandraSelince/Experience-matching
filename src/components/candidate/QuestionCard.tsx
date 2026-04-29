@@ -47,7 +47,7 @@ export function QuestionCard({ question, questionNumber, total, onAnswer, existi
               key={i}
               className={cn(
                 "h-1.5 w-6 rounded-full transition-all",
-                i < questionNumber ? "bg-violet-500" : "bg-gray-200"
+                i < questionNumber ? "bg-emerald-500" : "bg-gray-200"
               )}
             />
           ))}
@@ -71,12 +71,12 @@ export function QuestionCard({ question, questionNumber, total, onAnswer, existi
             className={cn(
               "w-full p-4 rounded-xl border-2 text-left flex items-center gap-3 transition-all",
               selected === opt.value
-                ? "border-violet-500 bg-violet-50 shadow-sm"
-                : "border-gray-100 bg-white hover:border-violet-200 hover:bg-violet-50/30"
+                ? "border-emerald-500 bg-emerald-50 shadow-sm"
+                : "border-gray-100 bg-white hover:border-emerald-200 hover:bg-emerald-50/30"
             )}
           >
             {opt.emoji && <span className="text-xl flex-shrink-0">{opt.emoji}</span>}
-            <span className={cn("text-sm font-medium", selected === opt.value ? "text-violet-700" : "text-gray-700")}>
+            <span className={cn("text-sm font-medium", selected === opt.value ? "text-emerald-700" : "text-gray-700")}>
               {opt.label}
             </span>
           </button>
@@ -92,18 +92,18 @@ export function QuestionCard({ question, questionNumber, total, onAnswer, existi
               className={cn(
                 "w-full p-4 rounded-xl border-2 text-left flex items-center gap-3 transition-all",
                 isSelected
-                  ? "border-violet-500 bg-violet-50 shadow-sm"
-                  : "border-gray-100 bg-white hover:border-violet-200 hover:bg-violet-50/30"
+                  ? "border-emerald-500 bg-emerald-50 shadow-sm"
+                  : "border-gray-100 bg-white hover:border-emerald-200 hover:bg-emerald-50/30"
               )}
             >
               <div className={cn(
                 "w-5 h-5 rounded flex-shrink-0 border-2 flex items-center justify-center transition-all",
-                isSelected ? "bg-violet-600 border-violet-600" : "border-gray-300"
+                isSelected ? "bg-emerald-600 border-emerald-600" : "border-gray-300"
               )}>
                 {isSelected && <span className="text-white text-xs">✓</span>}
               </div>
               {opt.emoji && <span className="text-xl flex-shrink-0">{opt.emoji}</span>}
-              <span className={cn("text-sm font-medium", isSelected ? "text-violet-700" : "text-gray-700")}>
+              <span className={cn("text-sm font-medium", isSelected ? "text-emerald-700" : "text-gray-700")}>
                 {opt.label}
               </span>
             </button>
@@ -125,8 +125,8 @@ export function QuestionCard({ question, questionNumber, total, onAnswer, existi
                   className={cn(
                     "w-12 h-12 rounded-full border-2 font-semibold text-sm transition-all",
                     selected === val
-                      ? "bg-violet-600 border-violet-600 text-white scale-110 shadow-lg shadow-violet-200"
-                      : "border-gray-200 text-gray-500 hover:border-violet-300 hover:text-violet-500"
+                      ? "bg-emerald-600 border-emerald-600 text-white scale-110 shadow-lg shadow-emerald-200"
+                      : "border-gray-200 text-gray-500 hover:border-emerald-300 hover:text-emerald-500"
                   )}
                 >
                   {val}

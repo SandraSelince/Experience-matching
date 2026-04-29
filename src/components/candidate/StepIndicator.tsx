@@ -29,7 +29,7 @@ export function StepIndicator({ currentStep, labels }: { currentStep: number; la
               className={cn(
                 "w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300",
                 currentStep === step.id
-                  ? "bg-violet-600 text-white shadow-lg shadow-violet-200 scale-110"
+                  ? "bg-emerald-600 text-white shadow-lg shadow-emerald-200 scale-110"
                   : currentStep > step.id
                   ? "bg-emerald-500 text-white"
                   : "bg-gray-100 text-gray-400"
@@ -40,7 +40,7 @@ export function StepIndicator({ currentStep, labels }: { currentStep: number; la
             <span
               className={cn(
                 "text-xs mt-1.5 font-medium",
-                currentStep === step.id ? "text-violet-600" : currentStep > step.id ? "text-emerald-600" : "text-gray-400"
+                currentStep === step.id ? "text-emerald-600" : currentStep > step.id ? "text-emerald-600" : "text-gray-400"
               )}
             >
               {step.label}

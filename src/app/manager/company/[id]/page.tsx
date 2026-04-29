@@ -88,7 +88,7 @@ const MOCK_COMPANIES: Record<string, CompanyData> = {
       en: ["Innovation", "Impact", "Kindness", "Agility"],
     },
     logoInitials: "AS",
-    coverGradient: "from-indigo-600 to-violet-700",
+    coverGradient: "from-violet-600 to-emerald-700",
     founded: "2019",
     techStack: ["React", "Node.js", "TypeScript", "PostgreSQL", "AWS"],
     perks: {
@@ -109,7 +109,7 @@ const MOCK_COMPANIES: Record<string, CompanyData> = {
     recentHires: [
       { name: "Karim Benali", role: "Product Manager", initials: "KB", color: "bg-orange-400", photo: "https://i.pravatar.cc/80?u=karimbenali" },
       { name: "Thomas Durand", role: "Lead Developer", initials: "TD", color: "bg-emerald-500", photo: "https://i.pravatar.cc/80?u=thomasdurand" },
-      { name: "Léa Martin", role: "Head of Sales", initials: "LM", color: "bg-indigo-400", photo: "https://i.pravatar.cc/80?u=leamartin42" },
+      { name: "Léa Martin", role: "Head of Sales", initials: "LM", color: "bg-violet-400", photo: "https://i.pravatar.cc/80?u=leamartin42" },
       { name: "Sofia Chen", role: "UX Designer", initials: "SC", color: "bg-pink-400", photo: "https://i.pravatar.cc/80?u=sofiachen" },
     ],
   },
@@ -303,10 +303,10 @@ function JobDetail({ job, isOwn, onClose, lang }: { job: JobData; isOwn: boolean
     <div className="fixed inset-0 z-50 flex items-start justify-end">
       <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-xl h-full bg-white shadow-2xl overflow-y-auto animate-slide-in">
-        <div className={cn("h-24 bg-gradient-to-r", "from-violet-600 to-indigo-700")} />
+        <div className={cn("h-24 bg-gradient-to-r", "from-emerald-600 to-violet-700")} />
         <div className="px-6 pb-6">
           <div className="flex items-start justify-between -mt-5 mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-violet-600 font-bold text-xl border-4 border-white">📋</div>
+            <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-emerald-600 font-bold text-xl border-4 border-white">📋</div>
             <button type="button" onClick={onClose} className="mt-6 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
@@ -333,7 +333,7 @@ function JobDetail({ job, isOwn, onClose, lang }: { job: JobData; isOwn: boolean
             <ul className="space-y-2">
               {pick(job.missions, lang).map((m, i) => (
                 <li key={i} className="flex gap-2.5 text-sm text-gray-600">
-                  <span className="text-violet-400 flex-shrink-0 mt-0.5">→</span><span>{m}</span>
+                  <span className="text-emerald-400 flex-shrink-0 mt-0.5">→</span><span>{m}</span>
                 </li>
               ))}
             </ul>
@@ -348,7 +348,7 @@ function JobDetail({ job, isOwn, onClose, lang }: { job: JobData; isOwn: boolean
             <div className="space-y-2">
               {pick(job.process, lang).map((step, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold flex-shrink-0">{i + 1}</div>
+                  <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold flex-shrink-0">{i + 1}</div>
                   <span className="text-sm text-gray-600">{step}</span>
                 </div>
               ))}
@@ -398,7 +398,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
+              <div className="w-7 h-7 rounded bg-gradient-to-br from-emerald-600 to-violet-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
               <span className="font-semibold text-gray-800 text-sm hidden sm:block">Experience Matching</span>
             </div>
           </div>
@@ -444,7 +444,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
                       <div className="flex flex-wrap gap-1.5 mt-1">
                         {ALL_INDUSTRIES.slice(0, 6).map((ind) => (
                           <button key={ind} type="button" onClick={() => setCompany({ ...company, industry: ind })}
-                            className={cn("px-2 py-1 rounded-full text-xs border transition-all", company.industry === ind ? "bg-indigo-600 border-indigo-600 text-white" : "border-gray-200 text-gray-600 hover:border-indigo-300")}>
+                            className={cn("px-2 py-1 rounded-full text-xs border transition-all", company.industry === ind ? "bg-violet-600 border-violet-600 text-white" : "border-gray-200 text-gray-600 hover:border-violet-300")}>
                             {ind}
                           </button>
                         ))}
@@ -455,7 +455,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
                       <div className="flex gap-1.5 mt-1 flex-wrap">
                         {COMPANY_SIZES.map((s) => (
                           <button key={s} type="button" onClick={() => setCompany({ ...company, size: s })}
-                            className={cn("px-2 py-1 rounded-full text-xs border transition-all", company.size === s ? "bg-indigo-600 border-indigo-600 text-white" : "border-gray-200 text-gray-600 hover:border-indigo-300")}>
+                            className={cn("px-2 py-1 rounded-full text-xs border transition-all", company.size === s ? "bg-violet-600 border-violet-600 text-white" : "border-gray-200 text-gray-600 hover:border-violet-300")}>
                             {s}
                           </button>
                         ))}
@@ -495,7 +495,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
                               en: isSelected ? c.values.en.filter((v) => v !== enVal) : [...c.values.en, enVal],
                             },
                           }))}
-                          className={cn("px-2.5 py-1 rounded-full text-xs border transition-all", isSelected ? "bg-violet-600 border-violet-600 text-white" : "border-gray-200 text-gray-600 hover:border-violet-300")}>
+                          className={cn("px-2.5 py-1 rounded-full text-xs border transition-all", isSelected ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-200 text-gray-600 hover:border-emerald-300")}>
                           {val}
                         </button>
                       );
@@ -606,7 +606,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
                   <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-4">{p.recentHires}</h2>
                   <div className="grid grid-cols-2 gap-3">
                     {company.recentHires.map((hire, i) => (
-                      <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-indigo-50/60 transition-colors">
+                      <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-violet-50/60 transition-colors">
                         <img
                           src={hire.photo}
                           alt={hire.name}
@@ -634,7 +634,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
             <div>
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                  {p.openRoles} <span className="text-violet-600 ml-1">{jobs.filter((j) => j.status === "open").length}</span>
+                  {p.openRoles} <span className="text-emerald-600 ml-1">{jobs.filter((j) => j.status === "open").length}</span>
                 </h2>
                 {isOwn && (
                   <Link href="/manager/onboarding">
@@ -644,12 +644,12 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
               </div>
               <div className="space-y-3">
                 {jobs.map((job) => (
-                  <Card key={job.id} className="shadow-none border-gray-100 cursor-pointer hover:shadow-md hover:border-violet-200 transition-all group" onClick={() => setSelectedJob(job)}>
+                  <Card key={job.id} className="shadow-none border-gray-100 cursor-pointer hover:shadow-md hover:border-emerald-200 transition-all group" onClick={() => setSelectedJob(job)}>
                     <CardContent className="pt-4 pb-4">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-bold text-gray-900 group-hover:text-violet-700 transition-colors">{job.title}</h3>
+                            <h3 className="font-bold text-gray-900 group-hover:text-emerald-700 transition-colors">{job.title}</h3>
                             <Badge variant="success" className="text-xs">{p.open}</Badge>
                           </div>
                           <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-400 mb-3">
@@ -666,11 +666,11 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
                         <div className="flex flex-col items-end gap-2 flex-shrink-0">
                           {isOwn && (
                             <div className="text-center">
-                              <div className="text-lg font-extrabold text-violet-600">{job.matchCount}</div>
+                              <div className="text-lg font-extrabold text-emerald-600">{job.matchCount}</div>
                               <div className="text-xs text-gray-400 leading-tight">{p.matches}</div>
                             </div>
                           )}
-                          <span className="text-violet-400 group-hover:translate-x-1 transition-transform text-lg">→</span>
+                          <span className="text-emerald-400 group-hover:translate-x-1 transition-transform text-lg">→</span>
                         </div>
                       </div>
                     </CardContent>

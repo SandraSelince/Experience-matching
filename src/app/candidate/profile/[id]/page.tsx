@@ -240,13 +240,13 @@ const SOFT_SKILLS_POOL: B<string[]> = {
 
 const getScoreColor = (score: number) => {
   if (score >= 90) return "text-emerald-600";
-  if (score >= 75) return "text-violet-600";
+  if (score >= 75) return "text-emerald-600";
   return "text-amber-600";
 };
 
 const getScoreBg = (score: number) => {
   if (score >= 90) return "bg-emerald-50 border-emerald-200";
-  if (score >= 75) return "bg-violet-50 border-violet-200";
+  if (score >= 75) return "bg-emerald-50 border-emerald-200";
   return "bg-amber-50 border-amber-200";
 };
 
@@ -328,7 +328,7 @@ export default function CandidateProfilePage({
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
+              <div className="w-7 h-7 rounded bg-gradient-to-br from-emerald-600 to-violet-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
               <span className="font-semibold text-gray-800 text-sm hidden sm:block">Experience Matching</span>
             </div>
           </div>
@@ -358,10 +358,10 @@ export default function CandidateProfilePage({
 
           <div className="md:col-span-1 space-y-4">
             <Card className="shadow-none border-gray-100 overflow-hidden">
-              <div className="h-20 bg-gradient-to-br from-violet-500 to-indigo-600" />
+              <div className="h-20 bg-gradient-to-br from-emerald-500 to-violet-600" />
               <CardContent className="pt-0 pb-5">
                 <div className="-mt-8 mb-4 flex items-end justify-between">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white text-2xl font-bold border-4 border-white shadow-md">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-violet-600 flex items-center justify-center text-white text-2xl font-bold border-4 border-white shadow-md">
                     {initials}
                   </div>
                   {candidate.status === "validated" && (
@@ -430,7 +430,7 @@ export default function CandidateProfilePage({
                 <CardContent className="pt-4 pb-4">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-xs font-medium text-gray-700">{p.profileCompletion}</span>
-                    <span className="text-xs font-bold text-violet-600">{candidate.profileCompletion}%</span>
+                    <span className="text-xs font-bold text-emerald-600">{candidate.profileCompletion}%</span>
                   </div>
                   <Progress value={candidate.profileCompletion} className="h-1.5" />
                 </CardContent>
@@ -532,8 +532,8 @@ export default function CandidateProfilePage({
                           className={cn(
                             "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
                             candidate.hardSkills.includes(skill)
-                              ? "bg-indigo-600 border-indigo-600 text-white"
-                              : "border-gray-200 text-gray-600 hover:border-indigo-300"
+                              ? "bg-violet-600 border-violet-600 text-white"
+                              : "border-gray-200 text-gray-600 hover:border-violet-300"
                           )}
                         >
                           {skill}
@@ -605,8 +605,8 @@ export default function CandidateProfilePage({
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { label: psychLabels[0], value: pick(candidate.psychProfile.strengths, lang), icon: "✨", bg: "bg-violet-50" },
-                    { label: psychLabels[1], value: pick(candidate.psychProfile.workStyle, lang), icon: "⚡", bg: "bg-indigo-50" },
+                    { label: psychLabels[0], value: pick(candidate.psychProfile.strengths, lang), icon: "✨", bg: "bg-emerald-50" },
+                    { label: psychLabels[1], value: pick(candidate.psychProfile.workStyle, lang), icon: "⚡", bg: "bg-violet-50" },
                     { label: psychLabels[2], value: pick(candidate.psychProfile.leadership, lang), icon: "🌟", bg: "bg-pink-50" },
                     { label: psychLabels[3], value: pick(candidate.psychProfile.motivators, lang), icon: "🔥", bg: "bg-orange-50" },
                   ].map((item) => (
@@ -626,9 +626,9 @@ export default function CandidateProfilePage({
                   </div>
                 )}
                 {isOwnProfile && (
-                  <div className="mt-4 p-3 bg-violet-50 rounded-xl flex gap-2">
+                  <div className="mt-4 p-3 bg-emerald-50 rounded-xl flex gap-2">
                     <span className="text-sm flex-shrink-0">ℹ️</span>
-                    <p className="text-xs text-violet-700">{p.psychOwn}</p>
+                    <p className="text-xs text-emerald-700">{p.psychOwn}</p>
                   </div>
                 )}
               </CardContent>

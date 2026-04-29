@@ -230,8 +230,8 @@ const INIT_CANDIDATES: Candidate[] = [
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const getScoreColor = (s: number) => s >= 90 ? "text-emerald-600" : s >= 75 ? "text-violet-600" : "text-amber-600";
-const getScoreBg = (s: number) => s >= 90 ? "bg-emerald-50 border-emerald-200" : s >= 75 ? "bg-violet-50 border-violet-200" : "bg-amber-50 border-amber-200";
+const getScoreColor = (s: number) => s >= 90 ? "text-emerald-600" : s >= 75 ? "text-emerald-600" : "text-amber-600";
+const getScoreBg = (s: number) => s >= 90 ? "bg-emerald-50 border-emerald-200" : s >= 75 ? "bg-emerald-50 border-emerald-200" : "bg-amber-50 border-amber-200";
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -340,7 +340,7 @@ function SharePoolModal({
             <button
               type="button"
               onClick={handleCopy}
-              className={cn("text-xs font-semibold px-3 py-1 rounded-lg transition-all flex-shrink-0", copied ? "bg-emerald-100 text-emerald-700" : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200")}
+              className={cn("text-xs font-semibold px-3 py-1 rounded-lg transition-all flex-shrink-0", copied ? "bg-emerald-100 text-emerald-700" : "bg-violet-100 text-violet-700 hover:bg-violet-200")}
             >
               {copied ? d.linkCopied : d.copyLink}
             </button>
@@ -399,7 +399,7 @@ export default function ManagerDashboard() {
       name: email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
       email,
       initials: email.slice(0, 2).toUpperCase(),
-      color: ["bg-violet-400", "bg-orange-400", "bg-teal-400"][Math.floor(Math.random() * 3)],
+      color: ["bg-emerald-400", "bg-orange-400", "bg-teal-400"][Math.floor(Math.random() * 3)],
       status: "pending",
     };
     setPoolCollaborators((prev) => ({ ...prev, [jobId]: [...(prev[jobId] ?? []), newCollab] }));
@@ -428,7 +428,7 @@ export default function ManagerDashboard() {
       <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
+            <div className="w-7 h-7 rounded bg-gradient-to-br from-emerald-600 to-violet-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
             <span className="font-semibold text-gray-800 text-sm">Experience Matching</span>
             <Badge variant="secondary" className="text-xs ml-1">{d.recruiterBadge}</Badge>
           </div>
@@ -439,8 +439,8 @@ export default function ManagerDashboard() {
             </Link>
             <Link href="/manager/company/me">
               <div className="flex items-center gap-2 cursor-pointer group">
-                <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm group-hover:bg-indigo-200 transition-colors">JM</div>
-                <span className="text-sm text-gray-700 font-medium hidden sm:block group-hover:text-indigo-600 transition-colors">{t.nav.myCompany}</span>
+                <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-600 font-bold text-sm group-hover:bg-violet-200 transition-colors">JM</div>
+                <span className="text-sm text-gray-700 font-medium hidden sm:block group-hover:text-violet-600 transition-colors">{t.nav.myCompany}</span>
               </div>
             </Link>
           </div>
@@ -478,16 +478,16 @@ export default function ManagerDashboard() {
                 onClick={() => { setSelectedJob(job.id); setSelectedCandidate(null); setFilterBookmarked(false); }}
                 className={cn(
                   "w-full text-left p-4 rounded-xl border transition-all",
-                  selectedJob === job.id ? "border-violet-500 bg-violet-50 shadow-sm" : "border-gray-100 bg-white hover:border-violet-200"
+                  selectedJob === job.id ? "border-emerald-500 bg-emerald-50 shadow-sm" : "border-gray-100 bg-white hover:border-emerald-200"
                 )}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className={cn("font-semibold text-sm", selectedJob === job.id ? "text-violet-700" : "text-gray-900")}>{job.title}</p>
+                    <p className={cn("font-semibold text-sm", selectedJob === job.id ? "text-emerald-700" : "text-gray-900")}>{job.title}</p>
                     <p className="text-xs text-gray-500 mt-0.5">{job.seniority} • {job.experienceYears}+ {yrs}</p>
                   </div>
                   {job.newCount > 0 && (
-                    <span className="flex-shrink-0 bg-violet-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    <span className="flex-shrink-0 bg-emerald-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                       {job.newCount} {d.newBadge}
                     </span>
                   )}
@@ -537,7 +537,7 @@ export default function ManagerDashboard() {
                 <button
                   type="button"
                   onClick={() => setShareJobId(selectedJob)}
-                  className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:border-violet-300 hover:text-violet-600 transition-all"
+                  className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:border-emerald-300 hover:text-emerald-600 transition-all"
                 >
                   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                   {d.sharePool}
@@ -562,13 +562,13 @@ export default function ManagerDashboard() {
                   className={cn(
                     "shadow-none border cursor-pointer transition-all hover:shadow-md",
                     candidate.status === "rejected" ? "opacity-50" : "",
-                    selectedCandidate === candidate.id ? "ring-2 ring-violet-400" : ""
+                    selectedCandidate === candidate.id ? "ring-2 ring-emerald-400" : ""
                   )}
                   onClick={() => setSelectedCandidate(selectedCandidate === candidate.id ? null : candidate.id)}
                 >
                   <CardContent className="pt-4 pb-3">
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 flex items-center justify-center text-white font-bold text-sm">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-violet-500 flex items-center justify-center text-white font-bold text-sm">
                         {candidate.name[0]}
                       </div>
 
@@ -578,7 +578,7 @@ export default function ManagerDashboard() {
                             <button
                               type="button"
                               onClick={(e) => { e.stopPropagation(); router.push(`/candidate/profile/${candidate.id}`); }}
-                              className="font-bold text-gray-900 hover:text-violet-600 hover:underline transition-colors"
+                              className="font-bold text-gray-900 hover:text-emerald-600 hover:underline transition-colors"
                             >
                               {candidate.name}
                             </button>
@@ -606,9 +606,9 @@ export default function ManagerDashboard() {
                           <span className="text-xs text-gray-400">{candidate.location}</span>
                           {candidate.status === "hired" && <Badge variant="success" className="text-xs">{d.hired}</Badge>}
                           {candidate.status === "rejected" && <Badge variant="destructive" className="text-xs">{d.rejected}</Badge>}
-                          {candidate.interviewRequested && <Badge variant="default" className="text-xs bg-indigo-100 text-indigo-700 border-indigo-200">{d.interviewRequested}</Badge>}
+                          {candidate.interviewRequested && <Badge variant="default" className="text-xs bg-violet-100 text-violet-700 border-violet-200">{d.interviewRequested}</Badge>}
                           {candidate.feedbackRequested.length > 0 && (
-                            <span className="flex items-center gap-1 text-xs text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full border border-violet-200">
+                            <span className="flex items-center gap-1 text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
                               <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                               {candidate.feedbackRequested.length} {d.feedbackRequested}
                             </span>
@@ -642,11 +642,11 @@ export default function ManagerDashboard() {
                       <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in-up space-y-4">
 
                         {/* Match Breakdown */}
-                        <div className="rounded-2xl bg-gradient-to-br from-slate-50 to-indigo-50/40 border border-indigo-100 p-4">
+                        <div className="rounded-2xl bg-gradient-to-br from-slate-50 to-violet-50/40 border border-violet-100 p-4">
                           <div className="flex items-start justify-between mb-1">
                             <div>
                               <p className="font-bold text-gray-900 text-sm">{d.matchBreakdown}</p>
-                              <p className="flex items-center gap-1 text-xs text-indigo-500 mt-0.5">
+                              <p className="flex items-center gap-1 text-xs text-violet-500 mt-0.5">
                                 <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                                 {d.aiPowered}
                               </p>
@@ -656,7 +656,7 @@ export default function ManagerDashboard() {
                           <div className="space-y-3 mt-4">
                             {[
                               { label: d.roleFit, value: candidate.roleFit, color: "bg-blue-500" },
-                              { label: d.cultureFit, value: candidate.cultureFit, color: "bg-violet-500" },
+                              { label: d.cultureFit, value: candidate.cultureFit, color: "bg-emerald-500" },
                               { label: d.practicalFit, value: candidate.practicalFit, color: "bg-emerald-500" },
                             ].map((row) => (
                               <div key={row.label}>
@@ -705,7 +705,7 @@ export default function ManagerDashboard() {
                         )}
 
                         {/* ── Interview request ── */}
-                        <div className={cn("rounded-2xl border p-4", candidate.interviewRequested ? "bg-indigo-50 border-indigo-100" : "bg-white border-gray-100")}>
+                        <div className={cn("rounded-2xl border p-4", candidate.interviewRequested ? "bg-violet-50 border-violet-100" : "bg-white border-gray-100")}>
                           <div className="flex items-center justify-between gap-3">
                             <div>
                               <p className="text-sm font-bold text-gray-900">{d.requestInterview}</p>
@@ -714,7 +714,7 @@ export default function ManagerDashboard() {
                               </p>
                             </div>
                             {candidate.interviewRequested ? (
-                              <span className="flex items-center gap-1.5 text-sm font-semibold text-indigo-600 bg-indigo-100 px-3 py-1.5 rounded-xl whitespace-nowrap flex-shrink-0">
+                              <span className="flex items-center gap-1.5 text-sm font-semibold text-violet-600 bg-violet-100 px-3 py-1.5 rounded-xl whitespace-nowrap flex-shrink-0">
                                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                                 {d.interviewRequested}
                               </span>
@@ -773,7 +773,7 @@ export default function ManagerDashboard() {
                                     title={collab.name}
                                     className={cn(
                                       "w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 transition-all",
-                                      alreadyFeedback ? "border-emerald-300 opacity-60 cursor-default" : alreadyRequested ? "border-violet-300 opacity-60 cursor-default" : "border-transparent hover:scale-110 hover:border-white hover:shadow-md cursor-pointer",
+                                      alreadyFeedback ? "border-emerald-300 opacity-60 cursor-default" : alreadyRequested ? "border-emerald-300 opacity-60 cursor-default" : "border-transparent hover:scale-110 hover:border-white hover:shadow-md cursor-pointer",
                                       collab.color
                                     )}
                                   >
@@ -787,13 +787,13 @@ export default function ManagerDashboard() {
 
                         {/* Strengths + work style */}
                         <div className="grid grid-cols-2 gap-3">
-                          <div className="p-3 bg-violet-50 rounded-xl">
+                          <div className="p-3 bg-emerald-50 rounded-xl">
                             <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
-                            <p className="text-sm font-semibold text-violet-800">{pick(candidate.strengths, lang)}</p>
+                            <p className="text-sm font-semibold text-emerald-800">{pick(candidate.strengths, lang)}</p>
                           </div>
-                          <div className="p-3 bg-indigo-50 rounded-xl">
+                          <div className="p-3 bg-violet-50 rounded-xl">
                             <p className="text-xs text-gray-500 mb-1">{d.workStyle}</p>
-                            <p className="text-sm font-semibold text-indigo-800">{pick(candidate.workStyle, lang)}</p>
+                            <p className="text-sm font-semibold text-violet-800">{pick(candidate.workStyle, lang)}</p>
                           </div>
                         </div>
 
@@ -809,7 +809,7 @@ export default function ManagerDashboard() {
                         <Link
                           href={`/candidate/profile/${candidate.id}`}
                           onClick={(e) => e.stopPropagation()}
-                          className="block w-full text-center text-sm text-violet-600 font-medium hover:underline"
+                          className="block w-full text-center text-sm text-emerald-600 font-medium hover:underline"
                         >
                           {d.viewFullProfile}
                         </Link>

@@ -11,7 +11,7 @@ export function LangToggle({ className }: { className?: string }) {
       type="button"
       onClick={toggle}
       className={cn(
-        "flex items-center gap-1 h-8 px-3 rounded-lg border border-gray-200 bg-white text-xs font-semibold text-gray-600 hover:border-violet-300 hover:text-violet-600 transition-all",
+        "flex items-center gap-1 h-8 px-3 rounded-lg border border-gray-200 bg-white text-xs font-semibold text-gray-600 hover:border-emerald-300 hover:text-emerald-600 transition-all",
         className
       )}
       title={lang === "fr" ? "Switch to English" : "Passer en français"}

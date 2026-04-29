@@ -63,7 +63,7 @@ export default function ManagerOnboardingPage() {
   const [hireNameInput, setHireNameInput] = useState("");
   const [hireRoleInput, setHireRoleInput] = useState("");
 
-  const HIRE_COLORS = ["bg-orange-400", "bg-emerald-500", "bg-indigo-400", "bg-pink-400", "bg-violet-500", "bg-teal-500"];
+  const HIRE_COLORS = ["bg-orange-400", "bg-emerald-500", "bg-violet-400", "bg-pink-400", "bg-emerald-500", "bg-teal-500"];
 
   const addHire = () => {
     if (!hireNameInput.trim()) return;
@@ -225,11 +225,11 @@ export default function ManagerOnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-violet-50">
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-emerald-50">
       <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
+            <div className="w-7 h-7 rounded bg-gradient-to-br from-emerald-600 to-violet-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
             <span className="font-semibold text-gray-800 text-sm">Experience Matching</span>
           </div>
           <div className="flex items-center gap-4">
@@ -249,11 +249,11 @@ export default function ManagerOnboardingPage() {
               <div className="flex flex-col items-center">
                 <div className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all",
-                  step === i + 1 ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 scale-110" : step > i + 1 ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-400"
+                  step === i + 1 ? "bg-violet-600 text-white shadow-lg shadow-violet-200 scale-110" : step > i + 1 ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-400"
                 )}>
                   {step > i + 1 ? "✓" : s.icon}
                 </div>
-                <span className={cn("text-xs mt-1.5 font-medium", step === i + 1 ? "text-indigo-600" : step > i + 1 ? "text-emerald-600" : "text-gray-400")}>
+                <span className={cn("text-xs mt-1.5 font-medium", step === i + 1 ? "text-violet-600" : step > i + 1 ? "text-emerald-600" : "text-gray-400")}>
                   {s.label}
                 </span>
               </div>
@@ -271,10 +271,10 @@ export default function ManagerOnboardingPage() {
               <p className="text-gray-500 mt-2">{o.step1Sub}</p>
             </div>
             {/* LinkedIn auto-fill block */}
-            <div className="mb-4 p-4 rounded-xl border border-indigo-100 bg-indigo-50/60 space-y-3">
+            <div className="mb-4 p-4 rounded-xl border border-violet-100 bg-violet-50/60 space-y-3">
               <div className="flex items-start gap-2">
-                <svg className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                <p className="text-xs text-indigo-600">{o.linkedinHint}</p>
+                <svg className="w-4 h-4 text-violet-500 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                <p className="text-xs text-violet-600">{o.linkedinHint}</p>
               </div>
               <div className="flex gap-2">
                 <Input
@@ -287,7 +287,7 @@ export default function ManagerOnboardingPage() {
                   type="button"
                   onClick={handleManagerAutoFill}
                   disabled={!manager.linkedinUrl.trim() || managerAutoFillState === "loading"}
-                  className="shrink-0 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+                  className="shrink-0 px-4 py-2 rounded-lg bg-violet-600 text-white text-sm font-medium hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
                 >
                   {managerAutoFillState === "loading" ? (
                     <>
@@ -365,10 +365,10 @@ export default function ManagerOnboardingPage() {
               <p className="text-gray-500 mt-2">{o.step2Sub}</p>
             </div>
             {/* LinkedIn auto-fill block */}
-            <div className="mb-4 p-4 rounded-xl border border-indigo-100 bg-indigo-50/60 space-y-3">
+            <div className="mb-4 p-4 rounded-xl border border-violet-100 bg-violet-50/60 space-y-3">
               <div className="flex items-start gap-2">
-                <svg className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                <p className="text-xs text-indigo-600">{o.autoFillHint}</p>
+                <svg className="w-4 h-4 text-violet-500 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                <p className="text-xs text-violet-600">{o.autoFillHint}</p>
               </div>
               <div className="flex gap-2">
                 <Input
@@ -381,7 +381,7 @@ export default function ManagerOnboardingPage() {
                   type="button"
                   onClick={handleAutoFill}
                   disabled={!companyLinkedinUrl.trim() || autoFillState === "loading"}
-                  className="shrink-0 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+                  className="shrink-0 px-4 py-2 rounded-lg bg-violet-600 text-white text-sm font-medium hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
                 >
                   {autoFillState === "loading" ? (
                     <>
@@ -417,7 +417,7 @@ export default function ManagerOnboardingPage() {
                         onClick={() => setCompany({ ...company, industry: ind })}
                         className={cn(
                           "px-3 py-1.5 rounded-full text-xs border transition-all",
-                          company.industry === ind ? "bg-indigo-600 border-indigo-600 text-white" : "border-gray-200 text-gray-600 hover:border-indigo-300"
+                          company.industry === ind ? "bg-violet-600 border-violet-600 text-white" : "border-gray-200 text-gray-600 hover:border-violet-300"
                         )}
                       >
                         {ind}
@@ -435,7 +435,7 @@ export default function ManagerOnboardingPage() {
                         onClick={() => setCompany({ ...company, size })}
                         className={cn(
                           "flex-1 py-2 rounded-lg border text-xs transition-all",
-                          company.size === size ? "bg-indigo-600 border-indigo-600 text-white font-semibold" : "border-gray-200 text-gray-600 hover:border-indigo-300"
+                          company.size === size ? "bg-violet-600 border-violet-600 text-white font-semibold" : "border-gray-200 text-gray-600 hover:border-violet-300"
                         )}
                       >
                         {size}
@@ -484,7 +484,7 @@ export default function ManagerOnboardingPage() {
                       {[35, 45, 38, 52, 60, company.growthRate ? 80 : 30].map((v, i) => (
                         <div
                           key={i}
-                          className={cn("flex-1 rounded-sm transition-all", i === 5 && company.growthRate ? "bg-indigo-500" : "bg-indigo-100")}
+                          className={cn("flex-1 rounded-sm transition-all", i === 5 && company.growthRate ? "bg-violet-500" : "bg-violet-100")}
                           style={{ height: `${(v / 80) * 100}%` }}
                         />
                       ))}
@@ -542,7 +542,7 @@ export default function ManagerOnboardingPage() {
                         }))}
                         className={cn(
                           "px-3 py-1.5 rounded-full text-xs border transition-all",
-                          company.values.includes(val) ? "bg-violet-600 border-violet-600 text-white" : "border-gray-200 text-gray-600 hover:border-violet-300"
+                          company.values.includes(val) ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-200 text-gray-600 hover:border-emerald-300"
                         )}
                       >
                         {val}
@@ -578,7 +578,7 @@ export default function ManagerOnboardingPage() {
             {/* ── VOICE RECORDER ── */}
             <div className={cn(
               "rounded-2xl border-2 p-5 transition-all",
-              voiceState === "recording" ? "border-red-300 bg-red-50/60" : voiceState === "done" ? "border-emerald-200 bg-emerald-50/40" : "border-indigo-100 bg-indigo-50/50"
+              voiceState === "recording" ? "border-red-300 bg-red-50/60" : voiceState === "done" ? "border-emerald-200 bg-emerald-50/40" : "border-violet-100 bg-violet-50/50"
             )}>
               <div className="flex items-start justify-between mb-3">
                 <div>
@@ -587,7 +587,7 @@ export default function ManagerOnboardingPage() {
                 </div>
                 {voiceState === "idle" && (
                   <button type="button" onClick={startVoiceRecording}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-all">
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-600 text-white text-sm font-medium hover:bg-violet-700 transition-all">
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                     {o.voiceStart}
                   </button>
@@ -607,7 +607,7 @@ export default function ManagerOnboardingPage() {
                 </div>
               )}
               {voiceState === "filling" && (
-                <div className="flex items-center gap-2 text-sm text-indigo-600">
+                <div className="flex items-center gap-2 text-sm text-violet-600">
                   <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
                   {o.voiceFilling}
                 </div>
@@ -645,7 +645,7 @@ export default function ManagerOnboardingPage() {
                     <div className="space-y-1">
                       {["Junior", "Mid", "Senior", "Lead / Expert"].map((s) => (
                         <button key={s} type="button" onClick={() => setJob({ ...job, seniority: s })}
-                          className={cn("w-full p-2 rounded-lg border text-sm text-left transition-all", job.seniority === s ? "border-violet-500 bg-violet-50 text-violet-700 font-medium" : "border-gray-200 text-gray-600 hover:border-violet-200")}>
+                          className={cn("w-full p-2 rounded-lg border text-sm text-left transition-all", job.seniority === s ? "border-emerald-500 bg-emerald-50 text-emerald-700 font-medium" : "border-gray-200 text-gray-600 hover:border-emerald-200")}>
                           {s}
                         </button>
                       ))}
@@ -661,7 +661,7 @@ export default function ManagerOnboardingPage() {
                       <div className="flex flex-wrap gap-1.5">
                         {o.startDateOptions.map((d) => (
                           <button key={d} type="button" onClick={() => setJob({ ...job, startDate: d })}
-                            className={cn("px-3 py-1.5 rounded-full text-xs border transition-all", job.startDate === d ? "bg-violet-600 border-violet-600 text-white" : "border-gray-200 text-gray-600 hover:border-violet-300")}>
+                            className={cn("px-3 py-1.5 rounded-full text-xs border transition-all", job.startDate === d ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-200 text-gray-600 hover:border-emerald-300")}>
                             {d}
                           </button>
                         ))}
@@ -680,7 +680,7 @@ export default function ManagerOnboardingPage() {
                   <div className="flex gap-2">
                     {[{ v: "remote", l: "🏠 Remote" }, { v: "hybrid", l: "🔄 Hybride" }, { v: "onsite", l: "🏢 Présentiel" }].map((w) => (
                       <button key={w.v} type="button" onClick={() => setJob({ ...job, workMode: w.v })}
-                        className={cn("flex-1 py-2 rounded-lg border text-sm transition-all", job.workMode === w.v ? "border-violet-500 bg-violet-50 text-violet-700 font-medium" : "border-gray-200 text-gray-600 hover:border-violet-200")}>
+                        className={cn("flex-1 py-2 rounded-lg border text-sm transition-all", job.workMode === w.v ? "border-emerald-500 bg-emerald-50 text-emerald-700 font-medium" : "border-gray-200 text-gray-600 hover:border-emerald-200")}>
                         {w.l}
                       </button>
                     ))}
@@ -693,7 +693,7 @@ export default function ManagerOnboardingPage() {
                     <div className="flex gap-2">
                       {[true, false].map((v) => (
                         <button key={String(v)} type="button" onClick={() => setJob({ ...job, relocation: v })}
-                          className={cn("flex-1 py-1.5 rounded-lg border text-xs transition-all", job.relocation === v ? "bg-indigo-600 border-indigo-600 text-white font-semibold" : "border-gray-200 text-gray-500 hover:border-indigo-300")}>
+                          className={cn("flex-1 py-1.5 rounded-lg border text-xs transition-all", job.relocation === v ? "bg-violet-600 border-violet-600 text-white font-semibold" : "border-gray-200 text-gray-500 hover:border-violet-300")}>
                           {v ? o.yes : o.no}
                         </button>
                       ))}
@@ -704,7 +704,7 @@ export default function ManagerOnboardingPage() {
                     <div className="flex gap-2">
                       {[true, false].map((v) => (
                         <button key={String(v)} type="button" onClick={() => setJob({ ...job, visaSponsorship: v })}
-                          className={cn("flex-1 py-1.5 rounded-lg border text-xs transition-all", job.visaSponsorship === v ? "bg-indigo-600 border-indigo-600 text-white font-semibold" : "border-gray-200 text-gray-500 hover:border-indigo-300")}>
+                          className={cn("flex-1 py-1.5 rounded-lg border text-xs transition-all", job.visaSponsorship === v ? "bg-violet-600 border-violet-600 text-white font-semibold" : "border-gray-200 text-gray-500 hover:border-violet-300")}>
                           {v ? o.yes : o.no}
                         </button>
                       ))}
@@ -713,7 +713,7 @@ export default function ManagerOnboardingPage() {
                   <div className="space-y-2">
                     <Label className="text-xs">{o.englishLevel}</Label>
                     <select value={job.englishLevel} onChange={(e) => setJob({ ...job, englishLevel: e.target.value })}
-                      className="w-full rounded-lg border border-gray-200 text-xs px-2 py-1.5 text-gray-600 bg-white focus:outline-none focus:border-indigo-300">
+                      className="w-full rounded-lg border border-gray-200 text-xs px-2 py-1.5 text-gray-600 bg-white focus:outline-none focus:border-violet-300">
                       <option value="">—</option>
                       {o.englishLevels.map((l) => <option key={l} value={l}>{l}</option>)}
                     </select>
@@ -754,7 +754,7 @@ export default function ManagerOnboardingPage() {
                   <div className="flex flex-wrap gap-2 mb-2">
                     {HARD_SKILLS_POOL.map((skill) => (
                       <button key={skill} type="button" onClick={() => toggleJobSkill(skill, "hard")}
-                        className={cn("px-3 py-1.5 rounded-full text-xs font-medium border transition-all", job.hardSkills.includes(skill) ? "bg-indigo-600 border-indigo-600 text-white" : "border-gray-200 text-gray-600 hover:border-indigo-300")}>
+                        className={cn("px-3 py-1.5 rounded-full text-xs font-medium border transition-all", job.hardSkills.includes(skill) ? "bg-violet-600 border-violet-600 text-white" : "border-gray-200 text-gray-600 hover:border-violet-300")}>
                         {skill}
                       </button>
                     ))}
@@ -786,9 +786,9 @@ export default function ManagerOnboardingPage() {
                   {job.openProfiles.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-2">
                       {job.openProfiles.map((p, i) => (
-                        <span key={i} className="flex items-center gap-1.5 px-3 py-1 bg-violet-50 border border-violet-100 rounded-full text-xs text-violet-700 font-medium">
+                        <span key={i} className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full text-xs text-emerald-700 font-medium">
                           {p}
-                          <button type="button" onClick={() => setJob((j) => ({ ...j, openProfiles: j.openProfiles.filter((_, idx) => idx !== i) }))} className="text-violet-300 hover:text-red-400">×</button>
+                          <button type="button" onClick={() => setJob((j) => ({ ...j, openProfiles: j.openProfiles.filter((_, idx) => idx !== i) }))} className="text-emerald-300 hover:text-red-400">×</button>
                         </span>
                       ))}
                     </div>
@@ -809,7 +809,7 @@ export default function ManagerOnboardingPage() {
                   <div className="space-y-2">
                     {job.processMilestones.map((m, i) => (
                       <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
-                        <div className="w-6 h-6 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold shrink-0">{i + 1}</div>
+                        <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0">{i + 1}</div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-gray-900">{m.step}</p>
                           {m.collaborator && <p className="text-xs text-gray-400">avec {m.collaborator}</p>}

@@ -226,13 +226,13 @@ const MOCK_MATCHES: Match[] = [
 
 const getScoreColor = (score: number) => {
   if (score >= 90) return "text-emerald-600";
-  if (score >= 75) return "text-violet-600";
+  if (score >= 75) return "text-emerald-600";
   return "text-amber-600";
 };
 
 const getScoreBg = (score: number) => {
   if (score >= 90) return "bg-emerald-50 border-emerald-100";
-  if (score >= 75) return "bg-violet-50 border-violet-100";
+  if (score >= 75) return "bg-emerald-50 border-emerald-100";
   return "bg-amber-50 border-amber-100";
 };
 
@@ -257,10 +257,10 @@ function JobDetailPanel({
     <div className="fixed inset-0 z-50 flex items-start justify-end">
       <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-xl h-full bg-white shadow-2xl overflow-y-auto animate-slide-in">
-        <div className="h-28 bg-gradient-to-r from-violet-600 to-indigo-700 flex items-end px-6 pb-4">
+        <div className="h-28 bg-gradient-to-r from-emerald-600 to-violet-700 flex items-end px-6 pb-4">
           <div className="flex items-end justify-between w-full">
             <div>
-              <p className="text-violet-200 text-xs font-medium">{job.company} • {job.industry}</p>
+              <p className="text-emerald-200 text-xs font-medium">{job.company} • {job.industry}</p>
               <h2 className="text-white text-xl font-bold leading-tight mt-0.5">{job.title}</h2>
             </div>
             <button
@@ -325,7 +325,7 @@ function JobDetailPanel({
             <ul className="space-y-2">
               {pick(job.missions, lang).map((m, i) => (
                 <li key={i} className="flex gap-2.5 text-sm text-gray-600">
-                  <span className="text-violet-400 flex-shrink-0 mt-0.5">→</span>
+                  <span className="text-emerald-400 flex-shrink-0 mt-0.5">→</span>
                   <span>{m}</span>
                 </li>
               ))}
@@ -354,7 +354,7 @@ function JobDetailPanel({
             <div className="space-y-2">
               {pick(job.process, lang).map((step, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                  <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {i + 1}
                   </div>
                   <span className="text-sm text-gray-600">{step}</span>
@@ -366,9 +366,9 @@ function JobDetailPanel({
           <div className="pt-2 pb-4">
             {status === "pending" && (
               <div className="space-y-3">
-                <div className="p-4 bg-violet-50 border border-violet-100 rounded-xl">
-                  <p className="text-sm text-violet-800 font-semibold mb-1">{d.interested}</p>
-                  <p className="text-xs text-violet-600 leading-relaxed">{d.interestedSub}</p>
+                <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
+                  <p className="text-sm text-emerald-800 font-semibold mb-1">{d.interested}</p>
+                  <p className="text-xs text-emerald-600 leading-relaxed">{d.interestedSub}</p>
                 </div>
                 <div className="flex gap-3">
                   <Button
@@ -409,7 +409,7 @@ function JobDetailPanel({
                   <p className="text-xs text-gray-500 mt-0.5">{d.declinedSub}</p>
                   <button
                     type="button"
-                    className="text-xs text-violet-600 hover:underline mt-1"
+                    className="text-xs text-emerald-600 hover:underline mt-1"
                     onClick={() => { onAccept(match.id); onClose(); }}
                   >
                     {d.changeMyMind}
@@ -469,15 +469,15 @@ export default function CandidateDashboard() {
       <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
+            <div className="w-7 h-7 rounded bg-gradient-to-br from-emerald-600 to-violet-600 flex items-center justify-center text-white text-xs font-bold">EM</div>
             <span className="font-semibold text-gray-800 text-sm">Experience Matching</span>
           </div>
           <div className="flex items-center gap-3">
             <LangToggle />
             <Link href="/candidate/profile/me">
               <div className="flex items-center gap-2 cursor-pointer group">
-                <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-600 font-bold text-sm group-hover:bg-violet-200 transition-colors">MD</div>
-                <span className="text-sm text-gray-700 font-medium hidden sm:block group-hover:text-violet-600 transition-colors">Marie Dupont</span>
+                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-sm group-hover:bg-emerald-200 transition-colors">MD</div>
+                <span className="text-sm text-gray-700 font-medium hidden sm:block group-hover:text-emerald-600 transition-colors">Marie Dupont</span>
               </div>
             </Link>
           </div>
@@ -528,9 +528,9 @@ export default function CandidateDashboard() {
             <Card
               key={match.id}
               className={cn(
-                "shadow-none border transition-all cursor-pointer hover:shadow-md hover:border-violet-200 group",
+                "shadow-none border transition-all cursor-pointer hover:shadow-md hover:border-emerald-200 group",
                 match.status === "candidate_declined" ? "opacity-60" : "",
-                liveOpenMatch?.id === match.id ? "ring-2 ring-violet-400 border-violet-200" : ""
+                liveOpenMatch?.id === match.id ? "ring-2 ring-emerald-400 border-emerald-200" : ""
               )}
               onClick={() => setOpenMatch(match)}
             >
@@ -544,14 +544,14 @@ export default function CandidateDashboard() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <h3 className="font-bold text-gray-900 group-hover:text-violet-700 transition-colors">{match.job.title}</h3>
+                        <h3 className="font-bold text-gray-900 group-hover:text-emerald-700 transition-colors">{match.job.title}</h3>
                         <p className="text-sm text-gray-500">{match.job.company} • {match.job.industry}</p>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
                         {match.status === "candidate_accepted" && <Badge variant="success" className="text-xs">{d.shared}</Badge>}
                         {match.status === "candidate_declined" && <Badge variant="secondary" className="text-xs">{d.declined}</Badge>}
                         {match.status === "pending" && <Badge variant="default" className="text-xs">{d.new}</Badge>}
-                        <span className="text-gray-300 group-hover:text-violet-400 group-hover:translate-x-0.5 transition-all">→</span>
+                        <span className="text-gray-300 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all">→</span>
                       </div>
                     </div>
 

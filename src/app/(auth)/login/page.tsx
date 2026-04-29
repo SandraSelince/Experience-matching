@@ -48,7 +48,7 @@ export default function LoginPage() {
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">{a.password}</Label>
-              <a href="#" className="text-xs text-violet-600 hover:underline">{a.forgotPassword}</a>
+              <a href="#" className="text-xs text-emerald-600 hover:underline">{a.forgotPassword}</a>
             </div>
             <Input
               id="password"
@@ -86,7 +86,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           {a.noAccount}{" "}
-          <Link href="/register" className="text-violet-600 font-medium hover:underline">
+          <Link href="/register" className="text-emerald-600 font-medium hover:underline">
             {a.signup}
           </Link>
         </p>
