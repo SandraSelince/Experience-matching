@@ -797,14 +797,6 @@ export default function ManagerDashboard() {
                           </div>
                         </div>
 
-                        <Link
-                          href={`/candidate/profile/${candidate.id}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="block w-full text-center text-sm text-emerald-600 font-medium hover:underline"
-                        >
-                          {d.viewFullProfile}
-                        </Link>
-
                         {/* Actions */}
                         {candidate.status === "pending_review" && (
                           <div className="flex items-center justify-between gap-2">
@@ -816,17 +808,26 @@ export default function ManagerDashboard() {
                             >
                               {d.notRetained}
                             </Button>
-                            <button
-                              type="button"
-                              onClick={(e) => toggleBookmark(candidate.id, e)}
-                              className={cn(
-                                "flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-medium transition-all",
-                                candidate.bookmarked ? "bg-amber-50 border-amber-300 text-amber-700" : "bg-white border-gray-200 text-gray-500 hover:border-amber-300"
-                              )}
-                            >
-                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill={candidate.bookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                              {candidate.bookmarked ? d.bookmarked : d.bookmark}
-                            </button>
+                            <div className="flex items-center gap-3">
+                              <Link
+                                href={`/candidate/profile/${candidate.id}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="text-sm text-gray-900 font-medium hover:underline"
+                              >
+                                {d.viewFullProfile}
+                              </Link>
+                              <button
+                                type="button"
+                                onClick={(e) => toggleBookmark(candidate.id, e)}
+                                className={cn(
+                                  "flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-medium transition-all",
+                                  candidate.bookmarked ? "bg-amber-50 border-amber-300 text-amber-700" : "bg-white border-gray-200 text-gray-500 hover:border-amber-300"
+                                )}
+                              >
+                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill={candidate.bookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                                {candidate.bookmarked ? d.bookmarked : d.bookmark}
+                              </button>
+                            </div>
                           </div>
                         )}
                       </div>
