@@ -504,7 +504,7 @@ export default function ManagerDashboard() {
                     <p className="text-xs text-gray-500 mt-0.5">{job.seniority} • {job.experienceYears}+ {yrs}</p>
                   </div>
                   {job.newCount > 0 && (
-                    <span className="flex-shrink-0 bg-emerald-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    <span className="flex-shrink-0 bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-0.5 rounded-full">
                       {job.newCount} {d.newBadge}
                     </span>
                   )}
