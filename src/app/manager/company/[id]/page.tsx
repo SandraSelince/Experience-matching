@@ -36,6 +36,12 @@ const MOCK_COMPANIES: Record<string, CompanyData> = {
       title: "Head of Product",
       initials: "JM",
     },
+    growthRate: "+40%",
+    recentHires: [
+      { name: "Karim", initials: "KB", color: "bg-orange-400" },
+      { name: "Thomas", initials: "TD", color: "bg-emerald-500" },
+      { name: "Léa", initials: "LM", color: "bg-indigo-400" },
+    ],
   },
   c1: {
     id: "c1",
@@ -59,6 +65,11 @@ const MOCK_COMPANIES: Record<string, CompanyData> = {
       title: "CPO",
       initials: "SL",
     },
+    growthRate: "+25%",
+    recentHires: [
+      { name: "Sofia", initials: "SF", color: "bg-pink-400" },
+      { name: "Marc", initials: "MB", color: "bg-blue-500" },
+    ],
   },
 };
 
@@ -168,6 +179,12 @@ const MOCK_JOBS: Record<string, JobData[]> = {
   ],
 };
 
+interface RecentHire {
+  name: string;
+  initials: string;
+  color: string;
+}
+
 interface CompanyData {
   id: string;
   name: string;
@@ -184,6 +201,8 @@ interface CompanyData {
   techStack: string[];
   perks: string[];
   manager: { firstName: string; lastName: string; title: string; initials: string };
+  growthRate?: string;
+  recentHires?: RecentHire[];
 }
 
 interface JobData {
@@ -527,6 +546,50 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
                 )}
               </CardContent>
             </Card>
+
+            {(company.growthRate || (company.recentHires && company.recentHires.length > 0)) && (
+              <div className="grid grid-cols-2 gap-4">
+                {company.growthRate && (
+                  <Card className="shadow-none border-gray-100">
+                    <CardContent className="pt-4 pb-4">
+                      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">{t.companyProfile.growthRate}</h3>
+                      <div className="flex items-center gap-2">
+                        <svg width="12" height="12" viewBox="0 0 12 12" className="text-emerald-500 shrink-0" fill="currentColor">
+                          <polygon points="6,1 11,11 1,11"/>
+                        </svg>
+                        <span className="text-2xl font-extrabold text-gray-900">{company.growthRate}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+                {company.recentHires && company.recentHires.length > 0 && (
+                  <Card className="shadow-none border-gray-100">
+                    <CardContent className="pt-4 pb-4">
+                      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">{t.companyProfile.recentHires}</h3>
+                      <div className="flex items-center gap-1 mb-2">
+                        {company.recentHires.map((hire, i) => (
+                          <div
+                            key={i}
+                            className={cn("w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white shadow-sm", hire.color)}
+                            style={{ marginLeft: i > 0 ? "-10px" : "0" }}
+                          >
+                            {hire.initials}
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-sm text-gray-600 font-medium">
+                        {company.recentHires[0].name}{" "}
+                        {company.recentHires.length > 1 && (
+                          <span className="text-gray-400 font-normal">
+                            {t.companyProfile.andOthers.replace("{n}", String(company.recentHires.length - 1))}
+                          </span>
+                        )}
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            )}
 
             <div>
               <div className="flex items-center justify-between mb-3">
