@@ -56,6 +56,26 @@ export default function ManagerOnboardingPage() {
     values: [] as string[],
   });
 
+  const [companyLinkedinUrl, setCompanyLinkedinUrl] = useState("");
+  const [autoFillState, setAutoFillState] = useState<"idle" | "loading" | "success">("idle");
+
+  const handleAutoFill = () => {
+    if (!companyLinkedinUrl.trim()) return;
+    setAutoFillState("loading");
+    setTimeout(() => {
+      setCompany({
+        name: "Acme Corp",
+        industry: "Tech / SaaS",
+        size: "51-200",
+        location: "Paris, France",
+        website: "www.acmecorp.com",
+        description: "Acme Corp est une scale-up SaaS B2B qui révolutionne la gestion de projets pour les équipes produit. Fondée en 2018, nous accompagnons plus de 500 entreprises dans leur transformation digitale avec une plateforme collaborative intuitive et puissante.",
+        values: ["Innovation", "Impact", "Transparence"],
+      });
+      setAutoFillState("success");
+    }, 1800);
+  };
+
   const companyValues = ["Innovation", "Impact", "Bienveillance", "Excellence", "Diversité", "Agilité", "Transparence", "Ambition"];
 
   const [job, setJob] = useState({
@@ -152,7 +172,7 @@ export default function ManagerOnboardingPage() {
                   <Input placeholder={o.titlePlaceholder} value={manager.title} onChange={(e) => setManager({ ...manager, title: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
-                  <Label>{o.linkedin} <span className="text-gray-400 font-normal">{o.optional}</span></Label>
+                  <Label>{o.linkedin}</Label>
                   <Input placeholder="linkedin.com/in/jean-martin" value={manager.linkedinUrl} onChange={(e) => setManager({ ...manager, linkedinUrl: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
@@ -169,7 +189,7 @@ export default function ManagerOnboardingPage() {
                   size="lg"
                   className="w-full"
                   onClick={() => setStep(2)}
-                  disabled={!manager.firstName || !manager.title}
+                  disabled={!manager.firstName || !manager.title || !manager.linkedinUrl}
                 >
                   {o.continue}
                 </Button>
@@ -186,6 +206,43 @@ export default function ManagerOnboardingPage() {
               <h1 className="text-2xl font-bold text-gray-900">{o.step2Title}</h1>
               <p className="text-gray-500 mt-2">{o.step2Sub}</p>
             </div>
+            {/* LinkedIn auto-fill block */}
+            <div className="mb-4 p-4 rounded-xl border border-indigo-100 bg-indigo-50/60 space-y-3">
+              <div className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                <p className="text-xs text-indigo-600">{o.autoFillHint}</p>
+              </div>
+              <div className="flex gap-2">
+                <Input
+                  placeholder={o.companyLinkedinPlaceholder}
+                  value={companyLinkedinUrl}
+                  onChange={(e) => { setCompanyLinkedinUrl(e.target.value); setAutoFillState("idle"); }}
+                  className="text-sm bg-white"
+                />
+                <button
+                  type="button"
+                  onClick={handleAutoFill}
+                  disabled={!companyLinkedinUrl.trim() || autoFillState === "loading"}
+                  className="shrink-0 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+                >
+                  {autoFillState === "loading" ? (
+                    <>
+                      <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+                      {o.autoFilling}
+                    </>
+                  ) : (
+                    o.autoFillBtn
+                  )}
+                </button>
+              </div>
+              {autoFillState === "success" && (
+                <p className="text-xs text-emerald-600 font-medium flex items-center gap-1">
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  {o.autoFillSuccess}
+                </p>
+              )}
+            </div>
+
             <Card className="shadow-sm">
               <CardContent className="pt-6 space-y-5">
                 <div className="space-y-1.5">
