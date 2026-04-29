@@ -14,7 +14,7 @@ const buttonVariants = cva(
         ghost: "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
         destructive: "bg-red-500 text-white hover:bg-red-600",
         success: "bg-emerald-600 text-white hover:bg-emerald-700",
-        gradient: "bg-gradient-to-r from-emerald-600 to-violet-600 text-white hover:from-emerald-700 hover:to-violet-700 shadow-md hover:shadow-lg",
+        gradient: "bg-emerald-500 text-white hover:bg-emerald-600 shadow-sm hover:shadow-md",
       },
       size: {
         sm: "h-8 px-3 text-xs",
