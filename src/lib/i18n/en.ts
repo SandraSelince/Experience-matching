@@ -180,7 +180,7 @@ const en: Translations = {
     companyName: "Company name",
     industry: "Industry",
     companySize: "Company size",
-    locationLabel: "Location",
+    companyLocationLabel: "Location",
     website: "Website",
     description: "Company description",
     descriptionPlaceholder: "Describe your mission, products, culture...",

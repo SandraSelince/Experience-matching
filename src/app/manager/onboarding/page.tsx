@@ -445,7 +445,7 @@ export default function ManagerOnboardingPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label>{o.locationLabel}</Label>
+                    <Label>{o.companyLocationLabel}</Label>
                     <Input placeholder="Paris, France" value={company.location} onChange={(e) => setCompany({ ...company, location: e.target.value })} />
                   </div>
                   <div className="space-y-1.5">

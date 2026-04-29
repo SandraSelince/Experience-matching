@@ -178,7 +178,7 @@ const fr = {
     companyName: "Nom de l'entreprise",
     industry: "Secteur d'activité",
     companySize: "Taille de l'entreprise",
-    locationLabel: "Localisation",
+    companyLocationLabel: "Localisation",
     website: "Site web",
     description: "Description de l'entreprise",
     descriptionPlaceholder: "Décrivez votre mission, vos produits, votre culture...",
