@@ -13,177 +13,15 @@ import { useLang } from "@/lib/i18n/context";
 import { LangToggle } from "@/components/shared/LangToggle";
 import { cn } from "@/lib/utils";
 
-const MOCK_COMPANIES: Record<string, CompanyData> = {
-  me: {
-    id: "me",
-    name: "Acme SaaS",
-    tagline: "La plateforme B2B de gestion de projet nouvelle génération",
-    industry: "Tech / SaaS",
-    size: "51-200",
-    location: "Paris, France",
-    website: "www.acmesaas.com",
-    description:
-      "Acme SaaS développe une plateforme de gestion de projet orientée équipes produit. Notre mission : donner aux équipes les outils pour livrer plus vite, sans friction. Nous sommes en forte croissance (+200% ARR cette année) et recrutons les meilleurs talents pour construire le futur du travail collaboratif.",
-    values: ["Innovation", "Impact", "Bienveillance", "Agilité"],
-    logoInitials: "AS",
-    coverGradient: "from-indigo-600 to-violet-700",
-    founded: "2019",
-    techStack: ["React", "Node.js", "TypeScript", "PostgreSQL", "AWS"],
-    perks: ["Remote-friendly", "Stock options", "Budget formation", "Team retreats", "Mutuelle premium"],
-    manager: {
-      firstName: "Jean",
-      lastName: "Martin",
-      title: "Head of Product",
-      initials: "JM",
-    },
-    growthRate: "+40%",
-    recentHires: [
-      { name: "Karim", initials: "KB", color: "bg-orange-400" },
-      { name: "Thomas", initials: "TD", color: "bg-emerald-500" },
-      { name: "Léa", initials: "LM", color: "bg-indigo-400" },
-    ],
-  },
-  c1: {
-    id: "c1",
-    name: "FinFlow",
-    tagline: "Simplifier la finance pour les PME européennes",
-    industry: "FinTech",
-    size: "11-50",
-    location: "Paris, France",
-    website: "www.finflow.io",
-    description:
-      "FinFlow est une FinTech qui repense la gestion financière des PME. Notre app mobile est utilisée par plus de 500 000 entreprises en Europe. Nous sommes en Série B et accélérons notre croissance internationale.",
-    values: ["Performance", "Transparence", "Impact", "Ambition"],
-    logoInitials: "FF",
-    coverGradient: "from-emerald-600 to-teal-600",
-    founded: "2020",
-    techStack: ["React Native", "Python", "Kotlin", "GCP"],
-    perks: ["Full Remote", "Equity", "MacBook Pro", "Budget bien-être"],
-    manager: {
-      firstName: "Sophie",
-      lastName: "Laurent",
-      title: "CPO",
-      initials: "SL",
-    },
-    growthRate: "+25%",
-    recentHires: [
-      { name: "Sofia", initials: "SF", color: "bg-pink-400" },
-      { name: "Marc", initials: "MB", color: "bg-blue-500" },
-    ],
-  },
-};
-
-const MOCK_JOBS: Record<string, JobData[]> = {
-  me: [
-    {
-      id: "j1",
-      companyId: "me",
-      title: "Senior Product Designer",
-      seniority: "Senior",
-      experienceYears: 7,
-      workMode: "hybrid",
-      location: "Paris (Hybride)",
-      salaryMin: 65000,
-      salaryMax: 80000,
-      status: "open",
-      matchCount: 4,
-      description:
-        "Nous cherchons un Product Designer senior pour rejoindre notre équipe produit de 12 personnes. Vous serez responsable de l'expérience globale de notre plateforme B2B, du design system, et de la collaboration avec nos 3 squads produit.\n\nVous travaillerez directement avec le CPO et les product managers pour définir la vision design à long terme.",
-      missions: [
-        "Concevoir des interfaces complexes pour notre plateforme B2B SaaS",
-        "Maintenir et faire évoluer notre design system (Figma)",
-        "Mener des sessions de discovery UX avec les clients",
-        "Collaborer quotidiennement avec les équipes engineering",
-        "Participer à la stratégie produit globale",
-      ],
-      hardSkills: ["Figma", "UX Design", "UI Design", "Design System", "Prototypage"],
-      softSkills: ["Leadership", "Communication", "Créativité"],
-      process: ["Call RH (30 min)", "Entretien PM + Designer (1h)", "Case study (3j)", "Culture fit CEO (45 min)"],
-    },
-    {
-      id: "j2",
-      companyId: "me",
-      title: "Product Manager B2B SaaS",
-      seniority: "Mid",
-      experienceYears: 4,
-      workMode: "hybrid",
-      location: "Paris (Hybride)",
-      salaryMin: 55000,
-      salaryMax: 70000,
-      status: "open",
-      matchCount: 7,
-      description:
-        "Rejoignez notre squad Growth en tant que Product Manager. Vous serez en charge du parcours d'activation et de la rétention utilisateur, avec un impact direct sur notre ARR.\n\nPoste clé pour quelqu'un qui aime les données, les utilisateurs et l'expérimentation rapide.",
-      missions: [
-        "Définir et prioriser le roadmap de votre squad",
-        "Analyser les données produit et identifier les opportunités de croissance",
-        "Organiser les sprints et cérémonies Agile",
-        "Collaborer avec Design, Engineering et Sales",
-        "Présenter les résultats au leadership mensuel",
-      ],
-      hardSkills: ["Product Management", "Agile/Scrum", "SQL", "Jira", "Analytics"],
-      softSkills: ["Communication", "Leadership", "Orientation résultats"],
-      process: ["Call RH (30 min)", "Entretien Head of Product (1h)", "Cas pratique (4j)", "Panel équipe (1h30)"],
-    },
-    {
-      id: "j3",
-      companyId: "me",
-      title: "Lead Frontend Engineer",
-      seniority: "Lead / Expert",
-      experienceYears: 6,
-      workMode: "remote",
-      location: "Full Remote",
-      salaryMin: 75000,
-      salaryMax: 95000,
-      status: "open",
-      matchCount: 3,
-      description:
-        "Nous cherchons un Lead Frontend pour prendre la tête de notre frontend guild (6 ingénieurs). Vous définirez les standards techniques, piloterez les choix d'architecture et contribuerez activement au code.",
-      missions: [
-        "Définir et faire évoluer l'architecture frontend (React / TypeScript)",
-        "Mentorer les ingénieurs junior et mid",
-        "Collaborer avec le design pour garantir la qualité de l'implémentation",
-        "Conduire les code reviews et définir les standards qualité",
-        "Participer aux décisions produit/technique avec le CTO",
-      ],
-      hardSkills: ["React", "TypeScript", "Node.js", "Performance Web", "Testing"],
-      softSkills: ["Leadership", "Pédagogie", "Communication"],
-      process: ["Call RH (30 min)", "Entretien Tech (1h30)", "Live coding (1h)", "Onsite avec l'équipe (2h)"],
-    },
-  ],
-  c1: [
-    {
-      id: "j4",
-      companyId: "c1",
-      title: "Lead Product Designer Mobile",
-      seniority: "Lead / Expert",
-      experienceYears: 8,
-      workMode: "remote",
-      location: "Full Remote",
-      salaryMin: 70000,
-      salaryMax: 90000,
-      status: "open",
-      matchCount: 2,
-      description:
-        "Diriger la vision design de notre application mobile utilisée par 500k PME en Europe. Poste stratégique avec un impact direct sur notre croissance.",
-      missions: [
-        "Définir la vision design de l'app mobile (iOS / Android)",
-        "Manager une équipe de 3 designers",
-        "Conduire la recherche utilisateur avec nos clients PME",
-        "Collaborer avec les équipes produit et engineering",
-      ],
-      hardSkills: ["Figma", "Mobile Design", "UX Design", "Design System"],
-      softSkills: ["Leadership", "Autonomie", "Orientation résultats"],
-      process: ["Call HR (30 min)", "Portfolio review (1h)", "Case study (1 semaine)", "Entretien CEO"],
-    },
-  ],
-};
-
 interface RecentHire {
   name: string;
+  role: string;
   initials: string;
   color: string;
+  photo: string;
 }
+
+interface GrowthPoint { month: string; value: number; }
 
 interface CompanyData {
   id: string;
@@ -202,6 +40,8 @@ interface CompanyData {
   perks: string[];
   manager: { firstName: string; lastName: string; title: string; initials: string };
   growthRate?: string;
+  headcount?: number;
+  growthData?: GrowthPoint[];
   recentHires?: RecentHire[];
 }
 
@@ -224,10 +64,165 @@ interface JobData {
   process: string[];
 }
 
+const MOCK_COMPANIES: Record<string, CompanyData> = {
+  me: {
+    id: "me",
+    name: "Acme SaaS",
+    tagline: "La plateforme B2B de gestion de projet nouvelle génération",
+    industry: "Tech / SaaS",
+    size: "51-200",
+    location: "Paris, France",
+    website: "www.acmesaas.com",
+    description:
+      "Acme SaaS développe une plateforme de gestion de projet orientée équipes produit. Notre mission : donner aux équipes les outils pour livrer plus vite, sans friction. Nous sommes en forte croissance et recrutons les meilleurs talents pour construire le futur du travail collaboratif.",
+    values: ["Innovation", "Impact", "Bienveillance", "Agilité"],
+    logoInitials: "AS",
+    coverGradient: "from-indigo-600 to-violet-700",
+    founded: "2019",
+    techStack: ["React", "Node.js", "TypeScript", "PostgreSQL", "AWS"],
+    perks: ["Remote-friendly", "Stock options", "Budget formation", "Team retreats", "Mutuelle premium"],
+    manager: { firstName: "Jean", lastName: "Martin", title: "Head of Product", initials: "JM" },
+    growthRate: "+40%",
+    headcount: 87,
+    growthData: [
+      { month: "Oct", value: 52 },
+      { month: "Nov", value: 58 },
+      { month: "Dec", value: 61 },
+      { month: "Jan", value: 67 },
+      { month: "Fév", value: 75 },
+      { month: "Mar", value: 87 },
+    ],
+    recentHires: [
+      { name: "Karim Benali", role: "Product Manager", initials: "KB", color: "bg-orange-400", photo: "https://i.pravatar.cc/80?u=karimbenali" },
+      { name: "Thomas Durand", role: "Lead Developer", initials: "TD", color: "bg-emerald-500", photo: "https://i.pravatar.cc/80?u=thomasdurand" },
+      { name: "Léa Martin", role: "Head of Sales", initials: "LM", color: "bg-indigo-400", photo: "https://i.pravatar.cc/80?u=leamartin42" },
+      { name: "Sofia Chen", role: "UX Designer", initials: "SC", color: "bg-pink-400", photo: "https://i.pravatar.cc/80?u=sofiachen" },
+    ],
+  },
+  c1: {
+    id: "c1",
+    name: "FinFlow",
+    tagline: "Simplifier la finance pour les PME européennes",
+    industry: "FinTech",
+    size: "11-50",
+    location: "Paris, France",
+    website: "www.finflow.io",
+    description:
+      "FinFlow est une FinTech qui repense la gestion financière des PME. Notre app mobile est utilisée par plus de 500 000 entreprises en Europe. Nous sommes en Série B et accélérons notre croissance internationale.",
+    values: ["Performance", "Transparence", "Impact", "Ambition"],
+    logoInitials: "FF",
+    coverGradient: "from-emerald-600 to-teal-600",
+    founded: "2020",
+    techStack: ["React Native", "Python", "Kotlin", "GCP"],
+    perks: ["Full Remote", "Equity", "MacBook Pro", "Budget bien-être"],
+    manager: { firstName: "Sophie", lastName: "Laurent", title: "CPO", initials: "SL" },
+    growthRate: "+25%",
+    headcount: 34,
+    growthData: [
+      { month: "Oct", value: 22 },
+      { month: "Nov", value: 24 },
+      { month: "Dec", value: 26 },
+      { month: "Jan", value: 28 },
+      { month: "Fév", value: 31 },
+      { month: "Mar", value: 34 },
+    ],
+    recentHires: [
+      { name: "Sofia Ferreira", role: "Product Designer", initials: "SF", color: "bg-pink-400", photo: "https://i.pravatar.cc/80?u=sofiaferreira" },
+      { name: "Marc Bernard", role: "Backend Engineer", initials: "MB", color: "bg-blue-500", photo: "https://i.pravatar.cc/80?u=marcbernard" },
+    ],
+  },
+};
+
+const MOCK_JOBS: Record<string, JobData[]> = {
+  me: [
+    {
+      id: "j1", companyId: "me", title: "Senior Product Designer", seniority: "Senior",
+      experienceYears: 7, workMode: "hybrid", location: "Paris (Hybride)",
+      salaryMin: 65000, salaryMax: 80000, status: "open", matchCount: 4,
+      description: "Nous cherchons un Product Designer senior pour rejoindre notre équipe produit de 12 personnes. Vous serez responsable de l'expérience globale de notre plateforme B2B, du design system, et de la collaboration avec nos 3 squads produit.\n\nVous travaillerez directement avec le CPO et les product managers pour définir la vision design à long terme.",
+      missions: ["Concevoir des interfaces complexes pour notre plateforme B2B SaaS", "Maintenir et faire évoluer notre design system (Figma)", "Mener des sessions de discovery UX avec les clients", "Collaborer quotidiennement avec les équipes engineering", "Participer à la stratégie produit globale"],
+      hardSkills: ["Figma", "UX Design", "UI Design", "Design System", "Prototypage"],
+      softSkills: ["Leadership", "Communication", "Créativité"],
+      process: ["Call RH (30 min)", "Entretien PM + Designer (1h)", "Case study (3j)", "Culture fit CEO (45 min)"],
+    },
+    {
+      id: "j2", companyId: "me", title: "Product Manager B2B SaaS", seniority: "Mid",
+      experienceYears: 4, workMode: "hybrid", location: "Paris (Hybride)",
+      salaryMin: 55000, salaryMax: 70000, status: "open", matchCount: 7,
+      description: "Rejoignez notre squad Growth en tant que Product Manager. Vous serez en charge du parcours d'activation et de la rétention utilisateur, avec un impact direct sur notre ARR.\n\nPoste clé pour quelqu'un qui aime les données, les utilisateurs et l'expérimentation rapide.",
+      missions: ["Définir et prioriser le roadmap de votre squad", "Analyser les données produit et identifier les opportunités de croissance", "Organiser les sprints et cérémonies Agile", "Collaborer avec Design, Engineering et Sales", "Présenter les résultats au leadership mensuel"],
+      hardSkills: ["Product Management", "Agile/Scrum", "SQL", "Jira", "Analytics"],
+      softSkills: ["Communication", "Leadership", "Orientation résultats"],
+      process: ["Call RH (30 min)", "Entretien Head of Product (1h)", "Cas pratique (4j)", "Panel équipe (1h30)"],
+    },
+    {
+      id: "j3", companyId: "me", title: "Lead Frontend Engineer", seniority: "Lead / Expert",
+      experienceYears: 6, workMode: "remote", location: "Full Remote",
+      salaryMin: 75000, salaryMax: 95000, status: "open", matchCount: 3,
+      description: "Nous cherchons un Lead Frontend pour prendre la tête de notre frontend guild (6 ingénieurs). Vous définirez les standards techniques, piloterez les choix d'architecture et contribuerez activement au code.",
+      missions: ["Définir et faire évoluer l'architecture frontend (React / TypeScript)", "Mentorer les ingénieurs junior et mid", "Collaborer avec le design pour garantir la qualité de l'implémentation", "Conduire les code reviews et définir les standards qualité", "Participer aux décisions produit/technique avec le CTO"],
+      hardSkills: ["React", "TypeScript", "Node.js", "Performance Web", "Testing"],
+      softSkills: ["Leadership", "Pédagogie", "Communication"],
+      process: ["Call RH (30 min)", "Entretien Tech (1h30)", "Live coding (1h)", "Onsite avec l'équipe (2h)"],
+    },
+  ],
+  c1: [
+    {
+      id: "j4", companyId: "c1", title: "Lead Product Designer Mobile", seniority: "Lead / Expert",
+      experienceYears: 8, workMode: "remote", location: "Full Remote",
+      salaryMin: 70000, salaryMax: 90000, status: "open", matchCount: 2,
+      description: "Diriger la vision design de notre application mobile utilisée par 500k PME en Europe. Poste stratégique avec un impact direct sur notre croissance.",
+      missions: ["Définir la vision design de l'app mobile (iOS / Android)", "Manager une équipe de 3 designers", "Conduire la recherche utilisateur avec nos clients PME", "Collaborer avec les équipes produit et engineering"],
+      hardSkills: ["Figma", "Mobile Design", "UX Design", "Design System"],
+      softSkills: ["Leadership", "Autonomie", "Orientation résultats"],
+      process: ["Call HR (30 min)", "Portfolio review (1h)", "Case study (1 semaine)", "Entretien CEO"],
+    },
+  ],
+};
+
 const ALL_VALUES = ["Innovation", "Impact", "Bienveillance", "Excellence", "Diversité", "Agilité", "Transparence", "Ambition", "Performance"];
 const ALL_INDUSTRIES = ["Tech / SaaS", "FinTech", "HealthTech", "E-commerce", "Média / Contenu", "Conseil", "Agence", "Industrie", "Retail", "Éducation"];
 const COMPANY_SIZES = ["1-10", "11-50", "51-200", "201-500", "500+"];
 const ALL_PERKS = ["Remote-friendly", "Full Remote", "Stock options", "Equity", "Budget formation", "Team retreats", "Mutuelle premium", "MacBook Pro", "Budget bien-être", "Crèche", "RTT supplémentaires"];
+
+function GrowthChart({ data, growthRate, headcount }: { data: GrowthPoint[]; growthRate: string; headcount: number }) {
+  const max = Math.max(...data.map((d) => d.value));
+  const chartH = 64;
+  const barW = 28;
+  const gap = 10;
+  const totalW = data.length * (barW + gap) - gap;
+
+  return (
+    <div>
+      <div className="flex items-baseline gap-2 mb-1">
+        <span className="text-3xl font-extrabold text-gray-900">{headcount}</span>
+        <span className="text-sm text-gray-400 font-medium">collaborateurs</span>
+      </div>
+      <div className="flex items-center gap-1.5 mb-4">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="#10b981"><polygon points="5,0 10,10 0,10" /></svg>
+        <span className="text-sm font-bold text-emerald-500">{growthRate}</span>
+        <span className="text-xs text-gray-400">vs année précédente</span>
+      </div>
+      <svg width="100%" viewBox={`0 0 ${totalW} ${chartH + 20}`} preserveAspectRatio="xMidYMid meet">
+        {data.map((d, i) => {
+          const barH = Math.max(4, (d.value / max) * chartH);
+          const x = i * (barW + gap);
+          const isLast = i === data.length - 1;
+          return (
+            <g key={i}>
+              <rect
+                x={x} y={chartH - barH} width={barW} height={barH}
+                rx="5"
+                fill={isLast ? "#6366f1" : "#e0e7ff"}
+              />
+              <text x={x + barW / 2} y={chartH + 14} textAnchor="middle" fontSize="9" fill="#9ca3af">{d.month}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
 
 function JobDetail({ job, isOwn, onClose }: { job: JobData; isOwn: boolean; onClose: () => void }) {
   const { t } = useLang();
@@ -241,83 +236,54 @@ function JobDetail({ job, isOwn, onClose }: { job: JobData; isOwn: boolean; onCl
         <div className={cn("h-24 bg-gradient-to-r", "from-violet-600 to-indigo-700")} />
         <div className="px-6 pb-6">
           <div className="flex items-start justify-between -mt-5 mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-violet-600 font-bold text-xl border-4 border-white">
-              📋
-            </div>
-            <button
-              type="button"
-              onClick={onClose}
-              className="mt-6 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-all"
-            >
+            <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-violet-600 font-bold text-xl border-4 border-white">📋</div>
+            <button type="button" onClick={onClose} className="mt-6 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
-
           <div className="mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-1">{job.title}</h2>
             <div className="flex flex-wrap gap-2 text-sm text-gray-500">
               <span>{job.seniority} • {job.experienceYears}+ ans</span>
-              <span>•</span>
-              <span>{workModeLabel[job.workMode]}</span>
-              <span>•</span>
-              <span>{job.location}</span>
+              <span>•</span><span>{workModeLabel[job.workMode]}</span>
+              <span>•</span><span>{job.location}</span>
             </div>
             <div className="flex flex-wrap gap-2 mt-3">
               <Badge variant="success" className="text-xs">{p.open}</Badge>
-              {job.salaryMin && (
-                <Badge variant="secondary" className="text-xs">
-                  💰 {(job.salaryMin / 1000).toFixed(0)}-{(job.salaryMax / 1000).toFixed(0)}k€
-                </Badge>
-              )}
-              {isOwn && (
-                <Badge variant="default" className="text-xs">
-                  🎯 {job.matchCount} {p.matches}
-                </Badge>
-              )}
+              {job.salaryMin && <Badge variant="secondary" className="text-xs">💰 {(job.salaryMin / 1000).toFixed(0)}-{(job.salaryMax / 1000).toFixed(0)}k€</Badge>}
+              {isOwn && <Badge variant="default" className="text-xs">🎯 {job.matchCount} {p.matches}</Badge>}
             </div>
           </div>
-
           <div className="mb-6">
             <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">{p.panelPosition}</h3>
             <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{job.description}</p>
           </div>
-
           <div className="mb-6">
             <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">{p.panelMissions}</h3>
             <ul className="space-y-2">
               {job.missions.map((m, i) => (
                 <li key={i} className="flex gap-2.5 text-sm text-gray-600">
-                  <span className="text-violet-400 flex-shrink-0 mt-0.5">→</span>
-                  <span>{m}</span>
+                  <span className="text-violet-400 flex-shrink-0 mt-0.5">→</span><span>{m}</span>
                 </li>
               ))}
             </ul>
           </div>
-
           <div className="mb-6">
             <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">{p.panelSkills}</h3>
-            <div className="flex flex-wrap gap-2 mb-2">
-              {job.hardSkills.map((s) => <Badge key={s} variant="hard" className="text-sm py-1 px-3">{s}</Badge>)}
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {job.softSkills.map((s) => <Badge key={s} variant="soft" className="text-sm py-1 px-3">{s}</Badge>)}
-            </div>
+            <div className="flex flex-wrap gap-2 mb-2">{job.hardSkills.map((s) => <Badge key={s} variant="hard" className="text-sm py-1 px-3">{s}</Badge>)}</div>
+            <div className="flex flex-wrap gap-2">{job.softSkills.map((s) => <Badge key={s} variant="soft" className="text-sm py-1 px-3">{s}</Badge>)}</div>
           </div>
-
           <div className="mb-8">
             <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">{p.panelProcess}</h3>
             <div className="space-y-2">
               {job.process.map((step, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold flex-shrink-0">
-                    {i + 1}
-                  </div>
+                  <div className="w-6 h-6 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold flex-shrink-0">{i + 1}</div>
                   <span className="text-sm text-gray-600">{step}</span>
                 </div>
               ))}
             </div>
           </div>
-
           {isOwn ? (
             <div className="flex gap-3">
               <Button variant="outline" className="flex-1" onClick={onClose}>{p.close}</Button>
@@ -326,9 +292,7 @@ function JobDetail({ job, isOwn, onClose }: { job: JobData; isOwn: boolean; onCl
               </Link>
             </div>
           ) : (
-            <Button variant="gradient" size="lg" className="w-full">
-              {p.apply}
-            </Button>
+            <Button variant="gradient" size="lg" className="w-full">{p.apply}</Button>
           )}
         </div>
       </div>
@@ -356,11 +320,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
       <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all"
-            >
+            <button type="button" onClick={() => router.back()} className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
             <div className="flex items-center gap-2">
@@ -371,18 +331,14 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
           <div className="flex items-center gap-2">
             <LangToggle />
             {isOwn && (
-              <>
-                {!editing ? (
-                  <Button variant="secondary" size="sm" onClick={() => setEditing(true)}>
-                    {p.editProfile}
-                  </Button>
-                ) : (
-                  <>
-                    <Button variant="outline" size="sm" onClick={() => { setCompany(rawCompany); setEditing(false); }}>{p.cancel}</Button>
-                    <Button variant="success" size="sm" onClick={() => setEditing(false)}>{p.save}</Button>
-                  </>
-                )}
-              </>
+              !editing ? (
+                <Button variant="secondary" size="sm" onClick={() => setEditing(true)}>{p.editProfile}</Button>
+              ) : (
+                <>
+                  <Button variant="outline" size="sm" onClick={() => { setCompany(rawCompany); setEditing(false); }}>{p.cancel}</Button>
+                  <Button variant="success" size="sm" onClick={() => setEditing(false)}>{p.save}</Button>
+                </>
+              )
             )}
           </div>
         </div>
@@ -391,6 +347,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
       <div className="max-w-5xl mx-auto px-6 py-8">
         <div className="grid md:grid-cols-3 gap-6">
 
+          {/* ── SIDEBAR ── */}
           <div className="md:col-span-1 space-y-4">
 
             <Card className="shadow-none border-gray-100 overflow-hidden">
@@ -402,25 +359,12 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
                   </div>
                   {isOwn && <Badge variant="success" className="text-xs mb-1">{p.verified}</Badge>}
                 </div>
-
                 {editing ? (
                   <div className="space-y-3">
-                    <div>
-                      <Label className="text-xs">{p.companyName}</Label>
-                      <Input value={company.name} onChange={(e) => setCompany({ ...company, name: e.target.value })} className="text-sm h-8 mt-1" />
-                    </div>
-                    <div>
-                      <Label className="text-xs">{p.tagline}</Label>
-                      <Input value={company.tagline} onChange={(e) => setCompany({ ...company, tagline: e.target.value })} className="text-sm h-8 mt-1" />
-                    </div>
-                    <div>
-                      <Label className="text-xs">{p.locationLabel}</Label>
-                      <Input value={company.location} onChange={(e) => setCompany({ ...company, location: e.target.value })} className="text-sm h-8 mt-1" />
-                    </div>
-                    <div>
-                      <Label className="text-xs">{p.website}</Label>
-                      <Input value={company.website} onChange={(e) => setCompany({ ...company, website: e.target.value })} className="text-sm h-8 mt-1" />
-                    </div>
+                    <div><Label className="text-xs">{p.companyName}</Label><Input value={company.name} onChange={(e) => setCompany({ ...company, name: e.target.value })} className="text-sm h-8 mt-1" /></div>
+                    <div><Label className="text-xs">{p.tagline}</Label><Input value={company.tagline} onChange={(e) => setCompany({ ...company, tagline: e.target.value })} className="text-sm h-8 mt-1" /></div>
+                    <div><Label className="text-xs">{p.locationLabel}</Label><Input value={company.location} onChange={(e) => setCompany({ ...company, location: e.target.value })} className="text-sm h-8 mt-1" /></div>
+                    <div><Label className="text-xs">{p.website}</Label><Input value={company.website} onChange={(e) => setCompany({ ...company, website: e.target.value })} className="text-sm h-8 mt-1" /></div>
                     <div>
                       <Label className="text-xs">{p.sector}</Label>
                       <div className="flex flex-wrap gap-1.5 mt-1">
@@ -484,7 +428,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
               <CardContent className="pt-4 pb-4">
                 <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-3">{p.techStack}</h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {company.techStack.map((t) => <Badge key={t} variant="hard" className="text-xs">{t}</Badge>)}
+                  {company.techStack.map((tech) => <Badge key={tech} variant="hard" className="text-xs">{tech}</Badge>)}
                 </div>
               </CardContent>
             </Card>
@@ -518,9 +462,11 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
               <CardContent className="pt-4 pb-4">
                 <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-3">{p.contact}</h3>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">
-                    {company.manager.initials}
-                  </div>
+                  <img
+                    src={`https://i.pravatar.cc/80?u=${company.manager.firstName}${company.manager.lastName}`}
+                    alt={company.manager.firstName}
+                    className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
+                  />
                   <div>
                     <p className="text-sm font-semibold text-gray-900">{company.manager.firstName} {company.manager.lastName}</p>
                     <p className="text-xs text-gray-500">{company.manager.title}</p>
@@ -530,67 +476,65 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
             </Card>
           </div>
 
+          {/* ── MAIN ── */}
           <div className="md:col-span-2 space-y-4">
 
             <Card className="shadow-none border-gray-100">
               <CardContent className="pt-5 pb-5">
                 <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">{p.about}</h2>
                 {editing ? (
-                  <Textarea
-                    value={company.description}
-                    onChange={(e) => setCompany({ ...company, description: e.target.value })}
-                    className="h-36 text-sm"
-                  />
+                  <Textarea value={company.description} onChange={(e) => setCompany({ ...company, description: e.target.value })} className="h-36 text-sm" />
                 ) : (
                   <p className="text-sm text-gray-600 leading-relaxed">{company.description}</p>
                 )}
               </CardContent>
             </Card>
 
-            {(company.growthRate || (company.recentHires && company.recentHires.length > 0)) && (
-              <div className="grid grid-cols-2 gap-4">
-                {company.growthRate && (
-                  <Card className="shadow-none border-gray-100">
-                    <CardContent className="pt-4 pb-4">
-                      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">{t.companyProfile.growthRate}</h3>
-                      <div className="flex items-center gap-2">
-                        <svg width="12" height="12" viewBox="0 0 12 12" className="text-emerald-500 shrink-0" fill="currentColor">
-                          <polygon points="6,1 11,11 1,11"/>
-                        </svg>
-                        <span className="text-2xl font-extrabold text-gray-900">{company.growthRate}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-                {company.recentHires && company.recentHires.length > 0 && (
-                  <Card className="shadow-none border-gray-100">
-                    <CardContent className="pt-4 pb-4">
-                      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">{t.companyProfile.recentHires}</h3>
-                      <div className="flex items-center gap-1 mb-2">
-                        {company.recentHires.map((hire, i) => (
-                          <div
-                            key={i}
-                            className={cn("w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white shadow-sm", hire.color)}
-                            style={{ marginLeft: i > 0 ? "-10px" : "0" }}
-                          >
-                            {hire.initials}
-                          </div>
-                        ))}
-                      </div>
-                      <p className="text-sm text-gray-600 font-medium">
-                        {company.recentHires[0].name}{" "}
-                        {company.recentHires.length > 1 && (
-                          <span className="text-gray-400 font-normal">
-                            {t.companyProfile.andOthers.replace("{n}", String(company.recentHires.length - 1))}
-                          </span>
-                        )}
-                      </p>
-                    </CardContent>
-                  </Card>
-                )}
-              </div>
+            {/* ── GROWTH CHART ── */}
+            {company.growthData && company.growthRate && company.headcount && (
+              <Card className="shadow-none border-gray-100">
+                <CardContent className="pt-5 pb-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">{p.growthRate}</h2>
+                    <span className="text-xs text-gray-400">6 derniers mois</span>
+                  </div>
+                  <GrowthChart data={company.growthData} growthRate={company.growthRate} headcount={company.headcount} />
+                </CardContent>
+              </Card>
             )}
 
+            {/* ── RECENT HIRES ── */}
+            {company.recentHires && company.recentHires.length > 0 && (
+              <Card className="shadow-none border-gray-100">
+                <CardContent className="pt-5 pb-5">
+                  <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-4">{p.recentHires}</h2>
+                  <div className="grid grid-cols-2 gap-3">
+                    {company.recentHires.map((hire, i) => (
+                      <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-indigo-50/60 transition-colors">
+                        <img
+                          src={hire.photo}
+                          alt={hire.name}
+                          className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm flex-shrink-0"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                            e.currentTarget.nextElementSibling?.classList.remove("hidden");
+                          }}
+                        />
+                        <div className={cn("w-11 h-11 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 hidden", hire.color)}>
+                          {hire.initials}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-gray-900 truncate">{hire.name}</p>
+                          <p className="text-xs text-gray-400 truncate">{hire.role}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* ── OPEN ROLES ── */}
             <div>
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
@@ -602,43 +546,27 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
                   </Link>
                 )}
               </div>
-
               <div className="space-y-3">
                 {jobs.map((job) => (
-                  <Card
-                    key={job.id}
-                    className="shadow-none border-gray-100 cursor-pointer hover:shadow-md hover:border-violet-200 transition-all group"
-                    onClick={() => setSelectedJob(job)}
-                  >
+                  <Card key={job.id} className="shadow-none border-gray-100 cursor-pointer hover:shadow-md hover:border-violet-200 transition-all group" onClick={() => setSelectedJob(job)}>
                     <CardContent className="pt-4 pb-4">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-bold text-gray-900 group-hover:text-violet-700 transition-colors">
-                              {job.title}
-                            </h3>
+                            <h3 className="font-bold text-gray-900 group-hover:text-violet-700 transition-colors">{job.title}</h3>
                             <Badge variant="success" className="text-xs">{p.open}</Badge>
                           </div>
-
                           <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-400 mb-3">
                             <span>{job.seniority} • {job.experienceYears}+ ans</span>
                             <span>{job.location}</span>
-                            {job.salaryMin && (
-                              <span className="font-medium text-gray-600">
-                                {(job.salaryMin / 1000).toFixed(0)}-{(job.salaryMax / 1000).toFixed(0)}k€
-                              </span>
-                            )}
+                            {job.salaryMin && <span className="font-medium text-gray-600">{(job.salaryMin / 1000).toFixed(0)}-{(job.salaryMax / 1000).toFixed(0)}k€</span>}
                           </div>
-
                           <div className="flex flex-wrap gap-1.5">
                             {job.hardSkills.slice(0, 4).map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
                             {job.softSkills.slice(0, 2).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
-                            {job.hardSkills.length + job.softSkills.length > 6 && (
-                              <span className="text-xs text-gray-400 self-center">+{job.hardSkills.length + job.softSkills.length - 6}</span>
-                            )}
+                            {job.hardSkills.length + job.softSkills.length > 6 && <span className="text-xs text-gray-400 self-center">+{job.hardSkills.length + job.softSkills.length - 6}</span>}
                           </div>
                         </div>
-
                         <div className="flex flex-col items-end gap-2 flex-shrink-0">
                           {isOwn && (
                             <div className="text-center">
@@ -652,7 +580,6 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
                     </CardContent>
                   </Card>
                 ))}
-
                 {jobs.length === 0 && (
                   <div className="text-center py-12 text-gray-400">
                     <div className="text-4xl mb-3">📋</div>
@@ -665,13 +592,7 @@ export default function CompanyProfilePage({ params }: { params: Promise<{ id: s
         </div>
       </div>
 
-      {selectedJob && (
-        <JobDetail
-          job={selectedJob}
-          isOwn={isOwn}
-          onClose={() => setSelectedJob(null)}
-        />
-      )}
+      {selectedJob && <JobDetail job={selectedJob} isOwn={isOwn} onClose={() => setSelectedJob(null)} />}
     </div>
   );
 }
