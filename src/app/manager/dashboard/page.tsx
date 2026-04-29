@@ -719,7 +719,7 @@ export default function ManagerDashboard() {
                         <div className="border-t border-gray-100" />
 
                         {/* ── Collaborator feedback ── */}
-                        <div className="rounded-2xl bg-gray-50 border border-gray-100 p-4">
+                        <div className="rounded-2xl bg-white border border-gray-100 p-4">
                           <p className="text-sm font-bold text-gray-900 mb-3">{d.collaboratorFeedback}</p>
 
                           {/* Existing feedback */}
