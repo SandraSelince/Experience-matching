@@ -616,9 +616,8 @@ export default function ManagerDashboard() {
                         </div>
 
                         {/* Status pills */}
-                        {(candidate.status === "hired" || candidate.status === "rejected" || candidate.interviewRequested || candidate.feedbackRequested.length > 0) && (
+                        {(candidate.status === "rejected" || candidate.interviewRequested || candidate.feedbackRequested.length > 0) && (
                           <div className="flex items-center gap-1.5 mt-2 flex-wrap">
-                            {candidate.status === "hired" && <Badge variant="success" className="text-xs">{d.hired}</Badge>}
                             {candidate.status === "rejected" && <Badge variant="destructive" className="text-xs">{d.rejected}</Badge>}
                             {candidate.interviewRequested && <Badge variant="default" className="text-xs bg-violet-100 text-violet-700 border-violet-200">{d.interviewRequested}</Badge>}
                             {candidate.feedbackRequested.length > 0 && (
