@@ -633,13 +633,13 @@ export default function ManagerDashboard() {
                         <div className="mt-5 pt-3 border-t border-gray-100 grid grid-cols-2 gap-2">
                           <div>
                             <div className="flex justify-between text-xs text-gray-400 mb-1">
-                              <span>{d.hardSkills}</span><span>{candidate.hardScore}%</span>
+                              <span className="text-gray-700 font-medium">{d.hardSkills}</span><span>{candidate.hardScore}%</span>
                             </div>
                             <Progress value={candidate.hardScore} className="h-1" />
                           </div>
                           <div>
                             <div className="flex justify-between text-xs text-gray-400 mb-1">
-                              <span>{d.softSkills}</span><span>{candidate.softScore}%</span>
+                              <span className="text-gray-700 font-medium">{d.softSkills}</span><span>{candidate.softScore}%</span>
                             </div>
                             <Progress value={candidate.softScore} className="h-1" />
                           </div>
