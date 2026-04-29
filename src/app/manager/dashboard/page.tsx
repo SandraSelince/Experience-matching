@@ -609,7 +609,7 @@ export default function ManagerDashboard() {
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="flex items-center gap-2 mt-0.5">
                           <span className="text-xs text-gray-400">{pick(candidate.seniority, lang)}</span>
                           <span className="text-xs text-gray-300">·</span>
                           <span className="text-xs text-gray-400">{candidate.location}</span>
