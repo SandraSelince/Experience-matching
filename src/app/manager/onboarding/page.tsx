@@ -42,6 +42,8 @@ export default function ManagerOnboardingPage() {
     firstName: "",
     lastName: "",
     title: "",
+    currentCompany: "",
+    location: "",
     linkedinUrl: "",
     bio: "",
   });
@@ -67,6 +69,8 @@ export default function ManagerOnboardingPage() {
         firstName: "Jean",
         lastName: "Martin",
         title: "Head of Product",
+        currentCompany: "Acme Corp",
+        location: "Paris, France",
         bio: "Head of Product chez Acme Corp, je pilote la stratégie produit et recrute des talents passionnés. Convaincu que le bon matching entre un candidat et une entreprise est la clé d'une collaboration réussie.",
       }));
       setManagerAutoFillState("success");
@@ -224,6 +228,16 @@ export default function ManagerOnboardingPage() {
                 <div className="space-y-1.5">
                   <Label>{o.titleLabel}</Label>
                   <Input placeholder={o.titlePlaceholder} value={manager.title} onChange={(e) => setManager({ ...manager, title: e.target.value })} />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label>{o.currentCompany}</Label>
+                    <Input placeholder={o.currentCompanyPlaceholder} value={manager.currentCompany} onChange={(e) => setManager({ ...manager, currentCompany: e.target.value })} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>{o.locationLabel}</Label>
+                    <Input placeholder={o.locationPlaceholder} value={manager.location} onChange={(e) => setManager({ ...manager, location: e.target.value })} />
+                  </div>
                 </div>
                 <div className="space-y-1.5">
                   <Label>{o.about} <span className="text-gray-400 font-normal">{o.optional}</span></Label>
