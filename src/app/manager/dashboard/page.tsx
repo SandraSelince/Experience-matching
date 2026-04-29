@@ -452,7 +452,7 @@ export default function ManagerDashboard() {
           <div className="flex items-center gap-3">
             <LangToggle />
             <Link href="/manager/onboarding">
-              <Button variant="gradient" size="sm">{d.createJob}</Button>
+              <Button variant="secondary" size="sm" className="bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200">{d.createJob}</Button>
             </Link>
             <Link href="/manager/company/me">
               <div className="flex items-center gap-2 cursor-pointer group">
