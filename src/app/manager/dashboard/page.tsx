@@ -79,6 +79,10 @@ const MOCK_JOBS = [
     hardSkills: ["Figma", "UX Design", "UI Design", "Design System"],
     softSkills: { fr: ["Leadership", "Communication", "Créativité"], en: ["Leadership", "Communication", "Creativity"] } as B<string[]>,
     firstStep: { fr: "Call RH (30 min)", en: "HR Call (30 min)" } as B,
+    steps: {
+      fr: ["Call RH (30 min)", "Entretien technique avec le Lead Design (1h)", "Entretien culture fit avec le CPO (45 min)", "Offre"],
+      en: ["HR Call (30 min)", "Technical interview with Lead Design (1h)", "Culture fit interview with CPO (45 min)", "Offer"],
+    } as B<string[]>,
     matchCount: 4,
     newCount: 2,
   },
@@ -93,6 +97,10 @@ const MOCK_JOBS = [
     hardSkills: ["Product Management", "Agile/Scrum", "SQL", "Jira"],
     softSkills: { fr: ["Communication", "Leadership", "Orientation résultats"], en: ["Communication", "Leadership", "Results-oriented"] } as B<string[]>,
     firstStep: { fr: "Call RH (30 min)", en: "HR Call (30 min)" } as B,
+    steps: {
+      fr: ["Call RH (30 min)", "Étude de cas produit (2h)", "Entretien avec l'équipe (1h)", "Offre"],
+      en: ["HR Call (30 min)", "Product case study (2h)", "Team interview (1h)", "Offer"],
+    } as B<string[]>,
     matchCount: 7,
     newCount: 3,
   },
@@ -773,20 +781,10 @@ export default function ManagerDashboard() {
                         </div>
 
                         {/* ── Interview request ── */}
-                        <div className={cn("rounded-2xl border p-4", candidate.interviewRequested ? "bg-violet-50 border-violet-100" : "bg-white border-gray-100")}>
-                          <div className="flex items-center justify-between gap-3">
-                            <div>
-                              <p className="text-sm font-bold text-gray-900">{d.requestInterview}</p>
-                              <p className="text-xs text-gray-400 mt-0.5">
-                                {d.firstStep} : {pick(selectedJob_?.firstStep ?? { fr: "—", en: "—" }, lang)}
-                              </p>
-                            </div>
-                            {candidate.interviewRequested ? (
-                              <span className="flex items-center gap-1.5 text-sm font-semibold text-violet-600 bg-violet-100 px-3 py-1.5 rounded-xl whitespace-nowrap flex-shrink-0">
-                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                {d.interviewRequested}
-                              </span>
-                            ) : (
+                        <div className="rounded-2xl border border-gray-100 bg-white p-4">
+                          <div className="flex items-center justify-between gap-3 mb-4">
+                            <p className="text-sm font-bold text-gray-900">{d.requestInterview}</p>
+                            {!candidate.interviewRequested && (
                               <Button
                                 variant="gradient"
                                 size="sm"
@@ -797,6 +795,31 @@ export default function ManagerDashboard() {
                               </Button>
                             )}
                           </div>
+                          {/* Process steps */}
+                          <ol className="space-y-2">
+                            {pick(selectedJob_?.steps ?? { fr: [], en: [] }, lang).map((step, i) => {
+                              const isActive = i === 0 && candidate.interviewRequested;
+                              const isDone = false;
+                              return (
+                                <li key={i} className="flex items-start gap-3">
+                                  <div className={cn(
+                                    "flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5",
+                                    isActive ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-400"
+                                  )}>
+                                    {isDone ? "✓" : i + 1}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className={cn("text-sm", isActive ? "font-semibold text-gray-900" : "text-gray-500")}>{step}</p>
+                                    {isActive && (
+                                      <p className="text-xs text-emerald-600 mt-0.5">
+                                        {lang === "fr" ? "Entretien demandé ✓" : "Interview requested ✓"}
+                                      </p>
+                                    )}
+                                  </div>
+                                </li>
+                              );
+                            })}
+                          </ol>
                         </div>
 
                         {/* Actions */}
