@@ -530,7 +530,7 @@ export default function CandidateDashboard() {
               className={cn(
                 "shadow-none border transition-all cursor-pointer hover:shadow-md hover:border-emerald-200 group",
                 match.status === "candidate_declined" ? "opacity-60" : "",
-                liveOpenMatch?.id === match.id ? "ring-2 ring-emerald-400 border-emerald-200" : ""
+                liveOpenMatch?.id === match.id ? "shadow-md" : ""
               )}
               onClick={() => setOpenMatch(match)}
             >

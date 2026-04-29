@@ -562,7 +562,7 @@ export default function ManagerDashboard() {
                   className={cn(
                     "shadow-none border cursor-pointer transition-all hover:shadow-md",
                     candidate.status === "rejected" ? "opacity-50" : "",
-                    selectedCandidate === candidate.id ? "ring-2 ring-emerald-400" : ""
+                    selectedCandidate === candidate.id ? "shadow-md" : ""
                   )}
                   onClick={() => setSelectedCandidate(selectedCandidate === candidate.id ? null : candidate.id)}
                 >
