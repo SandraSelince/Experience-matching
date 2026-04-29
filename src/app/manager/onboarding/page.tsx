@@ -55,6 +55,8 @@ export default function ManagerOnboardingPage() {
     location: "",
     website: "",
     description: "",
+    growthRate: "",
+    recentHires: "",
     values: [] as string[],
   });
 
@@ -91,6 +93,8 @@ export default function ManagerOnboardingPage() {
         location: "Paris, France",
         website: "www.acmecorp.com",
         description: "Acme Corp est une scale-up SaaS B2B qui révolutionne la gestion de projets pour les équipes produit. Fondée en 2018, nous accompagnons plus de 500 entreprises dans leur transformation digitale avec une plateforme collaborative intuitive et puissante.",
+        growthRate: "+40% sur les 12 derniers mois",
+        recentHires: "2 Product Managers, 1 Lead Dev, 1 Head of Sales — recrutés ces 6 derniers mois",
         values: ["Innovation", "Impact", "Transparence"],
       });
       setAutoFillState("success");
@@ -367,6 +371,24 @@ export default function ManagerOnboardingPage() {
                     onChange={(e) => setCompany({ ...company, description: e.target.value })}
                     className="h-24"
                   />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label>{o.growthRate} <span className="text-gray-400 font-normal">{o.optional}</span></Label>
+                    <Input
+                      placeholder={o.growthRatePlaceholder}
+                      value={company.growthRate}
+                      onChange={(e) => setCompany({ ...company, growthRate: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>{o.recentHires} <span className="text-gray-400 font-normal">{o.optional}</span></Label>
+                    <Input
+                      placeholder={o.recentHiresPlaceholder}
+                      value={company.recentHires}
+                      onChange={(e) => setCompany({ ...company, recentHires: e.target.value })}
+                    />
+                  </div>
                 </div>
                 <div className="space-y-1.5">
                   <Label>{o.values}</Label>
