@@ -486,7 +486,7 @@ export default function ManagerDashboard() {
                 onClick={() => { setSelectedJob(job.id); setSelectedCandidate(null); setFilterBookmarked(false); }}
                 className={cn(
                   "w-full text-left p-4 rounded-xl border transition-all",
-                  selectedJob === job.id ? "border-emerald-500 bg-emerald-50 shadow-sm" : "border-gray-100 bg-white hover:border-emerald-200"
+                  selectedJob === job.id ? "border-emerald-500 bg-white shadow-sm" : "border-gray-100 bg-white hover:border-emerald-200"
                 )}
               >
                 <div className="flex items-start justify-between gap-2">
