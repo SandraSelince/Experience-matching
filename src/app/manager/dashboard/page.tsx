@@ -716,33 +716,6 @@ export default function ManagerDashboard() {
                           </div>
                         )}
 
-                        {/* ── Interview request ── */}
-                        <div className={cn("rounded-2xl border p-4", candidate.interviewRequested ? "bg-violet-50 border-violet-100" : "bg-white border-gray-100")}>
-                          <div className="flex items-center justify-between gap-3">
-                            <div>
-                              <p className="text-sm font-bold text-gray-900">{d.requestInterview}</p>
-                              <p className="text-xs text-gray-400 mt-0.5">
-                                {d.firstStep} : {pick(selectedJob_?.firstStep ?? { fr: "—", en: "—" }, lang)}
-                              </p>
-                            </div>
-                            {candidate.interviewRequested ? (
-                              <span className="flex items-center gap-1.5 text-sm font-semibold text-violet-600 bg-violet-100 px-3 py-1.5 rounded-xl whitespace-nowrap flex-shrink-0">
-                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                {d.interviewRequested}
-                              </span>
-                            ) : (
-                              <Button
-                                variant="gradient"
-                                size="sm"
-                                className="whitespace-nowrap flex-shrink-0"
-                                onClick={(e) => requestInterview(candidate.id, e)}
-                              >
-                                {d.requestInterview} →
-                              </Button>
-                            )}
-                          </div>
-                        </div>
-
                         {/* ── Collaborator feedback ── */}
                         <div className="rounded-2xl bg-gray-50 border border-gray-100 p-4">
                           <p className="text-sm font-bold text-gray-900 mb-3">{d.collaboratorFeedback}</p>
@@ -751,7 +724,7 @@ export default function ManagerDashboard() {
                           {candidate.feedbackEntries.length > 0 ? (
                             <div className="space-y-3 mb-3">
                               {candidate.feedbackEntries.map((entry, i) => (
-                                <div key={i} className="flex gap-3 p-3 bg-gray-50 rounded-xl">
+                                <div key={i} className="flex gap-3 p-3 bg-white rounded-xl">
                                   <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0", entry.collaborator.color)}>
                                     {entry.collaborator.initials}
                                   </div>
@@ -795,6 +768,33 @@ export default function ManagerDashboard() {
                               })}
                             </div>
                           )}
+                        </div>
+
+                        {/* ── Interview request ── */}
+                        <div className={cn("rounded-2xl border p-4", candidate.interviewRequested ? "bg-violet-50 border-violet-100" : "bg-white border-gray-100")}>
+                          <div className="flex items-center justify-between gap-3">
+                            <div>
+                              <p className="text-sm font-bold text-gray-900">{d.requestInterview}</p>
+                              <p className="text-xs text-gray-400 mt-0.5">
+                                {d.firstStep} : {pick(selectedJob_?.firstStep ?? { fr: "—", en: "—" }, lang)}
+                              </p>
+                            </div>
+                            {candidate.interviewRequested ? (
+                              <span className="flex items-center gap-1.5 text-sm font-semibold text-violet-600 bg-violet-100 px-3 py-1.5 rounded-xl whitespace-nowrap flex-shrink-0">
+                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                {d.interviewRequested}
+                              </span>
+                            ) : (
+                              <Button
+                                variant="gradient"
+                                size="sm"
+                                className="whitespace-nowrap flex-shrink-0"
+                                onClick={(e) => requestInterview(candidate.id, e)}
+                              >
+                                {d.requestInterview} →
+                              </Button>
+                            )}
+                          </div>
                         </div>
 
                         <Link
