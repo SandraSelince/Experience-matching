@@ -13,8 +13,8 @@ const badgeVariants = cva(
         warning: "bg-amber-100 text-amber-700",
         destructive: "bg-red-100 text-red-700",
         outline: "border border-gray-200 text-gray-600",
-        hard: "bg-violet-100 text-violet-700",
-        soft: "bg-pink-100 text-pink-700",
+        hard: "bg-gray-100 text-gray-600",
+        soft: "bg-gray-100 text-gray-600",
       },
     },
     defaultVariants: {
