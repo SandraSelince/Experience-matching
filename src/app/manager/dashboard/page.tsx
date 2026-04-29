@@ -296,7 +296,7 @@ function SharePoolModal({
               <h2 className="text-lg font-bold text-gray-900">{d.sharePoolTitle}</h2>
               <p className="text-sm text-gray-400 mt-0.5">{jobTitle}</p>
             </div>
-            <button type="button" onClick={onClose} className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-all -mt-1">
+            <button type="button" onClick={onClose} aria-label={lang === "en" ? "Close" : "Fermer"} className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-all -mt-1 cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
@@ -371,6 +371,7 @@ export default function ManagerDashboard() {
   const [candidates, setCandidates] = useState<Candidate[]>(INIT_CANDIDATES);
   const [selectedCandidate, setSelectedCandidate] = useState<string | null>(null);
   const [filterBookmarked, setFilterBookmarked] = useState(false);
+  const [confirmRejectId, setConfirmRejectId] = useState<string | null>(null);
 
   // Share pool state
   const [shareJobId, setShareJobId] = useState<string | null>(null);
@@ -424,10 +425,18 @@ export default function ManagerDashboard() {
   const hired = candidates.filter((c) => c.status === "hired").length;
 
   const stats = [
-    { label: d.stats[0], value: MOCK_JOBS.length, icon: "📋" },
-    { label: d.stats[1], value: totalMatches, icon: "👥" },
-    { label: d.stats[2], value: pendingReview, icon: "⏳" },
-    { label: d.stats[3], value: hired, icon: "🎉" },
+    { label: d.stats[0], value: MOCK_JOBS.length, icon: (
+      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+    )},
+    { label: d.stats[1], value: totalMatches, icon: (
+      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 1-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    )},
+    { label: d.stats[2], value: pendingReview, icon: (
+      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    )},
+    { label: d.stats[3], value: hired, icon: (
+      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    )},
   ];
 
   return (
@@ -467,7 +476,7 @@ export default function ManagerDashboard() {
           {stats.map((stat) => (
             <Card key={stat.label} className="shadow-none border-gray-100">
               <CardContent className="pt-5 pb-4">
-                <div className="text-2xl mb-1">{stat.icon}</div>
+                <div className="mb-2">{stat.icon}</div>
                 <div className="text-2xl font-extrabold text-gray-900">{stat.value}</div>
                 <div className="text-xs text-gray-500 mt-0.5">{stat.label}</div>
               </CardContent>
@@ -601,8 +610,8 @@ export default function ManagerDashboard() {
                             <button
                               type="button"
                               onClick={(e) => toggleBookmark(candidate.id, e)}
-                              className={cn("w-7 h-7 rounded-lg flex items-center justify-center transition-all", candidate.bookmarked ? "text-amber-500 bg-amber-50" : "text-gray-300 hover:text-amber-400 hover:bg-amber-50")}
-                              title={candidate.bookmarked ? d.bookmarked : d.bookmark}
+                              className={cn("w-8 h-8 rounded-lg flex items-center justify-center transition-all cursor-pointer", candidate.bookmarked ? "text-amber-500 bg-amber-50" : "text-gray-300 hover:text-amber-400 hover:bg-amber-50")}
+                              aria-label={candidate.bookmarked ? d.bookmarked : d.bookmark}
                             >
                               <svg className="w-4 h-4" viewBox="0 0 24 24" fill={candidate.bookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                             </button>
@@ -772,14 +781,18 @@ export default function ManagerDashboard() {
                                     type="button"
                                     disabled={alreadyRequested || alreadyFeedback}
                                     onClick={(e) => requestFeedback(candidate.id, collab.id, e)}
-                                    title={collab.name}
+                                    aria-label={alreadyFeedback ? `${collab.name} — avis reçu` : alreadyRequested ? `${collab.name} — demande envoyée` : `Demander l'avis de ${collab.name}`}
                                     className={cn(
-                                      "w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 transition-all",
+                                      "w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 transition-all",
                                       alreadyFeedback ? "border-emerald-300 opacity-60 cursor-default" : alreadyRequested ? "border-emerald-300 opacity-60 cursor-default" : "border-transparent hover:scale-110 hover:border-white hover:shadow-md cursor-pointer",
                                       collab.color
                                     )}
                                   >
-                                    {alreadyFeedback ? "✓" : alreadyRequested ? "…" : collab.initials}
+                                    {alreadyFeedback ? (
+                                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    ) : alreadyRequested ? (
+                                      <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/></svg>
+                                    ) : collab.initials}
                                   </button>
                                 );
                               })}
@@ -832,14 +845,35 @@ export default function ManagerDashboard() {
                         {/* Actions */}
                         {candidate.status === "pending_review" && (
                           <div className="flex items-center justify-between gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={(e) => { e.stopPropagation(); updateCandidate(candidate.id, { status: "rejected" }); setSelectedCandidate(null); }}
-                              className="text-gray-500"
-                            >
-                              {d.notRetained}
-                            </Button>
+                            {confirmRejectId === candidate.id ? (
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">{lang === "fr" ? "Confirmer ?" : "Confirm?"}</span>
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={(e) => { e.stopPropagation(); updateCandidate(candidate.id, { status: "rejected" }); setSelectedCandidate(null); setConfirmRejectId(null); }}
+                                >
+                                  {lang === "fr" ? "Oui, écarter" : "Yes, remove"}
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={(e) => { e.stopPropagation(); setConfirmRejectId(null); }}
+                                  className="text-gray-500"
+                                >
+                                  {lang === "fr" ? "Annuler" : "Cancel"}
+                                </Button>
+                              </div>
+                            ) : (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={(e) => { e.stopPropagation(); setConfirmRejectId(candidate.id); }}
+                                className="text-gray-500"
+                              >
+                                {d.notRetained}
+                              </Button>
+                            )}
                             <div className="flex items-center gap-3">
                               <Link
                                 href={`/candidate/profile/${candidate.id}`}
@@ -851,8 +885,10 @@ export default function ManagerDashboard() {
                               <button
                                 type="button"
                                 onClick={(e) => toggleBookmark(candidate.id, e)}
+                                aria-label={candidate.bookmarked ? d.bookmarked : d.bookmark}
+                                aria-pressed={candidate.bookmarked}
                                 className={cn(
-                                  "flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-medium transition-all",
+                                  "flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-medium transition-all cursor-pointer",
                                   candidate.bookmarked ? "bg-amber-50 border-amber-300 text-amber-700" : "bg-white border-gray-200 text-gray-500 hover:border-amber-300"
                                 )}
                               >
@@ -870,7 +906,13 @@ export default function ManagerDashboard() {
 
               {jobCandidates.length === 0 && (
                 <div className="text-center py-16 text-gray-400">
-                  <div className="text-4xl mb-3">{filterBookmarked ? "🔖" : "🔍"}</div>
+                  <div className="flex justify-center mb-3">
+                    {filterBookmarked ? (
+                      <svg className="w-10 h-10 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    ) : (
+                      <svg className="w-10 h-10 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    )}
+                  </div>
                   <p className="font-medium">{filterBookmarked ? `0 ${d.filterBookmarked}` : d.noProfiles}</p>
                   {!filterBookmarked && <p className="text-xs mt-1">{d.scanning}</p>}
                 </div>

@@ -266,7 +266,8 @@ function JobDetailPanel({
             <button
               type="button"
               onClick={onClose}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:bg-white/20 transition-all flex-shrink-0 mb-0.5"
+              aria-label={lang === "en" ? "Close" : "Fermer"}
+              className="w-10 h-10 rounded-full flex items-center justify-center text-white/70 hover:bg-white/20 transition-all flex-shrink-0 mb-0.5 cursor-pointer"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
@@ -285,8 +286,8 @@ function JobDetailPanel({
               </div>
               <div className="flex flex-wrap gap-2">
                 <Badge variant="success" className="text-xs">{lang === "en" ? "Open position" : "Poste ouvert"}</Badge>
-                <Badge variant="secondary" className="text-xs">🏢 {job.companySize} {d.employees}</Badge>
-                <Badge variant="secondary" className="text-xs">💰 {(job.salaryMin / 1000).toFixed(0)}-{(job.salaryMax / 1000).toFixed(0)}k€</Badge>
+                <Badge variant="secondary" className="text-xs">{job.companySize} {d.employees}</Badge>
+                <Badge variant="secondary" className="text-xs">{(job.salaryMin / 1000).toFixed(0)}–{(job.salaryMax / 1000).toFixed(0)}k€</Badge>
               </div>
             </div>
             <div className={cn("flex-shrink-0 w-16 h-16 rounded-2xl border-2 flex flex-col items-center justify-center", getScoreBg(score))}>
@@ -393,7 +394,7 @@ function JobDetailPanel({
 
             {status === "candidate_accepted" && (
               <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl flex items-start gap-3">
-                <span className="text-xl flex-shrink-0">✅</span>
+                <svg className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 <div>
                   <p className="text-sm font-semibold text-emerald-800">{d.profileSharedTitle}</p>
                   <p className="text-xs text-emerald-700 mt-0.5">{d.profileSharedSub}</p>
@@ -403,7 +404,7 @@ function JobDetailPanel({
 
             {status === "candidate_declined" && (
               <div className="p-4 bg-gray-50 border border-gray-100 rounded-xl flex items-start gap-3">
-                <span className="text-xl flex-shrink-0">↩️</span>
+                <svg className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>
                 <div>
                   <p className="text-sm font-semibold text-gray-700">{d.declinedTitle}</p>
                   <p className="text-xs text-gray-500 mt-0.5">{d.declinedSub}</p>
@@ -458,10 +459,18 @@ export default function CandidateDashboard() {
   ];
 
   const stats = [
-    { label: d.stats[0], value: matches.length, icon: "🎯" },
-    { label: d.stats[1], value: `${avgScore}%`, icon: "⚡" },
-    { label: d.stats[2], value: pendingCount, icon: "⏳" },
-    { label: d.stats[3], value: acceptedCount, icon: "✅" },
+    { label: d.stats[0], value: matches.length, icon: (
+      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    )},
+    { label: d.stats[1], value: `${avgScore}%`, icon: (
+      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    )},
+    { label: d.stats[2], value: pendingCount, icon: (
+      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    )},
+    { label: d.stats[3], value: acceptedCount, icon: (
+      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    )},
   ];
 
   return (
@@ -499,7 +508,7 @@ export default function CandidateDashboard() {
           {stats.map((stat) => (
             <Card key={stat.label} className="shadow-none border-gray-100">
               <CardContent className="pt-5 pb-4">
-                <div className="text-2xl mb-1">{stat.icon}</div>
+                <div className="mb-2">{stat.icon}</div>
                 <div className="text-2xl font-extrabold text-gray-900">{stat.value}</div>
                 <div className="text-xs text-gray-500 mt-0.5">{stat.label}</div>
               </CardContent>
@@ -584,7 +593,9 @@ export default function CandidateDashboard() {
 
           {filtered.length === 0 && (
             <div className="text-center py-16 text-gray-400">
-              <div className="text-4xl mb-3">🔍</div>
+              <div className="flex justify-center mb-3">
+                <svg className="w-10 h-10 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </div>
               <p className="font-medium">{d.noMatches}</p>
             </div>
           )}
