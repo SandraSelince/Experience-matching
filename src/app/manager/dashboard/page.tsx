@@ -630,7 +630,7 @@ export default function ManagerDashboard() {
                           </div>
                         )}
 
-                        <div className="mt-2 grid grid-cols-2 gap-2">
+                        <div className="mt-3 pt-3 border-t border-gray-100 grid grid-cols-2 gap-2">
                           <div>
                             <div className="flex justify-between text-xs text-gray-400 mb-1">
                               <span>{d.hardSkills}</span><span>{candidate.hardScore}%</span>
@@ -653,8 +653,8 @@ export default function ManagerDashboard() {
                       </div>
                     </div>
 
-                    {/* Strengths + work style — full width, aligned with content, separated by rule */}
-                    <div className="mt-3 pt-3 border-t border-gray-100 pl-[52px] grid grid-cols-2 gap-2">
+                    {/* Strengths + work style — full width, aligned with content */}
+                    <div className="mt-3 pl-[52px] grid grid-cols-2 gap-2">
                       <div className="p-3 bg-gray-50 rounded-xl">
                         <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
                         <p className="text-sm font-semibold text-gray-800">{pick(candidate.strengths, lang)}</p>
