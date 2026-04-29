@@ -609,19 +609,26 @@ export default function ManagerDashboard() {
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-3 mt-1 flex-wrap">
+                        <div className="flex items-center gap-2 mt-1">
                           <span className="text-xs text-gray-400">{pick(candidate.seniority, lang)}</span>
+                          <span className="text-xs text-gray-300">·</span>
                           <span className="text-xs text-gray-400">{candidate.location}</span>
-                          {candidate.status === "hired" && <Badge variant="success" className="text-xs">{d.hired}</Badge>}
-                          {candidate.status === "rejected" && <Badge variant="destructive" className="text-xs">{d.rejected}</Badge>}
-                          {candidate.interviewRequested && <Badge variant="default" className="text-xs bg-violet-100 text-violet-700 border-violet-200">{d.interviewRequested}</Badge>}
-                          {candidate.feedbackRequested.length > 0 && (
-                            <span className="flex items-center gap-1 text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                              {candidate.feedbackRequested.length} {d.feedbackRequested}
-                            </span>
-                          )}
                         </div>
+
+                        {/* Status pills */}
+                        {(candidate.status === "hired" || candidate.status === "rejected" || candidate.interviewRequested || candidate.feedbackRequested.length > 0) && (
+                          <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                            {candidate.status === "hired" && <Badge variant="success" className="text-xs">{d.hired}</Badge>}
+                            {candidate.status === "rejected" && <Badge variant="destructive" className="text-xs">{d.rejected}</Badge>}
+                            {candidate.interviewRequested && <Badge variant="default" className="text-xs bg-violet-100 text-violet-700 border-violet-200">{d.interviewRequested}</Badge>}
+                            {candidate.feedbackRequested.length > 0 && (
+                              <span className="flex items-center gap-1 text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                {candidate.feedbackRequested.length} {d.feedbackRequested}
+                              </span>
+                            )}
+                          </div>
+                        )}
 
                         <div className="mt-2 grid grid-cols-2 gap-2">
                           <div>
