@@ -11,6 +11,9 @@ import { useLang } from "@/lib/i18n/context";
 import { LangToggle } from "@/components/shared/LangToggle";
 import { cn } from "@/lib/utils";
 
+type B<T = string> = { fr: T; en: T };
+const pick = <T,>(b: B<T>, lang: "fr" | "en"): T => b[lang];
+
 const MOCK_JOBS = [
   {
     id: "j1",
@@ -18,10 +21,10 @@ const MOCK_JOBS = [
     seniority: "Senior",
     experienceYears: 7,
     workMode: "hybrid",
-    location: "Paris (Hybride)",
+    location: { fr: "Paris (Hybride)", en: "Paris (Hybrid)" } as B,
     status: "open",
     hardSkills: ["Figma", "UX Design", "UI Design", "Design System"],
-    softSkills: ["Leadership", "Communication", "Créativité"],
+    softSkills: { fr: ["Leadership", "Communication", "Créativité"], en: ["Leadership", "Communication", "Creativity"] } as B<string[]>,
     matchCount: 4,
     newCount: 2,
   },
@@ -31,10 +34,10 @@ const MOCK_JOBS = [
     seniority: "Mid",
     experienceYears: 4,
     workMode: "hybrid",
-    location: "Paris (Hybride)",
+    location: { fr: "Paris (Hybride)", en: "Paris (Hybrid)" } as B,
     status: "open",
     hardSkills: ["Product Management", "Agile/Scrum", "SQL", "Jira"],
-    softSkills: ["Communication", "Leadership", "Orientation résultats"],
+    softSkills: { fr: ["Communication", "Leadership", "Orientation résultats"], en: ["Communication", "Leadership", "Results-oriented"] } as B<string[]>,
     matchCount: 7,
     newCount: 3,
   },
@@ -53,23 +56,37 @@ const MOCK_CANDIDATES = [
     status: "pending_review",
     name: "Marie D.",
     title: "Senior Product Designer",
-    seniority: "Senior (5-8 ans)",
+    seniority: { fr: "Senior (5-8 ans)", en: "Senior (5-8 yrs)" } as B,
     location: "Paris",
     workMode: "hybrid",
-    hardSkills: ["Figma", "UX Design", "UI Design", "Design System", "Prototypage"],
-    softSkills: ["Leadership", "Communication", "Créativité", "Empathie"],
-    strengths: "Créativité, Résolution de problèmes",
-    workStyle: "Autonome & orienté impact",
-    whyMatch: [
-      "Son expérience en design system correspond exactement aux exigences du poste",
-      "Son style de travail autonome s'aligne avec la culture de l'équipe produit",
-      "Localisation Paris — aucune contrainte logistique pour le mode hybride",
-      "Ses ambitions de croissance correspondent aux opportunités offertes",
-    ],
-    risks: [
-      "Attentes salariales potentiellement au-delà de la fourchette haute",
-      "Profil très senior, pourrait s'ennuyer sur des tâches d'exécution",
-    ],
+    hardSkills: ["Figma", "UX Design", "UI Design", "Design System", "Prototyping"],
+    softSkills: { fr: ["Leadership", "Communication", "Créativité", "Empathie"], en: ["Leadership", "Communication", "Creativity", "Empathy"] } as B<string[]>,
+    strengths: { fr: "Créativité, Résolution de problèmes", en: "Creativity, Problem solving" } as B,
+    workStyle: { fr: "Autonome & orienté impact", en: "Autonomous & impact-driven" } as B,
+    whyMatch: {
+      fr: [
+        "Son expérience en design system correspond exactement aux exigences du poste",
+        "Son style de travail autonome s'aligne avec la culture de l'équipe produit",
+        "Localisation Paris — aucune contrainte logistique pour le mode hybride",
+        "Ses ambitions de croissance correspondent aux opportunités offertes",
+      ],
+      en: [
+        "Her design system experience is an exact match for the role requirements",
+        "Her autonomous work style aligns with the product team culture",
+        "Paris-based — no logistical constraints for hybrid mode",
+        "Her growth ambitions align with the opportunities on offer",
+      ],
+    } as B<string[]>,
+    risks: {
+      fr: [
+        "Attentes salariales potentiellement au-delà de la fourchette haute",
+        "Profil très senior, pourrait s'ennuyer sur des tâches d'exécution",
+      ],
+      en: [
+        "Salary expectations potentially above the upper bracket",
+        "Very senior profile — may find execution tasks underwhelming",
+      ],
+    } as B<string[]>,
   },
   {
     id: "c2",
@@ -83,23 +100,37 @@ const MOCK_CANDIDATES = [
     status: "pending_review",
     name: "Lucas M.",
     title: "Lead UX Designer",
-    seniority: "Expert (8+ ans)",
+    seniority: { fr: "Expert (8+ ans)", en: "Expert (8+ yrs)" } as B,
     location: "Lyon",
     workMode: "remote",
     hardSkills: ["Figma", "UX Design", "UI Design", "UX Research"],
-    softSkills: ["Leadership", "Autonomie", "Esprit critique"],
-    strengths: "Leadership, Analyse",
-    workStyle: "Structuré & orienté data",
-    whyMatch: [
-      "Expertise UX Research rare et très recherchée pour ce poste",
-      "Expérience leadership — capable de monter en responsabilité rapidement",
-      "Disponible full remote, flexibilité géographique appréciée",
-    ],
-    risks: [
-      "Basé à Lyon — présentiel occasionnel pourrait poser problème",
-      "Profil plus senior que requis, risque de surqualification",
-      "Style très structuré peut entrer en tension avec un environnement agile rapide",
-    ],
+    softSkills: { fr: ["Leadership", "Autonomie", "Esprit critique"], en: ["Leadership", "Autonomy", "Critical thinking"] } as B<string[]>,
+    strengths: { fr: "Leadership, Analyse", en: "Leadership, Analysis" } as B,
+    workStyle: { fr: "Structuré & orienté data", en: "Structured & data-driven" } as B,
+    whyMatch: {
+      fr: [
+        "Expertise UX Research rare et très recherchée pour ce poste",
+        "Expérience leadership — capable de monter en responsabilité rapidement",
+        "Disponible full remote, flexibilité géographique appréciée",
+      ],
+      en: [
+        "Rare UX Research expertise that is highly sought for this role",
+        "Leadership background — able to take on more responsibility quickly",
+        "Available full remote, appreciated geographical flexibility",
+      ],
+    } as B<string[]>,
+    risks: {
+      fr: [
+        "Basé à Lyon — présentiel occasionnel pourrait poser problème",
+        "Profil plus senior que requis, risque de surqualification",
+        "Style très structuré peut entrer en tension avec un environnement agile rapide",
+      ],
+      en: [
+        "Lyon-based — occasional on-site days could be an issue",
+        "More senior than required — overqualification risk",
+        "Highly structured style may clash with a fast agile environment",
+      ],
+    } as B<string[]>,
   },
   {
     id: "c3",
@@ -113,22 +144,35 @@ const MOCK_CANDIDATES = [
     status: "hired",
     name: "Sophie K.",
     title: "Product Designer",
-    seniority: "Senior (5-8 ans)",
+    seniority: { fr: "Senior (5-8 ans)", en: "Senior (5-8 yrs)" } as B,
     location: "Paris",
     workMode: "hybrid",
     hardSkills: ["Figma", "UX Design", "UI Design"],
-    softSkills: ["Travail en équipe", "Communication", "Adaptabilité"],
-    strengths: "Collaboration, Créativité",
-    workStyle: "Collaboratif & bienveillant",
-    whyMatch: [
-      "Excellent culture fit avec les valeurs de bienveillance de l'équipe",
-      "Profil Paris hybride — aucune contrainte logistique",
-      "Forte capacité d'adaptation dans des contextes changeants",
-    ],
-    risks: [
-      "Compétences design system à renforcer (manque Prototypage avancé)",
-      "Moins d'expérience en B2B SaaS que les autres candidats",
-    ],
+    softSkills: { fr: ["Travail en équipe", "Communication", "Adaptabilité"], en: ["Teamwork", "Communication", "Adaptability"] } as B<string[]>,
+    strengths: { fr: "Collaboration, Créativité", en: "Collaboration, Creativity" } as B,
+    workStyle: { fr: "Collaboratif & bienveillant", en: "Collaborative & caring" } as B,
+    whyMatch: {
+      fr: [
+        "Excellent culture fit avec les valeurs de bienveillance de l'équipe",
+        "Profil Paris hybride — aucune contrainte logistique",
+        "Forte capacité d'adaptation dans des contextes changeants",
+      ],
+      en: [
+        "Excellent culture fit with the team's caring values",
+        "Paris hybrid profile — no logistical constraints",
+        "Strong adaptability in changing environments",
+      ],
+    } as B<string[]>,
+    risks: {
+      fr: [
+        "Compétences design system à renforcer (manque Prototypage avancé)",
+        "Moins d'expérience en B2B SaaS que les autres candidats",
+      ],
+      en: [
+        "Design system skills need strengthening (lacks advanced Prototyping)",
+        "Less B2B SaaS experience than other candidates",
+      ],
+    } as B<string[]>,
   },
   {
     id: "c4",
@@ -142,22 +186,35 @@ const MOCK_CANDIDATES = [
     status: "pending_review",
     name: "Thomas B.",
     title: "Senior Product Manager",
-    seniority: "Mid (2-5 ans)",
+    seniority: { fr: "Mid (2-5 ans)", en: "Mid (2-5 yrs)" } as B,
     location: "Paris",
     workMode: "hybrid",
     hardSkills: ["Product Management", "Agile/Scrum", "SQL", "Jira", "Analytics"],
-    softSkills: ["Communication", "Leadership", "Orientation résultats"],
-    strengths: "Data-driven, Leadership",
-    workStyle: "Orienté résultats & structuré",
-    whyMatch: [
-      "Maîtrise SQL et Analytics — répond parfaitement aux besoins de la squad Growth",
-      "Style orienté résultats aligné avec la culture de performance de l'équipe",
-      "Expérience Agile/Scrum solide pour piloter les sprints en autonomie",
-      "Paris hybride — disponibilité immédiate",
-    ],
-    risks: [
-      "Expérience mid level, pourrait manquer de recul sur des décisions stratégiques",
-    ],
+    softSkills: { fr: ["Communication", "Leadership", "Orientation résultats"], en: ["Communication", "Leadership", "Results-oriented"] } as B<string[]>,
+    strengths: { fr: "Data-driven, Leadership", en: "Data-driven, Leadership" } as B,
+    workStyle: { fr: "Orienté résultats & structuré", en: "Results-oriented & structured" } as B,
+    whyMatch: {
+      fr: [
+        "Maîtrise SQL et Analytics — répond parfaitement aux besoins de la squad Growth",
+        "Style orienté résultats aligné avec la culture de performance de l'équipe",
+        "Expérience Agile/Scrum solide pour piloter les sprints en autonomie",
+        "Paris hybride — disponibilité immédiate",
+      ],
+      en: [
+        "SQL & Analytics proficiency — perfect fit for the Growth squad's needs",
+        "Results-oriented style aligned with the team's performance culture",
+        "Solid Agile/Scrum background to run sprints autonomously",
+        "Paris hybrid — available immediately",
+      ],
+    } as B<string[]>,
+    risks: {
+      fr: [
+        "Expérience mid level, pourrait manquer de recul sur des décisions stratégiques",
+      ],
+      en: [
+        "Mid-level experience — may lack perspective on strategic decisions",
+      ],
+    } as B<string[]>,
   },
   {
     id: "c5",
@@ -171,22 +228,35 @@ const MOCK_CANDIDATES = [
     status: "pending_review",
     name: "Amina R.",
     title: "Product Manager",
-    seniority: "Mid (2-5 ans)",
+    seniority: { fr: "Mid (2-5 ans)", en: "Mid (2-5 yrs)" } as B,
     location: "Paris",
     workMode: "remote",
     hardSkills: ["Product Management", "Agile/Scrum", "Jira"],
-    softSkills: ["Communication", "Empathie", "Adaptabilité"],
-    strengths: "Empathie, Communication",
-    workStyle: "Centré utilisateur & collaboratif",
-    whyMatch: [
-      "Excellent culture fit — profil centré utilisateur correspond aux valeurs produit",
-      "Très forte capacité de communication, essentielle pour aligner les parties prenantes",
-      "Grande adaptabilité dans des environnements en forte croissance",
-    ],
-    risks: [
-      "Pas de compétences SQL déclarées — gap sur la partie data analytics",
-      "Préférence remote peut limiter la collaboration spontanée avec l'équipe",
-    ],
+    softSkills: { fr: ["Communication", "Empathie", "Adaptabilité"], en: ["Communication", "Empathy", "Adaptability"] } as B<string[]>,
+    strengths: { fr: "Empathie, Communication", en: "Empathy, Communication" } as B,
+    workStyle: { fr: "Centré utilisateur & collaboratif", en: "User-centric & collaborative" } as B,
+    whyMatch: {
+      fr: [
+        "Excellent culture fit — profil centré utilisateur correspond aux valeurs produit",
+        "Très forte capacité de communication, essentielle pour aligner les parties prenantes",
+        "Grande adaptabilité dans des environnements en forte croissance",
+      ],
+      en: [
+        "Excellent culture fit — user-centric profile matches product values",
+        "Very strong communication skills, essential for aligning stakeholders",
+        "High adaptability in fast-growth environments",
+      ],
+    } as B<string[]>,
+    risks: {
+      fr: [
+        "Pas de compétences SQL déclarées — gap sur la partie data analytics",
+        "Préférence remote peut limiter la collaboration spontanée avec l'équipe",
+      ],
+      en: [
+        "No SQL skills listed — gap on the data analytics side",
+        "Remote preference may limit spontaneous collaboration with the team",
+      ],
+    } as B<string[]>,
   },
 ];
 
@@ -204,7 +274,7 @@ const getScoreBg = (score: number) => {
 
 export default function ManagerDashboard() {
   const router = useRouter();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const d = t.managerDashboard;
 
   const [selectedJob, setSelectedJob] = useState("j1");
@@ -229,6 +299,8 @@ export default function ManagerDashboard() {
     { label: d.stats[2], value: pendingReview, icon: "⏳" },
     { label: d.stats[3], value: hired, icon: "🎉" },
   ];
+
+  const yrs = lang === "en" ? "yrs" : "ans";
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -292,7 +364,7 @@ export default function ManagerDashboard() {
                     <p className={cn("font-semibold text-sm", selectedJob === job.id ? "text-violet-700" : "text-gray-900")}>
                       {job.title}
                     </p>
-                    <p className="text-xs text-gray-500 mt-0.5">{job.seniority} • {job.experienceYears}+ ans</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{job.seniority} • {job.experienceYears}+ {yrs}</p>
                   </div>
                   {job.newCount > 0 && (
                     <span className="flex-shrink-0 bg-violet-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
@@ -307,7 +379,7 @@ export default function ManagerDashboard() {
                   <span className="text-xs text-gray-400">{job.matchCount} {d.matches}</span>
                 </div>
                 <div className="mt-2 flex flex-wrap gap-1">
-                  {job.hardSkills.slice(0, 3).map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
+                  {pick(job.softSkills, lang).slice(0, 3).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
                 </div>
               </button>
             ))}
@@ -364,7 +436,7 @@ export default function ManagerDashboard() {
                         </div>
 
                         <div className="flex items-center gap-3 mt-1">
-                          <span className="text-xs text-gray-400">{candidate.seniority}</span>
+                          <span className="text-xs text-gray-400">{pick(candidate.seniority, lang)}</span>
                           <span className="text-xs text-gray-400">{candidate.location}</span>
                           {candidate.status === "hired" && <Badge variant="success" className="text-xs">{d.hired}</Badge>}
                           {candidate.status === "rejected" && <Badge variant="destructive" className="text-xs">{d.rejected}</Badge>}
@@ -387,7 +459,7 @@ export default function ManagerDashboard() {
 
                         <div className="mt-2 flex flex-wrap gap-1">
                           {candidate.hardSkills.slice(0, 3).map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
-                          {candidate.softSkills.slice(0, 2).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
+                          {pick(candidate.softSkills, lang).slice(0, 2).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
                         </div>
                       </div>
                     </div>
@@ -434,7 +506,7 @@ export default function ManagerDashboard() {
                             {d.whyMatch}
                           </p>
                           <ul className="space-y-1.5">
-                            {candidate.whyMatch.map((point, i) => (
+                            {pick(candidate.whyMatch, lang).map((point, i) => (
                               <li key={i} className="flex gap-2 text-sm text-emerald-900">
                                 <span className="text-emerald-400 mt-0.5 shrink-0">•</span>
                                 {point}
@@ -444,14 +516,14 @@ export default function ManagerDashboard() {
                         </div>
 
                         {/* ── RISKS ── */}
-                        {candidate.risks.length > 0 && (
+                        {pick(candidate.risks, lang).length > 0 && (
                           <div className="rounded-2xl bg-amber-50 border border-amber-100 p-4">
                             <p className="flex items-center gap-2 font-bold text-amber-800 text-sm mb-3">
                               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                               {d.potentialRisks}
                             </p>
                             <ul className="space-y-1.5">
-                              {candidate.risks.map((risk, i) => (
+                              {pick(candidate.risks, lang).map((risk, i) => (
                                 <li key={i} className="flex gap-2 text-sm text-amber-900">
                                   <span className="text-amber-400 mt-0.5 shrink-0">•</span>
                                   {risk}
@@ -461,15 +533,15 @@ export default function ManagerDashboard() {
                           </div>
                         )}
 
-                        {/* ── COMPÉTENCES & PROFIL PSY ── */}
+                        {/* ── STRENGTHS & WORK STYLE ── */}
                         <div className="grid grid-cols-2 gap-3">
                           <div className="p-3 bg-violet-50 rounded-xl">
                             <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
-                            <p className="text-sm font-semibold text-violet-800">{candidate.strengths}</p>
+                            <p className="text-sm font-semibold text-violet-800">{pick(candidate.strengths, lang)}</p>
                           </div>
                           <div className="p-3 bg-indigo-50 rounded-xl">
                             <p className="text-xs text-gray-500 mb-1">{d.workStyle}</p>
-                            <p className="text-sm font-semibold text-indigo-800">{candidate.workStyle}</p>
+                            <p className="text-sm font-semibold text-indigo-800">{pick(candidate.workStyle, lang)}</p>
                           </div>
                         </div>
 
@@ -477,7 +549,7 @@ export default function ManagerDashboard() {
                           <p className="text-xs text-gray-500 mb-2">{d.allSkills}</p>
                           <div className="flex flex-wrap gap-1.5">
                             {candidate.hardSkills.map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
-                            {candidate.softSkills.map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
+                            {pick(candidate.softSkills, lang).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
                           </div>
                         </div>
 

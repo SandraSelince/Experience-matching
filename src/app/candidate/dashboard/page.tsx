@@ -10,23 +10,26 @@ import { useLang } from "@/lib/i18n/context";
 import { LangToggle } from "@/components/shared/LangToggle";
 import { cn } from "@/lib/utils";
 
+type B<T = string> = { fr: T; en: T };
+const pick = <T,>(b: B<T>, lang: "fr" | "en"): T => b[lang];
+
 interface Job {
   title: string;
   company: string;
   companySize: string;
   industry: string;
-  location: string;
+  location: B;
   workMode: string;
   seniority: string;
   experienceYears: number;
   salaryMin: number;
   salaryMax: number;
-  description: string;
-  missions: string[];
+  description: B;
+  missions: B<string[]>;
   hardSkills: string[];
-  softSkills: string[];
-  process: string[];
-  values: string[];
+  softSkills: B<string[]>;
+  process: B<string[]>;
+  values: B<string[]>;
 }
 
 interface Match {
@@ -50,24 +53,39 @@ const MOCK_MATCHES: Match[] = [
       company: "Acme SaaS",
       companySize: "51-200",
       industry: "Tech / SaaS",
-      location: "Paris (Hybride)",
+      location: { fr: "Paris (Hybride)", en: "Paris (Hybrid)" },
       workMode: "hybrid",
       seniority: "Senior",
       experienceYears: 7,
       salaryMin: 65000,
       salaryMax: 80000,
-      description: "Nous cherchons un Product Designer senior pour rejoindre notre équipe produit de 12 personnes. Vous serez responsable de l'expérience globale de notre plateforme B2B SaaS, du design system, et de la collaboration avec nos 3 squads produit.\n\nVous travaillerez directement avec le CPO et les PMs pour définir la vision design à long terme.",
-      missions: [
-        "Concevoir des interfaces complexes pour notre plateforme B2B SaaS",
-        "Maintenir et faire évoluer notre design system (Figma)",
-        "Mener des sessions de discovery UX avec les clients",
-        "Collaborer quotidiennement avec les équipes engineering",
-        "Participer à la stratégie produit globale",
-      ],
+      description: {
+        fr: "Nous cherchons un Product Designer senior pour rejoindre notre équipe produit de 12 personnes. Vous serez responsable de l'expérience globale de notre plateforme B2B SaaS, du design system, et de la collaboration avec nos 3 squads produit.\n\nVous travaillerez directement avec le CPO et les PMs pour définir la vision design à long terme.",
+        en: "We are looking for a Senior Product Designer to join our 12-person product team. You will own the overall experience of our B2B SaaS platform, the design system, and collaboration across our 3 product squads.\n\nYou will work directly with the CPO and PMs to define the long-term design vision.",
+      },
+      missions: {
+        fr: [
+          "Concevoir des interfaces complexes pour notre plateforme B2B SaaS",
+          "Maintenir et faire évoluer notre design system (Figma)",
+          "Mener des sessions de discovery UX avec les clients",
+          "Collaborer quotidiennement avec les équipes engineering",
+          "Participer à la stratégie produit globale",
+        ],
+        en: [
+          "Design complex interfaces for our B2B SaaS platform",
+          "Maintain and evolve our design system (Figma)",
+          "Run UX discovery sessions with customers",
+          "Collaborate daily with engineering teams",
+          "Contribute to the overall product strategy",
+        ],
+      },
       hardSkills: ["Figma", "UX Design", "UI Design", "Design System"],
-      softSkills: ["Leadership", "Communication", "Créativité"],
-      process: ["Call RH (30 min)", "Entretien PM + Designer (1h)", "Case study (3j)", "Culture fit CEO (45 min)"],
-      values: ["Innovation", "Impact", "Agilité"],
+      softSkills: { fr: ["Leadership", "Communication", "Créativité"], en: ["Leadership", "Communication", "Creativity"] },
+      process: {
+        fr: ["Call RH (30 min)", "Entretien PM + Designer (1h)", "Case study (3j)", "Culture fit CEO (45 min)"],
+        en: ["HR Call (30 min)", "PM + Designer Interview (1h)", "Case study (3d)", "Culture fit CEO (45 min)"],
+      },
+      values: { fr: ["Innovation", "Impact", "Agilité"], en: ["Innovation", "Impact", "Agility"] },
     },
   },
   {
@@ -81,24 +99,39 @@ const MOCK_MATCHES: Match[] = [
       company: "FinFlow",
       companySize: "11-50",
       industry: "FinTech",
-      location: "Full Remote",
+      location: { fr: "Full Remote", en: "Full Remote" },
       workMode: "remote",
       seniority: "Lead / Expert",
       experienceYears: 8,
       salaryMin: 70000,
       salaryMax: 90000,
-      description: "Rejoignez une FinTech en forte croissance pour diriger la vision design produit d'une application mobile utilisée par 500k utilisateurs en Europe.\n\nPoste stratégique avec un impact direct sur l'expérience de nos clients PME.",
-      missions: [
-        "Définir la vision design de l'app mobile (iOS / Android)",
-        "Manager une équipe de 3 designers",
-        "Conduire la recherche utilisateur avec nos clients PME",
-        "Collaborer avec les équipes produit et engineering",
-        "Présenter la stratégie design au Comité de Direction",
-      ],
-      hardSkills: ["Figma", "UX Design", "Mobile Design", "Prototypage"],
-      softSkills: ["Leadership", "Autonomie", "Orientation résultats"],
-      process: ["Call HR (30 min)", "Portfolio review (1h)", "Case study (1 semaine)", "Entretien CEO"],
-      values: ["Performance", "Transparence", "Ambition"],
+      description: {
+        fr: "Rejoignez une FinTech en forte croissance pour diriger la vision design produit d'une application mobile utilisée par 500k utilisateurs en Europe.\n\nPoste stratégique avec un impact direct sur l'expérience de nos clients PME.",
+        en: "Join a fast-growing FinTech to lead the product design vision for a mobile app used by 500k users across Europe.\n\nStrategic role with direct impact on the experience of our SMB customers.",
+      },
+      missions: {
+        fr: [
+          "Définir la vision design de l'app mobile (iOS / Android)",
+          "Manager une équipe de 3 designers",
+          "Conduire la recherche utilisateur avec nos clients PME",
+          "Collaborer avec les équipes produit et engineering",
+          "Présenter la stratégie design au Comité de Direction",
+        ],
+        en: [
+          "Define the mobile app design vision (iOS / Android)",
+          "Manage a team of 3 designers",
+          "Lead user research with our SMB customers",
+          "Collaborate with product and engineering teams",
+          "Present the design strategy to the Executive Committee",
+        ],
+      },
+      hardSkills: ["Figma", "UX Design", "Mobile Design", "Prototyping"],
+      softSkills: { fr: ["Leadership", "Autonomie", "Orientation résultats"], en: ["Leadership", "Autonomy", "Results-oriented"] },
+      process: {
+        fr: ["Call HR (30 min)", "Portfolio review (1h)", "Case study (1 semaine)", "Entretien CEO"],
+        en: ["HR Call (30 min)", "Portfolio review (1h)", "Case study (1 week)", "CEO Interview"],
+      },
+      values: { fr: ["Performance", "Transparence", "Ambition"], en: ["Performance", "Transparency", "Ambition"] },
     },
   },
   {
@@ -112,23 +145,37 @@ const MOCK_MATCHES: Match[] = [
       company: "HealthTech Scale-up",
       companySize: "51-200",
       industry: "HealthTech",
-      location: "Lyon (Hybride)",
+      location: { fr: "Lyon (Hybride)", en: "Lyon (Hybrid)" },
       workMode: "hybrid",
       seniority: "Senior",
       experienceYears: 5,
       salaryMin: 55000,
       salaryMax: 70000,
-      description: "Nous développons une plateforme de télémédecine utilisée par 3 000 médecins. Vous travaillerez en étroite collaboration avec des professionnels de santé et des ingénieurs pour créer des interfaces accessibles et conformes.",
-      missions: [
-        "Concevoir des interfaces pour les médecins et les patients",
-        "Garantir l'accessibilité (WCAG AA) des interfaces",
-        "Conduire des tests utilisateurs avec des professionnels de santé",
-        "Collaborer avec les équipes engineering et réglementaire",
-      ],
-      hardSkills: ["Figma", "UX Research", "Accessibilité"],
-      softSkills: ["Empathie", "Communication", "Travail en équipe"],
-      process: ["Call RH (30 min)", "Entretien produit (1h)", "Test pratique (2j)", "Onsite équipe (2h)"],
-      values: ["Bienveillance", "Impact", "Excellence"],
+      description: {
+        fr: "Nous développons une plateforme de télémédecine utilisée par 3 000 médecins. Vous travaillerez en étroite collaboration avec des professionnels de santé et des ingénieurs pour créer des interfaces accessibles et conformes.",
+        en: "We are building a telemedicine platform used by 3,000 doctors. You will work closely with healthcare professionals and engineers to create accessible, compliant interfaces.",
+      },
+      missions: {
+        fr: [
+          "Concevoir des interfaces pour les médecins et les patients",
+          "Garantir l'accessibilité (WCAG AA) des interfaces",
+          "Conduire des tests utilisateurs avec des professionnels de santé",
+          "Collaborer avec les équipes engineering et réglementaire",
+        ],
+        en: [
+          "Design interfaces for doctors and patients",
+          "Ensure interface accessibility (WCAG AA)",
+          "Run user tests with healthcare professionals",
+          "Collaborate with engineering and regulatory teams",
+        ],
+      },
+      hardSkills: ["Figma", "UX Research", "Accessibility"],
+      softSkills: { fr: ["Empathie", "Communication", "Travail en équipe"], en: ["Empathy", "Communication", "Teamwork"] },
+      process: {
+        fr: ["Call RH (30 min)", "Entretien produit (1h)", "Test pratique (2j)", "Onsite équipe (2h)"],
+        en: ["HR Call (30 min)", "Product Interview (1h)", "Practical test (2d)", "Team onsite (2h)"],
+      },
+      values: { fr: ["Bienveillance", "Impact", "Excellence"], en: ["Kindness", "Impact", "Excellence"] },
     },
   },
   {
@@ -142,23 +189,37 @@ const MOCK_MATCHES: Match[] = [
       company: "E-commerce Leader",
       companySize: "500+",
       industry: "E-commerce",
-      location: "Paris (Présentiel)",
+      location: { fr: "Paris (Présentiel)", en: "Paris (On-site)" },
       workMode: "onsite",
       seniority: "Senior",
       experienceYears: 6,
       salaryMin: 58000,
       salaryMax: 72000,
-      description: "Rejoignez l'équipe produit d'un e-commerce multi-marques pour repenser l'expérience d'achat sur web et mobile. Vous travaillerez sur un produit utilisé par 10M d'utilisateurs mensuels.",
-      missions: [
-        "Repenser les parcours d'achat sur web et mobile",
-        "Concevoir et analyser des A/B tests",
-        "Collaborer avec les équipes data pour affiner les insights",
-        "Participer aux sprints de l'équipe produit",
-      ],
+      description: {
+        fr: "Rejoignez l'équipe produit d'un e-commerce multi-marques pour repenser l'expérience d'achat sur web et mobile. Vous travaillerez sur un produit utilisé par 10M d'utilisateurs mensuels.",
+        en: "Join the product team of a multi-brand e-commerce to rethink the shopping experience on web and mobile. You will work on a product used by 10M monthly users.",
+      },
+      missions: {
+        fr: [
+          "Repenser les parcours d'achat sur web et mobile",
+          "Concevoir et analyser des A/B tests",
+          "Collaborer avec les équipes data pour affiner les insights",
+          "Participer aux sprints de l'équipe produit",
+        ],
+        en: [
+          "Rethink shopping journeys on web and mobile",
+          "Design and analyse A/B tests",
+          "Collaborate with data teams to sharpen insights",
+          "Participate in product team sprints",
+        ],
+      },
       hardSkills: ["Figma", "UX Design", "A/B Testing", "Analytics"],
-      softSkills: ["Créativité", "Adaptabilité", "Esprit critique"],
-      process: ["Call RH (30 min)", "Entretien manager (1h)", "Portfolio review (45 min)", "Onsite (2h)"],
-      values: ["Performance", "Innovation", "Diversité"],
+      softSkills: { fr: ["Créativité", "Adaptabilité", "Esprit critique"], en: ["Creativity", "Adaptability", "Critical thinking"] },
+      process: {
+        fr: ["Call RH (30 min)", "Entretien manager (1h)", "Portfolio review (45 min)", "Onsite (2h)"],
+        en: ["HR Call (30 min)", "Manager interview (1h)", "Portfolio review (45 min)", "Onsite (2h)"],
+      },
+      values: { fr: ["Performance", "Innovation", "Diversité"], en: ["Performance", "Innovation", "Diversity"] },
     },
   },
 ];
@@ -186,10 +247,11 @@ function JobDetailPanel({
   onAccept: (id: string) => void;
   onDecline: (id: string) => void;
 }) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const d = t.candidateDashboard;
   const { job, score, hardScore, softScore, status } = match;
   const workModeLabel = Object.fromEntries(t.onboardingCandidate.workModes.map(({ v, l }) => [v, l]));
+  const yrs = lang === "en" ? "yrs" : "ans";
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-end">
@@ -217,12 +279,12 @@ function JobDetailPanel({
               <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                 <span>{workModeLabel[job.workMode]}</span>
                 <span>•</span>
-                <span>{job.location}</span>
+                <span>{pick(job.location, lang)}</span>
                 <span>•</span>
-                <span>{job.seniority} • {job.experienceYears}+ ans</span>
+                <span>{job.seniority} • {job.experienceYears}+ {yrs}</span>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Badge variant="success" className="text-xs">Poste ouvert</Badge>
+                <Badge variant="success" className="text-xs">{lang === "en" ? "Open position" : "Poste ouvert"}</Badge>
                 <Badge variant="secondary" className="text-xs">🏢 {job.companySize} {d.employees}</Badge>
                 <Badge variant="secondary" className="text-xs">💰 {(job.salaryMin / 1000).toFixed(0)}-{(job.salaryMax / 1000).toFixed(0)}k€</Badge>
               </div>
@@ -255,13 +317,13 @@ function JobDetailPanel({
 
           <div>
             <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">{d.panelTitle}</h3>
-            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{job.description}</p>
+            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{pick(job.description, lang)}</p>
           </div>
 
           <div>
             <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">{d.panelMissions}</h3>
             <ul className="space-y-2">
-              {job.missions.map((m, i) => (
+              {pick(job.missions, lang).map((m, i) => (
                 <li key={i} className="flex gap-2.5 text-sm text-gray-600">
                   <span className="text-violet-400 flex-shrink-0 mt-0.5">→</span>
                   <span>{m}</span>
@@ -276,21 +338,21 @@ function JobDetailPanel({
               {job.hardSkills.map((s) => <Badge key={s} variant="hard" className="text-sm py-1 px-3">{s}</Badge>)}
             </div>
             <div className="flex flex-wrap gap-2">
-              {job.softSkills.map((s) => <Badge key={s} variant="soft" className="text-sm py-1 px-3">{s}</Badge>)}
+              {pick(job.softSkills, lang).map((s) => <Badge key={s} variant="soft" className="text-sm py-1 px-3">{s}</Badge>)}
             </div>
           </div>
 
           <div>
             <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">{d.panelValues}</h3>
             <div className="flex flex-wrap gap-2">
-              {job.values.map((v) => <Badge key={v} variant="default" className="text-xs">{v}</Badge>)}
+              {pick(job.values, lang).map((v) => <Badge key={v} variant="default" className="text-xs">{v}</Badge>)}
             </div>
           </div>
 
           <div>
             <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">{d.panelProcess}</h3>
             <div className="space-y-2">
-              {job.process.map((step, i) => (
+              {pick(job.process, lang).map((step, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="w-6 h-6 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {i + 1}
@@ -363,9 +425,10 @@ function JobDetailPanel({
 }
 
 export default function CandidateDashboard() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const d = t.candidateDashboard;
   const workModeLabel = Object.fromEntries(t.onboardingCandidate.workModes.map(({ v, l }) => [v, l]));
+  const yrs = lang === "en" ? "yrs" : "ans";
 
   const [matches, setMatches] = useState<Match[]>(MOCK_MATCHES);
   const [activeTab, setActiveTab] = useState<"all" | "accepted" | "declined">("all");
@@ -493,8 +556,8 @@ export default function CandidateDashboard() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3 mt-1.5">
-                      <span className="text-xs text-gray-400">{workModeLabel[match.job.workMode]} • {match.job.location}</span>
-                      <span className="text-xs text-gray-400">{match.job.seniority} • {match.job.experienceYears}+ ans</span>
+                      <span className="text-xs text-gray-400">{workModeLabel[match.job.workMode]} • {pick(match.job.location, lang)}</span>
+                      <span className="text-xs text-gray-400">{match.job.seniority} • {match.job.experienceYears}+ {yrs}</span>
                       <span className="text-xs text-gray-400">{(match.job.salaryMin / 1000).toFixed(0)}-{(match.job.salaryMax / 1000).toFixed(0)}k€</span>
                     </div>
 
@@ -511,7 +574,7 @@ export default function CandidateDashboard() {
 
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {match.job.hardSkills.map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
-                      {match.job.softSkills.map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
+                      {pick(match.job.softSkills, lang).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
                     </div>
                   </div>
                 </div>

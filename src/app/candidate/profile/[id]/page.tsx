@@ -14,28 +14,66 @@ import { useLang } from "@/lib/i18n/context";
 import { LangToggle } from "@/components/shared/LangToggle";
 import { cn } from "@/lib/utils";
 
+type B<T = string> = { fr: T; en: T };
+const pick = <T,>(b: B<T>, lang: "fr" | "en"): T => b[lang];
+
+interface CandidateData {
+  id: string;
+  firstName: string;
+  lastName: string;
+  title: string;
+  seniority: B;
+  location: string;
+  workMode: string;
+  bio: B;
+  cvFileName?: string;
+  hardSkills: string[];
+  softSkills: B<string[]>;
+  desiredRole: string;
+  salaryMin?: number;
+  salaryMax?: number;
+  industries: string[];
+  psychProfile: {
+    strengths: B;
+    workStyle: B;
+    leadership: B;
+    motivators: B;
+  };
+  profileCompletion: number;
+  status: string;
+  matchScore?: number;
+  hardScore?: number;
+  softScore?: number;
+}
+
 const MOCK_CANDIDATES: Record<string, CandidateData> = {
   me: {
     id: "me",
     firstName: "Marie",
     lastName: "Dupont",
     title: "Senior Product Designer",
-    seniority: "Senior (5-8 ans)",
+    seniority: { fr: "Senior (5-8 ans)", en: "Senior (5-8 yrs)" },
     location: "Paris",
     workMode: "hybrid",
-    bio: "Designer produit passionnée par les interfaces B2B. 7 ans d'expérience dans des scale-ups tech, de la discovery à la delivery. Convaincue que le bon design naît de la collaboration étroite avec les équipes dev et produit.",
+    bio: {
+      fr: "Designer produit passionnée par les interfaces B2B. 7 ans d'expérience dans des scale-ups tech, de la discovery à la delivery. Convaincue que le bon design naît de la collaboration étroite avec les équipes dev et produit.",
+      en: "Product designer passionate about B2B interfaces. 7 years of experience in tech scale-ups, from discovery to delivery. Firm believer that great design comes from close collaboration with dev and product teams.",
+    },
     cvFileName: "Marie_Dupont_CV_2025.pdf",
-    hardSkills: ["Figma", "UX Design", "UI Design", "Design System", "Prototypage", "UX Research"],
-    softSkills: ["Leadership", "Communication", "Créativité", "Empathie", "Travail en équipe"],
+    hardSkills: ["Figma", "UX Design", "UI Design", "Design System", "Prototyping", "UX Research"],
+    softSkills: {
+      fr: ["Leadership", "Communication", "Créativité", "Empathie", "Travail en équipe"],
+      en: ["Leadership", "Communication", "Creativity", "Empathy", "Teamwork"],
+    },
     desiredRole: "Lead Product Designer",
     salaryMin: 65000,
     salaryMax: 80000,
     industries: ["Tech / SaaS", "FinTech"],
     psychProfile: {
-      strengths: "Créativité, Résolution de problèmes",
-      workStyle: "Autonome & orienté impact",
-      leadership: "Expert & facilitateur",
-      motivators: "Impact, Apprentissage, Autonomie",
+      strengths: { fr: "Créativité, Résolution de problèmes", en: "Creativity, Problem solving" },
+      workStyle: { fr: "Autonome & orienté impact", en: "Autonomous & impact-driven" },
+      leadership: { fr: "Expert & facilitateur", en: "Expert & facilitator" },
+      motivators: { fr: "Impact, Apprentissage, Autonomie", en: "Impact, Learning, Autonomy" },
     },
     profileCompletion: 90,
     status: "validated",
@@ -45,22 +83,28 @@ const MOCK_CANDIDATES: Record<string, CandidateData> = {
     firstName: "Marie",
     lastName: "D.",
     title: "Senior Product Designer",
-    seniority: "Senior (5-8 ans)",
+    seniority: { fr: "Senior (5-8 ans)", en: "Senior (5-8 yrs)" },
     location: "Paris",
     workMode: "hybrid",
-    bio: "Designer produit passionnée par les interfaces B2B. 7 ans d'expérience dans des scale-ups tech.",
+    bio: {
+      fr: "Designer produit passionnée par les interfaces B2B. 7 ans d'expérience dans des scale-ups tech.",
+      en: "Product designer passionate about B2B interfaces. 7 years of experience in tech scale-ups.",
+    },
     cvFileName: "CV_disponible.pdf",
-    hardSkills: ["Figma", "UX Design", "UI Design", "Design System", "Prototypage"],
-    softSkills: ["Leadership", "Communication", "Créativité", "Empathie"],
+    hardSkills: ["Figma", "UX Design", "UI Design", "Design System", "Prototyping"],
+    softSkills: {
+      fr: ["Leadership", "Communication", "Créativité", "Empathie"],
+      en: ["Leadership", "Communication", "Creativity", "Empathy"],
+    },
     desiredRole: "Lead Product Designer",
     salaryMin: 65000,
     salaryMax: 80000,
     industries: ["Tech / SaaS"],
     psychProfile: {
-      strengths: "Créativité, Résolution de problèmes",
-      workStyle: "Autonome & orienté impact",
-      leadership: "Expert & facilitateur",
-      motivators: "Impact, Apprentissage, Autonomie",
+      strengths: { fr: "Créativité, Résolution de problèmes", en: "Creativity, Problem solving" },
+      workStyle: { fr: "Autonome & orienté impact", en: "Autonomous & impact-driven" },
+      leadership: { fr: "Expert & facilitateur", en: "Expert & facilitator" },
+      motivators: { fr: "Impact, Apprentissage, Autonomie", en: "Impact, Learning, Autonomy" },
     },
     profileCompletion: 90,
     status: "validated",
@@ -73,22 +117,28 @@ const MOCK_CANDIDATES: Record<string, CandidateData> = {
     firstName: "Lucas",
     lastName: "M.",
     title: "Lead UX Designer",
-    seniority: "Expert (8+ ans)",
+    seniority: { fr: "Expert (8+ ans)", en: "Expert (8+ yrs)" },
     location: "Lyon",
     workMode: "remote",
-    bio: "Expert UX avec 9 ans d'expérience, spécialisé dans les plateformes complexes et la recherche utilisateur.",
+    bio: {
+      fr: "Expert UX avec 9 ans d'expérience, spécialisé dans les plateformes complexes et la recherche utilisateur.",
+      en: "UX expert with 9 years of experience, specialised in complex platforms and user research.",
+    },
     cvFileName: "CV_disponible.pdf",
     hardSkills: ["Figma", "UX Design", "UI Design", "UX Research"],
-    softSkills: ["Leadership", "Autonomie", "Esprit critique"],
+    softSkills: {
+      fr: ["Leadership", "Autonomie", "Esprit critique"],
+      en: ["Leadership", "Autonomy", "Critical thinking"],
+    },
     desiredRole: "Head of Design",
     salaryMin: 70000,
     salaryMax: 90000,
     industries: ["Tech / SaaS", "FinTech"],
     psychProfile: {
-      strengths: "Leadership, Analyse",
-      workStyle: "Structuré & orienté data",
-      leadership: "Leader décisif",
-      motivators: "Excellence, Autonomie",
+      strengths: { fr: "Leadership, Analyse", en: "Leadership, Analysis" },
+      workStyle: { fr: "Structuré & orienté data", en: "Structured & data-driven" },
+      leadership: { fr: "Leader décisif", en: "Decisive leader" },
+      motivators: { fr: "Excellence, Autonomie", en: "Excellence, Autonomy" },
     },
     profileCompletion: 85,
     status: "validated",
@@ -101,22 +151,28 @@ const MOCK_CANDIDATES: Record<string, CandidateData> = {
     firstName: "Thomas",
     lastName: "B.",
     title: "Senior Product Manager",
-    seniority: "Mid (2-5 ans)",
+    seniority: { fr: "Mid (2-5 ans)", en: "Mid (2-5 yrs)" },
     location: "Paris",
     workMode: "hybrid",
-    bio: "Product Manager orienté data avec 4 ans d'expérience sur des produits B2B SaaS.",
+    bio: {
+      fr: "Product Manager orienté data avec 4 ans d'expérience sur des produits B2B SaaS.",
+      en: "Data-oriented Product Manager with 4 years of experience on B2B SaaS products.",
+    },
     cvFileName: "CV_disponible.pdf",
     hardSkills: ["Product Management", "Agile/Scrum", "SQL", "Jira", "Analytics"],
-    softSkills: ["Communication", "Leadership", "Orientation résultats"],
+    softSkills: {
+      fr: ["Communication", "Leadership", "Orientation résultats"],
+      en: ["Communication", "Leadership", "Results-oriented"],
+    },
     desiredRole: "Senior PM / Lead PM",
     salaryMin: 55000,
     salaryMax: 70000,
     industries: ["Tech / SaaS", "E-commerce"],
     psychProfile: {
-      strengths: "Data-driven, Leadership",
-      workStyle: "Orienté résultats & structuré",
-      leadership: "Facilitateur & décisif",
-      motivators: "Impact, Performance",
+      strengths: { fr: "Data-driven, Leadership", en: "Data-driven, Leadership" },
+      workStyle: { fr: "Orienté résultats & structuré", en: "Results-oriented & structured" },
+      leadership: { fr: "Facilitateur & décisif", en: "Facilitator & decisive" },
+      motivators: { fr: "Impact, Performance", en: "Impact, Performance" },
     },
     profileCompletion: 88,
     status: "validated",
@@ -129,22 +185,28 @@ const MOCK_CANDIDATES: Record<string, CandidateData> = {
     firstName: "Amina",
     lastName: "R.",
     title: "Product Manager",
-    seniority: "Mid (2-5 ans)",
+    seniority: { fr: "Mid (2-5 ans)", en: "Mid (2-5 yrs)" },
     location: "Paris",
     workMode: "remote",
-    bio: "PM centrée utilisateur, 3 ans d'expérience en startup.",
+    bio: {
+      fr: "PM centrée utilisateur, 3 ans d'expérience en startup.",
+      en: "User-centric PM, 3 years of experience in startups.",
+    },
     cvFileName: "CV_disponible.pdf",
     hardSkills: ["Product Management", "Agile/Scrum", "Jira"],
-    softSkills: ["Communication", "Empathie", "Adaptabilité"],
+    softSkills: {
+      fr: ["Communication", "Empathie", "Adaptabilité"],
+      en: ["Communication", "Empathy", "Adaptability"],
+    },
     desiredRole: "Senior Product Manager",
     salaryMin: 50000,
     salaryMax: 65000,
     industries: ["Tech / SaaS", "HealthTech"],
     psychProfile: {
-      strengths: "Empathie, Communication",
-      workStyle: "Centré utilisateur & collaboratif",
-      leadership: "Facilitateur bienveillant",
-      motivators: "Impact, Bienveillance",
+      strengths: { fr: "Empathie, Communication", en: "Empathy, Communication" },
+      workStyle: { fr: "Centré utilisateur & collaboratif", en: "User-centric & collaborative" },
+      leadership: { fr: "Facilitateur bienveillant", en: "Caring facilitator" },
+      motivators: { fr: "Impact, Bienveillance", en: "Impact, Kindness" },
     },
     profileCompletion: 80,
     status: "validated",
@@ -154,43 +216,27 @@ const MOCK_CANDIDATES: Record<string, CandidateData> = {
   },
 };
 
-interface CandidateData {
-  id: string;
-  firstName: string;
-  lastName: string;
-  title: string;
-  seniority: string;
-  location: string;
-  workMode: string;
-  bio: string;
-  cvFileName?: string;
-  hardSkills: string[];
-  softSkills: string[];
-  desiredRole: string;
-  salaryMin?: number;
-  salaryMax?: number;
-  industries: string[];
-  psychProfile: { strengths: string; workStyle: string; leadership: string; motivators: string };
-  profileCompletion: number;
-  status: string;
-  matchScore?: number;
-  hardScore?: number;
-  softScore?: number;
-}
-
 const HARD_SKILLS_POOL = [
   "Product Management", "UX Design", "UI Design", "Figma", "Data Analysis",
   "SQL", "Python", "React", "Node.js", "TypeScript", "Agile/Scrum", "Jira",
-  "SEO/SEA", "Growth Hacking", "Marketing Digital", "Content Strategy",
-  "Project Management", "UX Research", "Design System", "Prototypage",
+  "SEO/SEA", "Growth Hacking", "Digital Marketing", "Content Strategy",
+  "Project Management", "UX Research", "Design System", "Prototyping",
 ];
 
-const SOFT_SKILLS_POOL = [
-  "Leadership", "Communication", "Travail en équipe", "Adaptabilité",
-  "Résolution de problèmes", "Créativité", "Gestion du temps", "Empathie",
-  "Esprit critique", "Négociation", "Pédagogie", "Curiosité intellectuelle",
-  "Autonomie", "Orientation résultats",
-];
+const SOFT_SKILLS_POOL: B<string[]> = {
+  fr: [
+    "Leadership", "Communication", "Travail en équipe", "Adaptabilité",
+    "Résolution de problèmes", "Créativité", "Gestion du temps", "Empathie",
+    "Esprit critique", "Négociation", "Pédagogie", "Curiosité intellectuelle",
+    "Autonomie", "Orientation résultats",
+  ],
+  en: [
+    "Leadership", "Communication", "Teamwork", "Adaptability",
+    "Problem solving", "Creativity", "Time management", "Empathy",
+    "Critical thinking", "Negotiation", "Teaching ability", "Intellectual curiosity",
+    "Autonomy", "Results-oriented",
+  ],
+};
 
 const getScoreColor = (score: number) => {
   if (score >= 90) return "text-emerald-600";
@@ -211,7 +257,7 @@ export default function CandidateProfilePage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const p = t.candidateProfile;
   const workModeLabel = Object.fromEntries(t.onboardingCandidate.workModes.map(({ v, l }) => [v, l]));
 
@@ -233,11 +279,19 @@ export default function CandidateProfilePage({
           : [...c.hardSkills, skill],
       }));
     } else {
+      const frSkills = SOFT_SKILLS_POOL.fr;
+      const enSkills = SOFT_SKILLS_POOL.en;
+      const idx = pick(SOFT_SKILLS_POOL, lang).indexOf(skill);
+      const frSkill = idx >= 0 ? frSkills[idx] : skill;
+      const enSkill = idx >= 0 ? enSkills[idx] : skill;
+      const currentFr = candidate.softSkills.fr;
+      const hasFr = currentFr.includes(frSkill);
       setCandidate((c) => ({
         ...c,
-        softSkills: c.softSkills.includes(skill)
-          ? c.softSkills.filter((s) => s !== skill)
-          : [...c.softSkills, skill],
+        softSkills: {
+          fr: hasFr ? c.softSkills.fr.filter((s) => s !== frSkill) : [...c.softSkills.fr, frSkill],
+          en: hasFr ? c.softSkills.en.filter((s) => s !== enSkill) : [...c.softSkills.en, enSkill],
+        },
       }));
     }
   };
@@ -247,13 +301,18 @@ export default function CandidateProfilePage({
       setCandidate((c) => ({ ...c, hardSkills: [...c.hardSkills, hardInput.trim()] }));
       setHardInput("");
     } else if (type === "soft" && softInput.trim()) {
-      setCandidate((c) => ({ ...c, softSkills: [...c.softSkills, softInput.trim()] }));
+      setCandidate((c) => ({
+        ...c,
+        softSkills: {
+          fr: [...c.softSkills.fr, softInput.trim()],
+          en: [...c.softSkills.en, softInput.trim()],
+        },
+      }));
       setSoftInput("");
     }
   };
 
   const initials = `${candidate.firstName[0] ?? ""}${candidate.lastName[0] ?? ""}`;
-
   const psychLabels = t.onboardingCandidate.psychResults.map((r) => r.label);
 
   return (
@@ -338,7 +397,7 @@ export default function CandidateProfilePage({
                     <div className="flex flex-wrap gap-2 mt-2 text-xs text-gray-400">
                       <span>📍 {candidate.location}</span>
                       <span>{workModeLabel[candidate.workMode] ?? candidate.workMode}</span>
-                      <span>🏆 {candidate.seniority}</span>
+                      <span>🏆 {pick(candidate.seniority, lang)}</span>
                     </div>
                   </>
                 )}
@@ -446,12 +505,12 @@ export default function CandidateProfilePage({
                 <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">{p.about}</h2>
                 {editing ? (
                   <Textarea
-                    value={candidate.bio}
-                    onChange={(e) => setCandidate({ ...candidate, bio: e.target.value })}
+                    value={pick(candidate.bio, lang)}
+                    onChange={(e) => setCandidate({ ...candidate, bio: { ...candidate.bio, [lang]: e.target.value } })}
                     className="h-28 text-sm"
                   />
                 ) : (
-                  <p className="text-sm text-gray-600 leading-relaxed">{candidate.bio}</p>
+                  <p className="text-sm text-gray-600 leading-relaxed">{pick(candidate.bio, lang)}</p>
                 )}
               </CardContent>
             </Card>
@@ -482,7 +541,7 @@ export default function CandidateProfilePage({
                       ))}
                     </div>
                     <div className="flex gap-2">
-                      <Input placeholder="Ajouter..." value={hardInput} onChange={(e) => setHardInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addCustomSkill("hard")} className="text-sm h-8" />
+                      <Input placeholder={t.onboardingCandidate.addSkill} value={hardInput} onChange={(e) => setHardInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addCustomSkill("hard")} className="text-sm h-8" />
                       <Button variant="outline" size="sm" onClick={() => addCustomSkill("hard")}>+</Button>
                     </div>
                   </>
@@ -500,19 +559,19 @@ export default function CandidateProfilePage({
               <CardContent className="pt-5 pb-5">
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">{p.softSkills}</h2>
-                  <Badge variant="soft" className="text-xs">{candidate.softSkills.length} {p.skills}</Badge>
+                  <Badge variant="soft" className="text-xs">{candidate.softSkills.fr.length} {p.skills}</Badge>
                 </div>
                 {editing ? (
                   <>
                     <div className="flex flex-wrap gap-2 mb-3">
-                      {SOFT_SKILLS_POOL.map((skill) => (
+                      {pick(SOFT_SKILLS_POOL, lang).map((skill) => (
                         <button
                           key={skill}
                           type="button"
                           onClick={() => toggleSkill(skill, "soft")}
                           className={cn(
                             "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
-                            candidate.softSkills.includes(skill)
+                            pick(candidate.softSkills, lang).includes(skill)
                               ? "bg-pink-600 border-pink-600 text-white"
                               : "border-gray-200 text-gray-600 hover:border-pink-300"
                           )}
@@ -522,13 +581,13 @@ export default function CandidateProfilePage({
                       ))}
                     </div>
                     <div className="flex gap-2">
-                      <Input placeholder="Ajouter..." value={softInput} onChange={(e) => setSoftInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addCustomSkill("soft")} className="text-sm h-8" />
+                      <Input placeholder={t.onboardingCandidate.addSkill} value={softInput} onChange={(e) => setSoftInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addCustomSkill("soft")} className="text-sm h-8" />
                       <Button variant="outline" size="sm" onClick={() => addCustomSkill("soft")}>+</Button>
                     </div>
                   </>
                 ) : (
                   <div className="flex flex-wrap gap-2">
-                    {candidate.softSkills.map((s) => (
+                    {pick(candidate.softSkills, lang).map((s) => (
                       <Badge key={s} variant="soft" className="text-sm py-1 px-3">{s}</Badge>
                     ))}
                   </div>
@@ -546,10 +605,10 @@ export default function CandidateProfilePage({
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { label: psychLabels[0], value: candidate.psychProfile.strengths, icon: "✨", bg: "bg-violet-50" },
-                    { label: psychLabels[1], value: candidate.psychProfile.workStyle, icon: "⚡", bg: "bg-indigo-50" },
-                    { label: psychLabels[2], value: candidate.psychProfile.leadership, icon: "🌟", bg: "bg-pink-50" },
-                    { label: psychLabels[3], value: candidate.psychProfile.motivators, icon: "🔥", bg: "bg-orange-50" },
+                    { label: psychLabels[0], value: pick(candidate.psychProfile.strengths, lang), icon: "✨", bg: "bg-violet-50" },
+                    { label: psychLabels[1], value: pick(candidate.psychProfile.workStyle, lang), icon: "⚡", bg: "bg-indigo-50" },
+                    { label: psychLabels[2], value: pick(candidate.psychProfile.leadership, lang), icon: "🌟", bg: "bg-pink-50" },
+                    { label: psychLabels[3], value: pick(candidate.psychProfile.motivators, lang), icon: "🔥", bg: "bg-orange-50" },
                   ].map((item) => (
                     <div key={item.label + item.icon} className={cn("p-3 rounded-xl", item.bg)}>
                       <div className="flex items-center gap-1.5 mb-1">
