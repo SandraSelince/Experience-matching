@@ -642,15 +642,9 @@ export default function ManagerDashboard() {
                           {candidate.hardSkills.slice(0, 3).map((s) => <Badge key={s} variant="hard" className="text-xs">{s}</Badge>)}
                           {pick(candidate.softSkills, lang).slice(0, 2).map((s) => <Badge key={s} variant="soft" className="text-xs">{s}</Badge>)}
                         </div>
-                      </div>
-                    </div>
 
-                    {/* ── Expanded panel ── */}
-                    {selectedCandidate === candidate.id && (
-                      <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in-up space-y-4">
-
-                        {/* Strengths + work style */}
-                        <div className="grid grid-cols-2 gap-3">
+                        {/* Strengths + work style — linked to skills above */}
+                        <div className="mt-3 grid grid-cols-2 gap-2">
                           <div className="p-3 bg-gray-50 rounded-xl">
                             <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
                             <p className="text-sm font-semibold text-gray-800">{pick(candidate.strengths, lang)}</p>
@@ -660,6 +654,12 @@ export default function ManagerDashboard() {
                             <p className="text-sm font-semibold text-gray-800">{pick(candidate.workStyle, lang)}</p>
                           </div>
                         </div>
+                      </div>
+                    </div>
+
+                    {/* ── Expanded panel ── */}
+                    {selectedCandidate === candidate.id && (
+                      <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in-up space-y-4">
 
                         {/* Match Breakdown */}
                         <div className="rounded-2xl bg-gradient-to-br from-slate-50 to-violet-50/40 border border-violet-100 p-4">
