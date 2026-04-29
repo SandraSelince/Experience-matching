@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -128,14 +128,26 @@ export default function ManagerOnboardingPage() {
     seniority: "",
     experienceYears: "",
     description: "",
+    aboutRole: "",
+    lookingFor: "",
     workMode: "",
     location: "",
+    relocation: false,
+    visaSponsorship: false,
+    englishLevel: "",
+    startDate: "",
     salaryMin: "",
     salaryMax: "",
+    benefits: [] as string[],
     hardSkills: [] as string[],
     softSkills: [] as string[],
     hardInput: "",
     softInput: "",
+    openProfiles: [] as string[],
+    openProfileInput: "",
+    processMilestones: [] as { step: string; collaborator: string }[],
+    milestoneStepInput: "",
+    milestoneCollabInput: "",
   });
 
   const toggleJobSkill = (skill: string, type: "hard" | "soft") => {
@@ -152,6 +164,64 @@ export default function ManagerOnboardingPage() {
     } else if (type === "soft" && job.softInput.trim()) {
       setJob((j) => ({ ...j, softSkills: [...j.softSkills, j.softInput.trim()], softInput: "" }));
     }
+  };
+
+  const addMilestone = () => {
+    if (!job.milestoneStepInput.trim()) return;
+    setJob((j) => ({
+      ...j,
+      processMilestones: [...j.processMilestones, { step: j.milestoneStepInput.trim(), collaborator: j.milestoneCollabInput.trim() }],
+      milestoneStepInput: "",
+      milestoneCollabInput: "",
+    }));
+  };
+
+  const addOpenProfile = () => {
+    if (!job.openProfileInput.trim()) return;
+    setJob((j) => ({ ...j, openProfiles: [...j.openProfiles, j.openProfileInput.trim()], openProfileInput: "" }));
+  };
+
+  const BENEFITS_POOL = ["Remote-friendly", "Full Remote", "Stock options", "Equity", "Budget formation", "Team retreats", "Mutuelle premium", "MacBook Pro", "Budget bien-être", "Tickets restaurant", "RTT supplémentaires", "Vélo / transport", "Crèche"];
+
+  // Voice recorder
+  const [voiceState, setVoiceState] = useState<"idle" | "recording" | "filling" | "done">("idle");
+  const [voiceTranscript, setVoiceTranscript] = useState("");
+  const recognitionRef = useRef<any>(null);
+
+  const startVoiceRecording = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) { setVoiceState("idle"); return; }
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "fr-FR";
+    recognition.onresult = (event: any) => {
+      let text = "";
+      for (let i = 0; i < event.results.length; i++) text += event.results[i][0].transcript;
+      setVoiceTranscript(text);
+    };
+    recognition.start();
+    recognitionRef.current = recognition;
+    setVoiceTranscript("");
+    setVoiceState("recording");
+  };
+
+  const stopVoiceRecording = () => {
+    if (recognitionRef.current) recognitionRef.current.stop();
+    setVoiceState("filling");
+    setTimeout(() => {
+      const transcript = voiceTranscript || "Senior Product Designer avec 5 ans d'expérience en SaaS B2B, passionné par les interfaces complexes. Cherche quelqu'un de bilingue, capable de travailler en autonomie, avec une vraie culture produit. Poste hybride Paris, visa possible, début ASAP.";
+      setJob((j) => ({
+        ...j,
+        aboutRole: transcript.length > 20 ? transcript : "Nous recherchons un profil senior pour renforcer notre équipe produit. Le rôle implique de concevoir des interfaces complexes, de maintenir notre design system et de collaborer étroitement avec les équipes engineering et produit.",
+        lookingFor: "Profil autonome avec une vraie culture produit, capable de prendre des décisions design en autonomie et de défendre ses choix en cross-fonctionnel.",
+        englishLevel: "Bilingue",
+        startDate: "ASAP",
+        relocation: true,
+        visaSponsorship: true,
+      }));
+      setVoiceState("done");
+    }, 1500);
   };
 
   return (
@@ -498,78 +568,156 @@ export default function ManagerOnboardingPage() {
 
         {/* STEP 3 */}
         {step === 3 && (
-          <div className="animate-fade-in-up">
-            <div className="text-center mb-8">
+          <div className="animate-fade-in-up space-y-4">
+            <div className="text-center mb-6">
               <div className="text-4xl mb-3">📋</div>
               <h1 className="text-2xl font-bold text-gray-900">{o.step3Title}</h1>
               <p className="text-gray-500 mt-2">{o.step3Sub}</p>
             </div>
+
+            {/* ── VOICE RECORDER ── */}
+            <div className={cn(
+              "rounded-2xl border-2 p-5 transition-all",
+              voiceState === "recording" ? "border-red-300 bg-red-50/60" : voiceState === "done" ? "border-emerald-200 bg-emerald-50/40" : "border-indigo-100 bg-indigo-50/50"
+            )}>
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <p className="font-semibold text-gray-900 text-sm">{o.voiceTitle}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{o.voiceSub}</p>
+                </div>
+                {voiceState === "idle" && (
+                  <button type="button" onClick={startVoiceRecording}
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-all">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                    {o.voiceStart}
+                  </button>
+                )}
+                {voiceState === "recording" && (
+                  <button type="button" onClick={stopVoiceRecording}
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition-all">
+                    <span className="w-3 h-3 rounded-sm bg-white" />
+                    {o.voiceStop}
+                  </button>
+                )}
+              </div>
+              {voiceState === "recording" && (
+                <div className="flex items-center gap-3">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shrink-0" />
+                  <p className="text-sm text-gray-600 italic min-h-[20px]">{voiceTranscript || o.voiceListening}</p>
+                </div>
+              )}
+              {voiceState === "filling" && (
+                <div className="flex items-center gap-2 text-sm text-indigo-600">
+                  <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+                  {o.voiceFilling}
+                </div>
+              )}
+              {voiceState === "done" && (
+                <div className="flex items-center gap-2 text-sm text-emerald-600 font-medium">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  {o.voiceFilled}
+                  <button type="button" onClick={() => { setVoiceState("idle"); setVoiceTranscript(""); }} className="ml-auto text-xs text-gray-400 hover:text-gray-600 underline">Recommencer</button>
+                </div>
+              )}
+            </div>
+
+            {/* ── INTITULÉ & CONTEXTE ── */}
             <Card className="shadow-sm">
               <CardContent className="pt-6 space-y-5">
                 <div className="space-y-1.5">
                   <Label>{o.jobTitle}</Label>
-                  <Input
-                    placeholder={o.jobTitlePlaceholder}
-                    value={job.title}
-                    onChange={(e) => setJob({ ...job, title: e.target.value })}
-                  />
+                  <Input placeholder={o.jobTitlePlaceholder} value={job.title} onChange={(e) => setJob({ ...job, title: e.target.value })} />
                 </div>
+
+                <div className="space-y-1.5">
+                  <Label>{o.aboutRole}</Label>
+                  <Textarea placeholder={o.aboutRolePlaceholder} value={job.aboutRole} onChange={(e) => setJob({ ...job, aboutRole: e.target.value })} className="h-24" />
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label>{o.lookingFor}</Label>
+                  <Textarea placeholder={o.lookingForPlaceholder} value={job.lookingFor} onChange={(e) => setJob({ ...job, lookingFor: e.target.value })} className="h-20" />
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <Label>{o.seniority}</Label>
                     <div className="space-y-1">
                       {["Junior", "Mid", "Senior", "Lead / Expert"].map((s) => (
-                        <button
-                          key={s}
-                          type="button"
-                          onClick={() => setJob({ ...job, seniority: s })}
-                          className={cn(
-                            "w-full p-2 rounded-lg border text-sm text-left transition-all",
-                            job.seniority === s ? "border-violet-500 bg-violet-50 text-violet-700 font-medium" : "border-gray-200 text-gray-600 hover:border-violet-200"
-                          )}
-                        >
+                        <button key={s} type="button" onClick={() => setJob({ ...job, seniority: s })}
+                          className={cn("w-full p-2 rounded-lg border text-sm text-left transition-all", job.seniority === s ? "border-violet-500 bg-violet-50 text-violet-700 font-medium" : "border-gray-200 text-gray-600 hover:border-violet-200")}>
                           {s}
                         </button>
                       ))}
                     </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <Label>{o.experienceYears}</Label>
-                    <Input
-                      type="number"
-                      placeholder="7"
-                      min="0"
-                      max="30"
-                      value={job.experienceYears}
-                      onChange={(e) => setJob({ ...job, experienceYears: e.target.value })}
-                    />
-                    <Label className="mt-3">{o.workMode}</Label>
-                    <div className="space-y-1">
-                      {[{ v: "remote", l: "🏠 Remote" }, { v: "hybrid", l: "🔄 Hybride" }, { v: "onsite", l: "🏢 Présentiel" }].map((w) => (
-                        <button
-                          key={w.v}
-                          type="button"
-                          onClick={() => setJob({ ...job, workMode: w.v })}
-                          className={cn(
-                            "w-full p-2 rounded-lg border text-sm text-left transition-all",
-                            job.workMode === w.v ? "border-violet-500 bg-violet-50 text-violet-700 font-medium" : "border-gray-200 text-gray-600 hover:border-violet-200"
-                          )}
-                        >
-                          {w.l}
+                  <div className="space-y-4">
+                    <div className="space-y-1.5">
+                      <Label>{o.experienceYears}</Label>
+                      <Input type="number" placeholder="5" min="0" max="30" value={job.experienceYears} onChange={(e) => setJob({ ...job, experienceYears: e.target.value })} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>{o.startDate}</Label>
+                      <div className="flex flex-wrap gap-1.5">
+                        {o.startDateOptions.map((d) => (
+                          <button key={d} type="button" onClick={() => setJob({ ...job, startDate: d })}
+                            className={cn("px-3 py-1.5 rounded-full text-xs border transition-all", job.startDate === d ? "bg-violet-600 border-violet-600 text-white" : "border-gray-200 text-gray-600 hover:border-violet-300")}>
+                            {d}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* ── CONDITIONS ── */}
+            <Card className="shadow-sm">
+              <CardContent className="pt-6 space-y-5">
+                <div className="space-y-1.5">
+                  <Label>{o.workMode}</Label>
+                  <div className="flex gap-2">
+                    {[{ v: "remote", l: "🏠 Remote" }, { v: "hybrid", l: "🔄 Hybride" }, { v: "onsite", l: "🏢 Présentiel" }].map((w) => (
+                      <button key={w.v} type="button" onClick={() => setJob({ ...job, workMode: w.v })}
+                        className={cn("flex-1 py-2 rounded-lg border text-sm transition-all", job.workMode === w.v ? "border-violet-500 bg-violet-50 text-violet-700 font-medium" : "border-gray-200 text-gray-600 hover:border-violet-200")}>
+                        {w.l}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-xs">{o.relocation}</Label>
+                    <div className="flex gap-2">
+                      {[true, false].map((v) => (
+                        <button key={String(v)} type="button" onClick={() => setJob({ ...job, relocation: v })}
+                          className={cn("flex-1 py-1.5 rounded-lg border text-xs transition-all", job.relocation === v ? "bg-indigo-600 border-indigo-600 text-white font-semibold" : "border-gray-200 text-gray-500 hover:border-indigo-300")}>
+                          {v ? o.yes : o.no}
                         </button>
                       ))}
                     </div>
                   </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label>{o.jobDescription}</Label>
-                  <Textarea
-                    placeholder={o.jobDescPlaceholder}
-                    value={job.description}
-                    onChange={(e) => setJob({ ...job, description: e.target.value })}
-                    className="h-28"
-                  />
+                  <div className="space-y-2">
+                    <Label className="text-xs">{o.visaSponsorship}</Label>
+                    <div className="flex gap-2">
+                      {[true, false].map((v) => (
+                        <button key={String(v)} type="button" onClick={() => setJob({ ...job, visaSponsorship: v })}
+                          className={cn("flex-1 py-1.5 rounded-lg border text-xs transition-all", job.visaSponsorship === v ? "bg-indigo-600 border-indigo-600 text-white font-semibold" : "border-gray-200 text-gray-500 hover:border-indigo-300")}>
+                          {v ? o.yes : o.no}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs">{o.englishLevel}</Label>
+                    <select value={job.englishLevel} onChange={(e) => setJob({ ...job, englishLevel: e.target.value })}
+                      className="w-full rounded-lg border border-gray-200 text-xs px-2 py-1.5 text-gray-600 bg-white focus:outline-none focus:border-indigo-300">
+                      <option value="">—</option>
+                      {o.englishLevels.map((l) => <option key={l} value={l}>{l}</option>)}
+                    </select>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -583,21 +731,30 @@ export default function ManagerOnboardingPage() {
                   </div>
                 </div>
 
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Badge variant="hard" className="text-xs">{o.hardSkillsRequired}</Badge>
+                <div className="space-y-2">
+                  <Label>{o.benefits}</Label>
+                  <div className="flex flex-wrap gap-2">
+                    {BENEFITS_POOL.map((b) => (
+                      <button key={b} type="button"
+                        onClick={() => setJob((j) => ({ ...j, benefits: j.benefits.includes(b) ? j.benefits.filter((x) => x !== b) : [...j.benefits, b] }))}
+                        className={cn("px-3 py-1.5 rounded-full text-xs border transition-all", job.benefits.includes(b) ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-200 text-gray-600 hover:border-emerald-300")}>
+                        {b}
+                      </button>
+                    ))}
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* ── COMPÉTENCES ── */}
+            <Card className="shadow-sm">
+              <CardContent className="pt-6 space-y-5">
+                <div>
+                  <Badge variant="hard" className="text-xs mb-3">{o.hardSkillsRequired}</Badge>
                   <div className="flex flex-wrap gap-2 mb-2">
                     {HARD_SKILLS_POOL.map((skill) => (
-                      <button
-                        key={skill}
-                        type="button"
-                        onClick={() => toggleJobSkill(skill, "hard")}
-                        className={cn(
-                          "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
-                          job.hardSkills.includes(skill) ? "bg-indigo-600 border-indigo-600 text-white" : "border-gray-200 text-gray-600 hover:border-indigo-300"
-                        )}
-                      >
+                      <button key={skill} type="button" onClick={() => toggleJobSkill(skill, "hard")}
+                        className={cn("px-3 py-1.5 rounded-full text-xs font-medium border transition-all", job.hardSkills.includes(skill) ? "bg-indigo-600 border-indigo-600 text-white" : "border-gray-200 text-gray-600 hover:border-indigo-300")}>
                         {skill}
                       </button>
                     ))}
@@ -607,22 +764,12 @@ export default function ManagerOnboardingPage() {
                     <Button variant="outline" size="sm" onClick={() => addCustomJobSkill("hard")}>+</Button>
                   </div>
                 </div>
-
                 <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Badge variant="soft" className="text-xs">{o.softSkillsWanted}</Badge>
-                  </div>
+                  <Badge variant="soft" className="text-xs mb-3">{o.softSkillsWanted}</Badge>
                   <div className="flex flex-wrap gap-2 mb-2">
                     {SOFT_SKILLS_POOL.map((skill) => (
-                      <button
-                        key={skill}
-                        type="button"
-                        onClick={() => toggleJobSkill(skill, "soft")}
-                        className={cn(
-                          "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
-                          job.softSkills.includes(skill) ? "bg-pink-600 border-pink-600 text-white" : "border-gray-200 text-gray-600 hover:border-pink-300"
-                        )}
-                      >
+                      <button key={skill} type="button" onClick={() => toggleJobSkill(skill, "soft")}
+                        className={cn("px-3 py-1.5 rounded-full text-xs font-medium border transition-all", job.softSkills.includes(skill) ? "bg-pink-600 border-pink-600 text-white" : "border-gray-200 text-gray-600 hover:border-pink-300")}>
                         {skill}
                       </button>
                     ))}
@@ -633,20 +780,62 @@ export default function ManagerOnboardingPage() {
                   </div>
                 </div>
 
-                <div className="flex gap-3 mt-6">
-                  <Button variant="outline" onClick={() => setStep(2)} className="flex-1">{o.back}</Button>
-                  <Button
-                    variant="gradient"
-                    size="lg"
-                    onClick={() => router.push("/manager/dashboard")}
-                    className="flex-2 flex-grow-2"
-                    disabled={!job.title || (job.hardSkills.length + job.softSkills.length < 2)}
-                  >
-                    {o.publish}
-                  </Button>
+                {/* Profils envisagés */}
+                <div className="space-y-2">
+                  <Label>{o.openProfiles}</Label>
+                  {job.openProfiles.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {job.openProfiles.map((p, i) => (
+                        <span key={i} className="flex items-center gap-1.5 px-3 py-1 bg-violet-50 border border-violet-100 rounded-full text-xs text-violet-700 font-medium">
+                          {p}
+                          <button type="button" onClick={() => setJob((j) => ({ ...j, openProfiles: j.openProfiles.filter((_, idx) => idx !== i) }))} className="text-violet-300 hover:text-red-400">×</button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <Input placeholder={o.openProfilesPlaceholder} value={job.openProfileInput} onChange={(e) => setJob({ ...job, openProfileInput: e.target.value })} onKeyDown={(e) => e.key === "Enter" && addOpenProfile()} className="text-sm" />
+                    <Button variant="outline" size="sm" onClick={addOpenProfile}>+</Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
+
+            {/* ── JALONS PROCESS ── */}
+            <Card className="shadow-sm">
+              <CardContent className="pt-6 space-y-4">
+                <Label>{o.processMilestones}</Label>
+                {job.processMilestones.length > 0 && (
+                  <div className="space-y-2">
+                    {job.processMilestones.map((m, i) => (
+                      <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
+                        <div className="w-6 h-6 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold shrink-0">{i + 1}</div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900">{m.step}</p>
+                          {m.collaborator && <p className="text-xs text-gray-400">avec {m.collaborator}</p>}
+                        </div>
+                        <button type="button" onClick={() => setJob((j) => ({ ...j, processMilestones: j.processMilestones.filter((_, idx) => idx !== i) }))} className="text-gray-300 hover:text-red-400 text-lg leading-none">×</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <Input placeholder={o.milestoneStepPlaceholder} value={job.milestoneStepInput} onChange={(e) => setJob({ ...job, milestoneStepInput: e.target.value })} onKeyDown={(e) => e.key === "Enter" && addMilestone()} className="text-sm" />
+                    <Input placeholder={o.milestoneCollabPlaceholder} value={job.milestoneCollabInput} onChange={(e) => setJob({ ...job, milestoneCollabInput: e.target.value })} onKeyDown={(e) => e.key === "Enter" && addMilestone()} className="text-sm" />
+                    <Button variant="outline" size="sm" onClick={addMilestone} className="shrink-0">+</Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={() => setStep(2)} className="flex-1">{o.back}</Button>
+              <Button variant="gradient" size="lg" onClick={() => router.push("/manager/dashboard")} className="flex-2 flex-grow-2"
+                disabled={!job.title || (job.hardSkills.length + job.softSkills.length < 2)}>
+                {o.publish}
+              </Button>
+            </div>
           </div>
         )}
       </div>
