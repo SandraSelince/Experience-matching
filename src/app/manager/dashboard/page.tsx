@@ -643,13 +643,13 @@ export default function ManagerDashboard() {
 
                         {/* Strengths + work style */}
                         <div className="grid grid-cols-2 gap-3">
-                          <div className="p-3 bg-emerald-50 rounded-xl">
+                          <div className="p-3 bg-gray-50 rounded-xl">
                             <p className="text-xs text-gray-500 mb-1">{d.strengths}</p>
-                            <p className="text-sm font-semibold text-emerald-800">{pick(candidate.strengths, lang)}</p>
+                            <p className="text-sm font-semibold text-gray-800">{pick(candidate.strengths, lang)}</p>
                           </div>
-                          <div className="p-3 bg-violet-50 rounded-xl">
+                          <div className="p-3 bg-gray-50 rounded-xl">
                             <p className="text-xs text-gray-500 mb-1">{d.workStyle}</p>
-                            <p className="text-sm font-semibold text-violet-800">{pick(candidate.workStyle, lang)}</p>
+                            <p className="text-sm font-semibold text-gray-800">{pick(candidate.workStyle, lang)}</p>
                           </div>
                         </div>
 
