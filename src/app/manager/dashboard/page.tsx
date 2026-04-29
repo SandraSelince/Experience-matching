@@ -630,7 +630,7 @@ export default function ManagerDashboard() {
                           </div>
                         )}
 
-                        <div className="mt-3 pt-3 border-t border-gray-100 grid grid-cols-2 gap-2">
+                        <div className="mt-5 pt-3 border-t border-gray-100 grid grid-cols-2 gap-2">
                           <div>
                             <div className="flex justify-between text-xs text-gray-400 mb-1">
                               <span>{d.hardSkills}</span><span>{candidate.hardScore}%</span>
