@@ -807,8 +807,15 @@ export default function ManagerDashboard() {
 
                         {/* Actions */}
                         {candidate.status === "pending_review" && (
-                          <div className="flex gap-2">
-                            {/* Bookmark toggle */}
+                          <div className="flex items-center justify-between gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={(e) => { e.stopPropagation(); updateCandidate(candidate.id, { status: "rejected" }); setSelectedCandidate(null); }}
+                              className="text-gray-500"
+                            >
+                              {d.notRetained}
+                            </Button>
                             <button
                               type="button"
                               onClick={(e) => toggleBookmark(candidate.id, e)}
@@ -820,22 +827,6 @@ export default function ManagerDashboard() {
                               <svg className="w-4 h-4" viewBox="0 0 24 24" fill={candidate.bookmarked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                               {candidate.bookmarked ? d.bookmarked : d.bookmark}
                             </button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={(e) => { e.stopPropagation(); updateCandidate(candidate.id, { status: "rejected" }); setSelectedCandidate(null); }}
-                              className="flex-1 text-gray-500"
-                            >
-                              {d.notRetained}
-                            </Button>
-                            <Button
-                              variant="success"
-                              size="sm"
-                              onClick={(e) => { e.stopPropagation(); updateCandidate(candidate.id, { status: "hired" }); setSelectedCandidate(null); }}
-                              className="flex-2 flex-grow-2"
-                            >
-                              {d.retain}
-                            </Button>
                           </div>
                         )}
                       </div>
