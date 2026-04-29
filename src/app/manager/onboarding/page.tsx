@@ -56,9 +56,25 @@ export default function ManagerOnboardingPage() {
     website: "",
     description: "",
     growthRate: "",
-    recentHires: "",
+    recentHires: [] as { name: string; role: string }[],
     values: [] as string[],
   });
+
+  const [hireNameInput, setHireNameInput] = useState("");
+  const [hireRoleInput, setHireRoleInput] = useState("");
+
+  const HIRE_COLORS = ["bg-orange-400", "bg-emerald-500", "bg-indigo-400", "bg-pink-400", "bg-violet-500", "bg-teal-500"];
+
+  const addHire = () => {
+    if (!hireNameInput.trim()) return;
+    setCompany((c) => ({ ...c, recentHires: [...c.recentHires, { name: hireNameInput.trim(), role: hireRoleInput.trim() }] }));
+    setHireNameInput("");
+    setHireRoleInput("");
+  };
+
+  const removeHire = (index: number) => {
+    setCompany((c) => ({ ...c, recentHires: c.recentHires.filter((_, i) => i !== index) }));
+  };
 
   const [managerAutoFillState, setManagerAutoFillState] = useState<"idle" | "loading" | "success">("idle");
 
@@ -93,8 +109,12 @@ export default function ManagerOnboardingPage() {
         location: "Paris, France",
         website: "www.acmecorp.com",
         description: "Acme Corp est une scale-up SaaS B2B qui révolutionne la gestion de projets pour les équipes produit. Fondée en 2018, nous accompagnons plus de 500 entreprises dans leur transformation digitale avec une plateforme collaborative intuitive et puissante.",
-        growthRate: "+40% sur les 12 derniers mois",
-        recentHires: "2 Product Managers, 1 Lead Dev, 1 Head of Sales — recrutés ces 6 derniers mois",
+        growthRate: "+40%",
+        recentHires: [
+          { name: "Karim Benali", role: "Product Manager" },
+          { name: "Thomas Durand", role: "Lead Developer" },
+          { name: "Léa Martin", role: "Head of Sales" },
+        ],
         values: ["Innovation", "Impact", "Transparence"],
       });
       setAutoFillState("success");
@@ -372,22 +392,71 @@ export default function ManagerOnboardingPage() {
                     className="h-24"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
+                {/* Croissance visuelle */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
                     <Label>{o.growthRate} <span className="text-gray-400 font-normal">{o.optional}</span></Label>
+                    {company.growthRate && (
+                      <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 rounded-full border border-emerald-100">
+                        <svg width="9" height="9" viewBox="0 0 10 10" fill="#10b981"><polygon points="5,0 10,10 0,10"/></svg>
+                        <span className="text-sm font-extrabold text-emerald-600">{company.growthRate}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3">
                     <Input
-                      placeholder={o.growthRatePlaceholder}
+                      placeholder="+35%"
                       value={company.growthRate}
                       onChange={(e) => setCompany({ ...company, growthRate: e.target.value })}
+                      className="max-w-[120px]"
                     />
+                    <div className="flex items-end gap-1 h-10 flex-1">
+                      {[35, 45, 38, 52, 60, company.growthRate ? 80 : 30].map((v, i) => (
+                        <div
+                          key={i}
+                          className={cn("flex-1 rounded-sm transition-all", i === 5 && company.growthRate ? "bg-indigo-500" : "bg-indigo-100")}
+                          style={{ height: `${(v / 80) * 100}%` }}
+                        />
+                      ))}
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <Label>{o.recentHires} <span className="text-gray-400 font-normal">{o.optional}</span></Label>
+                </div>
+
+                {/* Recrutements récents visuels */}
+                <div className="space-y-3">
+                  <Label>{o.recentHires} <span className="text-gray-400 font-normal">{o.optional}</span></Label>
+                  {company.recentHires.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {company.recentHires.map((hire, i) => (
+                        <div key={i} className="flex items-center gap-2 pl-1 pr-2 py-1 bg-gray-50 rounded-full border border-gray-100">
+                          <div className={cn("w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0", HIRE_COLORS[i % HIRE_COLORS.length])}>
+                            {hire.name.charAt(0).toUpperCase()}
+                          </div>
+                          <div className="leading-tight">
+                            <span className="text-xs font-semibold text-gray-800">{hire.name}</span>
+                            {hire.role && <span className="text-xs text-gray-400"> · {hire.role}</span>}
+                          </div>
+                          <button type="button" onClick={() => removeHire(i)} className="text-gray-300 hover:text-red-400 transition-colors text-base leading-none ml-1">×</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex gap-2">
                     <Input
-                      placeholder={o.recentHiresPlaceholder}
-                      value={company.recentHires}
-                      onChange={(e) => setCompany({ ...company, recentHires: e.target.value })}
+                      placeholder="Prénom Nom"
+                      value={hireNameInput}
+                      onChange={(e) => setHireNameInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && addHire()}
+                      className="text-sm"
                     />
+                    <Input
+                      placeholder="Rôle"
+                      value={hireRoleInput}
+                      onChange={(e) => setHireRoleInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && addHire()}
+                      className="text-sm"
+                    />
+                    <Button type="button" variant="outline" size="sm" onClick={addHire} className="shrink-0 px-3">+</Button>
                   </div>
                 </div>
                 <div className="space-y-1.5">
